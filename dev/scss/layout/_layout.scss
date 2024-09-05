@@ -1,0 +1,18 @@
+@use './_media-queries.scss';
+.container{
+    display: grid;
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+
+@include media-queries.respond-to(media-queries.$phone){
+    display: grid;
+    }
+}
+
+
+.col{
+flex: 1 0 0%; 
+}

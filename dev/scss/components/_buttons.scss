@@ -1,0 +1,54 @@
+@use './abstracts/variables';
+@use './media-queries';
+
+@mixin btn($shadow, $border, $bg, $color){
+    position: relative;
+    display: table-cell; 
+    place-items: center;
+    padding: -4rem 2rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    //font-size: variables.$fs-xxxsm;
+    font-weight: variables.$fw-bold;   
+    
+    border: $border;
+    @if($shadow){
+        box-shadow: .13rem .3rem 1rem variables.$clr-light-dark;
+    }
+    background-color: $bg;
+    color: $color;
+
+
+    @include media-queries.respond-to(media-queries.$phone){
+        display: block;
+        margin: 1rem auto;
+        width: 80%;
+        text-align: center;
+    }
+
+}
+@mixin btn-search($border, $bg, $color){
+    position: relative;
+    display: table-cell; 
+    place-items: center;
+    padding: -4rem 2rem;
+   // margin: 4rem;
+    border-left-radius: 1rem;
+    text-decoration: none;
+    //font-size: variables.$fs-xxxsm;
+    font-weight: variables.$fw-bold;   
+    border: $border;
+    background-color: $bg;
+    color: $color;
+
+
+
+    @include media-queries.respond-to(media-queries.$phone){
+        display: block;
+        margin: 1rem auto;
+        width: 80%;
+        text-align: center;
+    }
+
+}
+

@@ -1,0 +1,10 @@
+@use './abstracts/variables';
+
+//font: https://fonts.google.com/specimen/Source+Sans+Pro
+
+@mixin set-font($ffamily, $fweight, $fsize, $fcolor:variables.$clr-dark){
+    font-family: $ffamily;
+    font-weight: $fweight;
+    font-size: $fsize;
+    color: $fcolor;
+}
