@@ -2,7 +2,7 @@ import "../../index.css";
 
 
 
-export function Mantenimiento_productos() {
+export function Reporte_general() {
   
   return (
     <>
@@ -17,7 +17,7 @@ export function Mantenimiento_productos() {
   
 
 <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
-    <h1 className="font-bold text-5xl p-5 ">Mantenimiento Productos</h1>
+    <h1 className="font-bold text-5xl p-5 ">Reporte General</h1>
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -25,19 +25,19 @@ export function Mantenimiento_productos() {
                     #
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Nombre
+                    Cliente
                 </th>
                 <th scope="col" className="px-6 py-3">
-                   Id producto
+                   Identificación
                 </th>
                 <th scope="col" className="px-6 py-3">
-                   Precio
+                  Fecha
                 </th>
                 <th scope="col" className="px-6 py-3">
-                   Stock
+                   Cantidad
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Cantidad
+                    Estado
                 </th>
                 <th scope="col" className="px-6 py-3">
                     Id Factura
@@ -53,7 +53,7 @@ export function Mantenimiento_productos() {
                    1234
                 </th>
                 <td className="px-6 py-4">
-                Apple MacBook Pro 17"
+                Diego Vargas
                 </td>
                 <td className="px-6 py-4">
                    33
@@ -79,7 +79,7 @@ export function Mantenimiento_productos() {
                     234
                 </th>
                 <td className="px-6 py-4">
-                Apple MacBook Pro 17"
+               José Ramirez
                 </td>
                 <td className="px-6 py-4">
                   44
@@ -105,7 +105,7 @@ export function Mantenimiento_productos() {
                    4567
                 </th>
                 <td className="px-6 py-4">
-                Magic Mouse 2
+                Brit Fallas
                 </td>
                 <td className="px-6 py-4">
                     55
