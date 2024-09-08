@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HomePage } from './HomePage.jsx';
-import './index.css'
-import { BrowserRouter } from 'react-router-dom';
+import {RouteMain} from './components/routes/RouteMain.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <HomePage/>
-    </BrowserRouter>
+    <RouteMain />
   </React.StrictMode>
 );

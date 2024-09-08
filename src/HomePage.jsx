@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 
 import { Header } from './components/Header.jsx';
 import { Login } from "./components/activity/Login";
-import { Register } from "./components/activity/Register";
+import { Register } from "./components/activity/Registro.jsx";
 import{Forgot_pass}from "./components/activity/Forgot_pass";
 import{Mantenimiento_productos}from "./components/activity/Mantenimiento_productos";
 import{Compras}from "./components/activity/Compras";
@@ -37,7 +37,6 @@ export function  HomePage() {
 
   <Header/>
   <Settings/> 
-
   <Footer/>
 
     </div>

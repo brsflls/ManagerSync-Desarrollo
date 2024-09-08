@@ -8,7 +8,7 @@ export function Register() {
     <>
        
         <div className="mx-auto max-w-2xl ">
-        <h1 className="font-bold text-5xl text-center py-10">Welcome!</h1>
+        <h1 className="font-bold text-5xl text-center py-10">Bienvenido(a)!</h1>
        
 
          
