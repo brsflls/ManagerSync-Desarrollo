@@ -1,13 +1,17 @@
 import "../../index.css";
 
 
+import { Header } from '.././Header.jsx';
+import { Footer } from '.././Footer.jsx';
 
 export function Register() {
   
   return (
     <>
-       
-        <div className="mx-auto max-w-2xl ">
+         <Header/>
+         <div className=" bg-blue-100  w-screen h-max  " >
+
+        <div className="mx-auto max-w-2xl pb-10 ">
         <h1 className="font-bold text-5xl text-center py-10">Bienvenido(a)!</h1>
        
 
@@ -40,7 +44,9 @@ export function Register() {
 
 
           </div>
-
+          
+          </div>
+          <Footer/>
     </>
     
   );

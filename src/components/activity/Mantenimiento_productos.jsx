@@ -1,12 +1,15 @@
 import "../../index.css";
 
 
+import { Header } from '.././Header.jsx';
+import { Footer } from '.././Footer.jsx';
 
 export function Mantenimiento_productos() {
   
   return (
     <>
-       
+        <Header/>
+        <div className=" bg-blue-100  w-screen h-max  " >
         <div className="mx-auto py-16 ">
       
        
@@ -141,6 +144,9 @@ export function Mantenimiento_productos() {
 
           </div>
 
+          </div>
+
+          <Footer/>
     </>
     
   );

@@ -1,12 +1,15 @@
 import "../../index.css";
 
+import { Header } from '.././Header.jsx';
+import { Footer } from '.././Footer.jsx';
 
 
 export function Login() {
   
   return (
     <>
-       
+      <Header/>
+           <div className=" bg-blue-100  w-screen max-h-full pb-20 " >
         <div className="mx-auto max-w-2xl">
         <h1 className="font-bold text-5xl text-center py-20">¡Bienvenido otra vez!</h1>
        
@@ -31,7 +34,8 @@ export function Login() {
 </form>
 
           </div>
-
+          </div>
+          <Footer/>
     </>
     
   );

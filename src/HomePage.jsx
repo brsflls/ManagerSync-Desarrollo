@@ -39,6 +39,8 @@ export function  HomePage() {
   <Settings/> 
   <Footer/>
 
+
+
     </div>
     
   );

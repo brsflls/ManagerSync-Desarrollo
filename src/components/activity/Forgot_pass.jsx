@@ -1,16 +1,14 @@
 import "../../index.css";
 
 
-
+import { Header } from '.././Header.jsx';
+import { Footer } from '.././Footer.jsx';
 export function Forgot_pass() {
   
   return (
     <>
-        {/*
-      <h1 className="font-bold">
-        <span className='text-4xl'>Manager</span>
-        <span className='text-4xl text-blue-400'>Sync</span>
-      </h1>*/}
+         <Header/>
+        <div className=" bg-blue-100  w-screen h-max pb-20  " >
         <div className="mx-auto max-w-2xl">
         <h1 className="font-bold text-5xl text-center py-20">Recuperar tu contraseña</h1>
        
@@ -41,7 +39,9 @@ export function Forgot_pass() {
 
 
           </div>
+</div>
 
+          <Footer/>
     </>
     
   );

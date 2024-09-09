@@ -1,12 +1,14 @@
 import "../../index.css";
 
-
+import { Header } from '.././Header.jsx';
+import { Footer } from '.././Footer.jsx';
 
 export function Registro_factura() {
   
     return (
         <>
-           
+             <Header/>
+             <div className=" bg-blue-100  w-screen h-max  " >
             <div className="mx-auto py-10 ">
                 
           
@@ -66,10 +68,10 @@ export function Registro_factura() {
         
     </div>
     
-    
+    </div>
     
               </div>
-    
+              <Footer/>
         </>
         
       );
