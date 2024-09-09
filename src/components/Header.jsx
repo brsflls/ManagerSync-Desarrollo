@@ -18,16 +18,16 @@ export const Header = () => {
             </div>
         <ul className={menuOpen ? "open" : ""}>
             <li>
-                <Link to="/Soluciones">Soluciones</Link>
+                <Link to="/Reporte_general">Soluciones</Link>
             </li>
             <li>
-                <Link to="/Acercade">Acerca de</Link>
+                <Link to="/Settings">Acerca de</Link>
             </li>
             <li>
                 <Link to="/Login">Iniciar sesión</Link>
             </li>
             <li>
-                <Link to="/Register">Registrarse</Link>
+                <Link to="/Registro">Registrarse</Link>
             </li>
 
         </ul>

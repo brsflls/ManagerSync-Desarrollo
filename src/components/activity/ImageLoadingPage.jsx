@@ -3,7 +3,7 @@ import "../../index.css";
 import { ButtonLoadingPage } from './ButtonLoadPage.jsx';
 
 
-export function LoadingPageImage({ image }) {
+export function ImgLoadingPage({ image }) {
   return (
     <div className='relative flex items-center justify-center h-screen'>
       <img className='w-full h-full object-cover' src={image} alt='background' />
