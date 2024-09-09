@@ -8,7 +8,7 @@ export function Settings() {
 
   // Función para manejar el clic en "Cerrar sesión" o "Cancelar"
   const handleLogout = () => {
-    // Aquí puedes agregar lógica adicional, como limpiar el estado o eliminar tokens
+    // Aquí siquieren pueden agregar lógica adicional XDXDXD, como limpiar el estado o eliminar tokens
     navigate('/'); // Redirige a la página de inicio (LandingPage)
   };
 
