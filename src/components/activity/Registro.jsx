@@ -12,7 +12,7 @@ export function Register() {
     // Aquí puedes agregar tu lógica de validación o llamada a API para registrar al usuario
     
     // Si el registro es exitoso, redirigimos a /Settings
-    navigate('/Settings');
+    navigate('/LogIn');
   };
 
   return (
