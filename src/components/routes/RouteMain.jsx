@@ -11,7 +11,7 @@ import { Ventas } from '../activity/Ventas.jsx';
 import { Compras } from '../activity/Compras.jsx';
 import { Settings } from '../activity/Settings.jsx';
 import { Forgot_pass } from '../activity/Forgot_pass.jsx';
-import { Mantenimiento_productos } from '../activity/Mantenimiento_productos.jsx';
+import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
 
 export function RouteMain() {
   return (
@@ -28,7 +28,7 @@ export function RouteMain() {
         <Route path="/Compras" element={<Compras/>} />
         <Route path="/Settings" element={<Settings/>} />
         <Route path="/forgot_pass" element={<Forgot_pass/>} />
-        <Route path="/Mantenimiento_productos" element={<Mantenimiento_productos/>} />
+        <Route path="/MantenimientoProductos" element={<MantenimientoProductos/>} />
         {/* Puedes agregar más rutas según sea necesario */}
       </Routes>
     </Router>

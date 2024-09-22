@@ -5,7 +5,7 @@ import { Header } from './components/Header.jsx';
 import { Login } from "./components/activity/Login";
 import { Register } from "./components/activity/Registro.jsx";
 import{Forgot_pass}from "./components/activity/Forgot_pass";
-import{Mantenimiento_productos}from "./components/activity/Mantenimiento_productos";
+import{MantenimientoProductos}from "./components/activity/MantenimientoProductos";
 import{Compras}from "./components/activity/Compras";
 import{Reporte_general}from "./components/activity/Reporte_general";
 import{Ventas}from "./components/activity/Ventas";
@@ -29,7 +29,7 @@ export function  HomePage() {
 <LoadingPage/>
 <Registro_factura/>
 <Registro_cliente/>
-<Mantenimiento_productos/> 
+<MantenimientoProductos/> 
 <Compras/> 
   <Ventas/> 
  <Reporte_general/> 
