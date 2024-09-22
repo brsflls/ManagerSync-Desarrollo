@@ -14,7 +14,7 @@ export function MantenimientoProveedores() {
   const [editingProveedor, setEditingProveedor] = useState(null);
 
   const fetchProveedores = () => {
-    fetch('http://localhost/managersyncbdd/public/api/proveedores/all')
+    fetch('http://localhost/managersyncbdf/public/api/proveedores/all')
       .then(response => response.json())
       .then(data => {
         setProveedores(data);
@@ -41,7 +41,7 @@ export function MantenimientoProveedores() {
       cedula_juridica: cedulaJuridica,
     };
 
-    fetch('http://localhost/managersyncbdd/public/api/proveedores', {
+    fetch('http://localhost/managersyncbdf/public/api/proveedores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export function MantenimientoProveedores() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost/managersyncbdd/public/api/proveedores/${id}`, {
+    fetch(`http://localhost/managersyncbdf/public/api/proveedores/${id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -95,7 +95,7 @@ export function MantenimientoProveedores() {
       cedula_juridica: cedulaJuridica,
     };
 
-    fetch(`http://localhost/managersyncbdd/public/api/proveedores/${editingProveedor}`, {
+    fetch(`http://localhost/managersyncbdf/public/api/proveedores/${editingProveedor}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

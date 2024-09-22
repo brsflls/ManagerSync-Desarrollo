@@ -14,7 +14,7 @@ export function MantenimientoProductos() {
   const [editingProduct, setEditingProduct] = useState(null);
 
   const fetchProductos = () => {
-    fetch('http://localhost/managersyncbdd/public/api/productos/all')
+    fetch('http://localhost/managersyncbdf/public/api/productos/all')
       .then(response => response.json())
       .then(data => {
         setProductos(data);
@@ -49,7 +49,7 @@ export function MantenimientoProductos() {
       stock: stockInt
     };
 
-    fetch('http://localhost/managersyncbdd/public/api/productos', {
+    fetch('http://localhost/managersyncbdf/public/api/productos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export function MantenimientoProductos() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost/managersyncbdd/public/api/productos/${id}`, {
+    fetch(`http://localhost/managersyncbdf/public/api/productos/${id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -111,7 +111,7 @@ export function MantenimientoProductos() {
       stock: stockInt
     };
 
-    fetch(`http://localhost/managersyncbdd/public/api/productos/${editingProduct}`, {
+    fetch(`http://localhost/managersyncbdf/public/api/productos/${editingProduct}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
