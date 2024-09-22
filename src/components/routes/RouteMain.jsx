@@ -12,7 +12,7 @@ import { Compras } from '../activity/Compras.jsx';
 import { Settings } from '../activity/Settings.jsx';
 import { Forgot_pass } from '../activity/Forgot_pass.jsx';
 import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
-
+import { MantenimientoProveedores } from '../activity/MantenimientoProveedores.jsx';
 export function RouteMain() {
   return (
     <Router>
@@ -29,6 +29,7 @@ export function RouteMain() {
         <Route path="/Settings" element={<Settings/>} />
         <Route path="/forgot_pass" element={<Forgot_pass/>} />
         <Route path="/MantenimientoProductos" element={<MantenimientoProductos/>} />
+        <Route path="/MantenimientoProveedores" element={<MantenimientoProveedores/>} />
         {/* Puedes agregar más rutas según sea necesario */}
       </Routes>
     </Router>

@@ -6,6 +6,7 @@ import { Login } from "./components/activity/Login";
 import { Register } from "./components/activity/Registro.jsx";
 import{Forgot_pass}from "./components/activity/Forgot_pass";
 import{MantenimientoProductos}from "./components/activity/MantenimientoProductos";
+import{MantenimientoProveedores}from "./components/activity/MantenimientoProveedores";
 import{Compras}from "./components/activity/Compras";
 import{Reporte_general}from "./components/activity/Reporte_general";
 import{Ventas}from "./components/activity/Ventas";
@@ -30,6 +31,7 @@ export function  HomePage() {
 <Registro_factura/>
 <Registro_cliente/>
 <MantenimientoProductos/> 
+<MantenimientoProveedores/> 
 <Compras/> 
   <Ventas/> 
  <Reporte_general/> 
