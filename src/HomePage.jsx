@@ -5,7 +5,7 @@ import { Header } from './components/Header.jsx';
 import { Login } from "./components/activity/Login";
 import { Register } from "./components/activity/Registro.jsx";
 import{Forgot_pass}from "./components/activity/Forgot_pass";
-import{Mantenimiento_productos}from "./components/activity/Mantenimiento_productos";
+
 import{Compras}from "./components/activity/Compras";
 import{Reporte_general}from "./components/activity/Reporte_general";
 import{Ventas}from "./components/activity/Ventas";
@@ -18,6 +18,7 @@ import { Footer } from './components/Footer.jsx';
 
 
 export function  HomePage() {
+  
 
   return (
     <div className="container bg-blue-100  w-screen h-max  " >

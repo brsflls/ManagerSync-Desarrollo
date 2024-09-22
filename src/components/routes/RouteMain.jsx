@@ -11,24 +11,37 @@ import { Ventas } from '../activity/Ventas.jsx';
 import { Compras } from '../activity/Compras.jsx';
 import { Settings } from '../activity/Settings.jsx';
 import { Forgot_pass } from '../activity/Forgot_pass.jsx';
-import { Mantenimiento_productos } from '../activity/Mantenimiento_productos.jsx';
+import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
+import { MantenimientoProveedores } from '../activity/MantenimientoProveedores.jsx';
+import ProtectedRoute from './ProtectedRoute'; // Ajusta la ruta
 
 export function RouteMain() {
   return (
     <Router>
       <Routes>
-      <Route path="/HomePage" element={<HomePage />} />
+        <Route path="/HomePage" element={<HomePage />} />
         <Route path="/" element={<LoadingPage />} />
         <Route path="/LogIn" element={<Login />} />
-        <Route path="/Registro" element={<Register/>} />
-        <Route path="/Registro_cliente" element={<Registro_cliente/>} />
-        <Route path="/Registro_factura" element={<Registro_factura/>} />
-        <Route path="/Reporte_general" element={<Reporte_general/>} />
-        <Route path="/Ventas" element={<Ventas/>} />
-        <Route path="/Compras" element={<Compras/>} />
-        <Route path="/Settings" element={<Settings/>} />
-        <Route path="/forgot_pass" element={<Forgot_pass/>} />
-        <Route path="/Mantenimiento_productos" element={<Mantenimiento_productos/>} />
+        <Route path="/Registro" element={<Register />} />
+        <Route path="/Registro_cliente" element={<Registro_cliente />} />
+        <Route path="/Registro_factura" element={<Registro_factura />} />
+        <Route path="/Reporte_general" element={<Reporte_general />} />
+        <Route path="/Ventas" element={<Ventas />} />
+        <Route path="/Compras" element={<Compras />} />
+        <Route path="/MantenimientoProductos" element={  <ProtectedRoute>
+          <MantenimientoProductos/>
+          </ProtectedRoute>} />
+
+          <Route path="/MantenimientoProveedores" element={  <ProtectedRoute>
+          <MantenimientoProveedores/>
+          </ProtectedRoute>} />
+        <Route path="/Settings" element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        } />
+        <Route path="/forgot_pass" element={<Forgot_pass />} />
+      
         {/* Puedes agregar más rutas según sea necesario */}
       </Routes>
     </Router>
