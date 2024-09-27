@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { LoadingPage } from '../../LoadingPage.jsx';
 import { Login } from '../activity/Login.jsx';
 import { Register } from '../activity/Registro.jsx';
+import { Sidebar } from '../Sidebar.jsx';
 import { HomePage } from '../../HomePage.jsx';
 import { Registro_cliente } from '../activity/Registro_cliente.jsx';
 import { Registro_factura } from '../activity/Registro_factura.jsx';
@@ -23,6 +24,7 @@ export function RouteMain() {
         <Route path="/" element={<LoadingPage />} />
         <Route path="/LogIn" element={<Login />} />
         <Route path="/Registro" element={<Register />} />
+        <Route path="/Sidebar" element={<Sidebar/>} />
         <Route path="/Registro_cliente" element={<Registro_cliente />} />
         <Route path="/Registro_factura" element={<Registro_factura />} />
         <Route path="/Reporte_general" element={<Reporte_general />} />

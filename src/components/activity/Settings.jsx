@@ -6,6 +6,7 @@ import { useUpdateProfile } from '../hooks/useUpdateProfile';
 import { useAccountManagement } from '../hooks/useAccountManagement';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import { Sidebar } from '../Sidebar.jsx';
 import "../../index.css";
 
 export function Settings() {
@@ -32,8 +33,10 @@ export function Settings() {
   return (
     <>
       <Header />
-      <div className="bg-blue-100 w-screen h-max">
-        <div className="mx-auto py-16">
+      
+      <div className="bg-slate-300 w-screen h-max grid grid-cols-8 gap-0">
+        <div><Sidebar/></div>
+        <div className="col-span-7 py-16">
           <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
             <h1 className="font-bold text-5xl p-10">Hola, {user.nombre}</h1>
             <h2 className="font-semibold text-3xl p-5">Rol: {user.role}</h2>
