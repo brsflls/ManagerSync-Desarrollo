@@ -24,7 +24,7 @@ export function RouteMain() {
         <Route path="/" element={<LoadingPage />} />
         <Route path="/LogIn" element={<Login />} />
         <Route path="/Registro" element={<Register />} />
-        <Route path="/Sidebar" element={<Sidebar/>} />
+        <Route path="/Sidebar" element={<ProtectedRoute><Sidebar/></ProtectedRoute>} />
         <Route path="/Registro_cliente" element={<Registro_cliente />} />
         <Route path="/Registro_factura" element={<Registro_factura />} />
         <Route path="/Reporte_general" element={<Reporte_general />} />
