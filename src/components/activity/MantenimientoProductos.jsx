@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import { BackgroundAnimation } from './Background.jsx'; // Importar el componente de animación
 
 export function MantenimientoProductos() {
   const [nombre, setNombre] = useState('');
@@ -339,6 +340,7 @@ export function MantenimientoProductos() {
         </div>
       </div>
       <Footer />
+      <BackgroundAnimation/>
     </>
   );
 }

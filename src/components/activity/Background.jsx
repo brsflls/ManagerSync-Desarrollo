@@ -1,9 +1,11 @@
 // src/components/BackgroundAnimation.jsx
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export function BackgroundAnimation() {
     const canvasRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+    let timer;
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -25,7 +27,7 @@ export function BackgroundAnimation() {
             balls.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                radius: Math.random() * 5 + 2, // Cambiar el tamaño de las bolitas (pequeñas)
+                radius: Math.random() * 5 + 2,
                 dx: Math.random() * 2 - 1,
                 dy: Math.random() * 2 - 1,
             });
@@ -36,7 +38,7 @@ export function BackgroundAnimation() {
             balls.forEach(ball => {
                 context.beginPath();
                 context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                context.fillStyle = 'rgba(0, 0, 0, 0.7)'; // Cambiar el color a negro con un poco de transparencia
+                context.fillStyle = 'rgba(0, 0, 0, 0.7)';
                 context.fill();
                 context.closePath();
 
@@ -53,18 +55,44 @@ export function BackgroundAnimation() {
             requestAnimationFrame(draw);
         };
 
+        const handleMouseMove = () => {
+            setIsVisible(false);
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                setIsVisible(true);
+            }, 2000); // Cambiar el tiempo de espera si es necesario
+        };
+
+        const handleKeyDown = () => {
+            setIsVisible(false);
+            clearTimeout(timer);
+            // Si se presiona una tecla, también se ocultan las bolitas
+        };
+
         draw();
 
         // Manejar el redimensionamiento de la ventana
         window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Iniciar el temporizador para mostrar las bolitas
+        timer = setTimeout(() => {
+            setIsVisible(true);
+        }, 2000); // Cambiar el tiempo de espera si es necesario
 
         return () => {
             cancelAnimationFrame(draw);
             window.removeEventListener('resize', resizeCanvas);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('keydown', handleKeyDown);
+            clearTimeout(timer);
         };
     }, []);
 
     return (
-        <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
+        <div className={`fixed top-0 left-0 w-full h-full z-50 pointer-events-none ${isVisible ? '' : 'hidden'}`}>
+            <canvas ref={canvasRef} className="w-full h-full" />
+        </div>
     );
 }

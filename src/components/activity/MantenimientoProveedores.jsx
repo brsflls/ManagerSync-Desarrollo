@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import { BackgroundAnimation } from './Background.jsx'; // Importar el componente de animación
 
 export function MantenimientoProveedores() {
   const [nombre, setNombre] = useState('');
@@ -123,6 +124,7 @@ export function MantenimientoProveedores() {
 
   return (
     <>
+    <BackgroundAnimation/>
       <Header />
       <div className="bg-blue-100 w-screen h-max">
         <div className="mx-auto py-16 max-w-6xl">
