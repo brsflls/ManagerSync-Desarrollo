@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"; // Importa Link
 import logoImage from '../assets/logo-reducido.svg';
 import controlImage from '../assets/control.svg';
 
-export function Sidebar() {
+export function Sidebar({ logout }) { // Recibe la función logout como prop
     const [open, setOpen] = useState(true);
     const Menus = [
         { title: "Ventas", src: "Ventas" },
@@ -22,7 +22,11 @@ export function Sidebar() {
         },
         { title: "Estadísticas", src: "Estadisticas" },
         { title: "Configuración", src: "Configuracion", gap: true },
-        { title: "Cerrar sesión", src: "CerrarSesion" },
+        { 
+            title: "Cerrar sesión", 
+            src: "CerrarSesion", 
+            action: logout // Agrega una acción para cerrar sesión
+        },
     ];
 
     return (
@@ -48,13 +52,15 @@ export function Sidebar() {
                             key={index}
                             className={`flex text-sm rounded-md p-2 cursor-pointer active:slate-200 hover:bg-slate-400 hover:text-slate-700 font-medium hover:text-bold text-gray-900 items-left gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-white"}`}
                         >
-                            {/* Si el item es 'Productos' o 'Proveedores', lo envolvemos en un <Link> */}
-                            {Menu.title === "Productos" ? (
-                                <Link to={Menu.link} className="flex items-center gap-x-4">
+                            {Menu.title === "Cerrar sesión" ? (
+                                <div
+                                    onClick={Menu.action} // Ejecutar la acción de cierre de sesión
+                                    className="flex items-center gap-x-4 cursor-pointer"
+                                >
                                     <img src={`./src/assets/${Menu.src}.svg`} alt={Menu.title} />
                                     <span className={`${!open && "hidden"} origin-left duration-200`}>{Menu.title}</span>
-                                </Link>
-                            ) : Menu.title === "Proveedores" ? (
+                                </div>
+                            ) : Menu.link ? (
                                 <Link to={Menu.link} className="flex items-center gap-x-4">
                                     <img src={`./src/assets/${Menu.src}.svg`} alt={Menu.title} />
                                     <span className={`${!open && "hidden"} origin-left duration-200`}>{Menu.title}</span>

@@ -35,7 +35,7 @@ export function Settings() {
       <Header />
       
       <div className="bg-slate-300 w-screen h-max grid grid-cols-8 gap-0">
-        <div><Sidebar/></div>
+        <div>  <Sidebar logout={logout} /></div>
         <div className="col-span-7 py-16">
           <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
             <h1 className="font-bold text-5xl p-10">Hola, {user.nombre}</h1>
@@ -84,15 +84,7 @@ export function Settings() {
                   </button>
                 </div>
 
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700"
-                    onClick={logout}
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
+               
               </div>
             </div>
 
