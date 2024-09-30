@@ -13,9 +13,11 @@ import { Compras } from '../activity/Compras.jsx';
 import { Settings } from '../activity/Settings.jsx';
 import { Forgot_pass } from '../activity/Forgot_pass.jsx';
 import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
+import { MantenimientoClientes } from '../activity/MantenimientoClientes.jsx';
 import { MantenimientoProveedores } from '../activity/MantenimientoProveedores.jsx';
 import ProtectedRoute from './ProtectedRoute'; // Ajusta la ruta
-
+import { Detalle_facturas } from '../activity/Detalle_facturas.jsx';
+import { Punto_venta } from '../activity/Punto_venta.jsx';
 export function RouteMain() {
   return (
     <Router>
@@ -27,6 +29,8 @@ export function RouteMain() {
         <Route path="/Sidebar" element={<ProtectedRoute><Sidebar/></ProtectedRoute>} />
         <Route path="/Registro_cliente" element={<Registro_cliente />} />
         <Route path="/Registro_factura" element={<Registro_factura />} />
+        <Route path="/Punto_venta" element={<Punto_venta />} />
+        <Route path="/Detalle_facturas" element={<Detalle_facturas />} />
         <Route path="/Reporte_general" element={<Reporte_general />} />
         <Route path="/Ventas" element={<Ventas />} />
         <Route path="/Compras" element={<Compras />} />
@@ -36,6 +40,11 @@ export function RouteMain() {
 
           <Route path="/MantenimientoProveedores" element={  <ProtectedRoute>
           <MantenimientoProveedores/>
+          </ProtectedRoute>} />
+
+
+          <Route path="/MantenimientoClientes" element={  <ProtectedRoute>
+          <MantenimientoClientes/>
           </ProtectedRoute>} />
         <Route path="/Settings" element={
           <ProtectedRoute>

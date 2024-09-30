@@ -6,10 +6,15 @@ import controlImage from '../assets/control.svg';
 export function Sidebar({ logout }) { // Recibe la función logout como prop
     const [open, setOpen] = useState(true);
     const Menus = [
-        { title: "Ventas", src: "Ventas" },
-        { title: "Compras", src: "Compras" }, 
+        { title: "Ventas", src: "Ventas",  link: "/Punto_venta" },
+        { title: "Compras", src: "Compras" }, // Añadir enlace para Productos 
         { title: "Reportes", src: "Reportes", gap: true },
         { title: "Inventarios", src: "Inventarios" },
+        { 
+            title: "Clientes", 
+            src: "Clientes", 
+            link: "/MantenimientoClientes" // Añadir enlace para Proveedores
+        },
         { 
             title: "Proveedores", 
             src: "Proveedores", 
