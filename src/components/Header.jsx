@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { useUser } from "./hooks/UserContext";
 import "../../dev/css/components/_header.css";
+import { Clock } from "./activity/clock";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,8 @@ export const Header = () => {
       <Link to={user ? "/Settings" : "/"} className="logo">
         <ReactSVG src="src/assets/logo-completo.svg" />
       </Link>
+
+      <Clock />
 
       <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span>
