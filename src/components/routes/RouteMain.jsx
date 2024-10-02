@@ -18,6 +18,7 @@ import { MantenimientoProveedores } from '../activity/MantenimientoProveedores.j
 import ProtectedRoute from './ProtectedRoute'; // Ajusta la ruta
 import { Detalle_facturas } from '../activity/Detalle_facturas.jsx';
 import { Punto_venta } from '../activity/Punto_venta.jsx';
+import { ConsultarCompras } from '../activity/ConsultarCompras.jsx';
 export function RouteMain() {
   return (
     <Router>
@@ -34,6 +35,7 @@ export function RouteMain() {
         <Route path="/Reporte_general" element={<Reporte_general />} />
         <Route path="/Ventas" element={<Ventas />} />
         <Route path="/Compras" element={<Compras />} />
+        <Route path="/ConsultarCompras" element={< ConsultarCompras />} />
         <Route path="/MantenimientoProductos" element={  <ProtectedRoute>
           <MantenimientoProductos/>
           </ProtectedRoute>} />
