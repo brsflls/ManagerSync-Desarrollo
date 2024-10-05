@@ -5,21 +5,65 @@ export function Exonera({ onChange }) {
     numeroExoneracion: "",
     fechaEmision: "",
     tipoExoneracion: "Compras autorizadas",
-    porcentaje: "0%",
+    porcentaje: 0, // Cambiado a número
     nombreInstitucion: "",
   });
 
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Para mostrar el mensaje de éxito
+
+  // Manejar los cambios en los inputs del formulario
   const handleExoneraChange = (e) => {
     const { name, value } = e.target;
-    const updatedData = { ...formExoneraData, [name]: value };
+    const updatedData = {
+      ...formExoneraData,
+      [name]: name === "porcentaje" ? parseFloat(value) : value, // Convertir porcentaje a número
+    };
     setFormExoneraData(updatedData);
-    onChange(updatedData); // Pasar los datos al componente principal automáticamente
+  };
+
+  // Manejar el botón de agregar exoneración
+  const handleAgregarExoneracion = (e) => {
+    e.preventDefault();
+
+    // Verificar si todos los campos requeridos están completos
+    if (!formExoneraData.numeroExoneracion || !formExoneraData.fechaEmision || !formExoneraData.nombreInstitucion) {
+      alert('Por favor complete todos los campos obligatorios.');
+      return;
+    }
+
+    // Pasar los datos de exoneración al componente principal
+    onChange(formExoneraData);
+
+    // Mostrar el mensaje de éxito
+    setShowSuccessMessage(true);
+
+    // Ocultar el mensaje después de 3 segundos
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
+
+    // Limpiar el formulario
+    setFormExoneraData({
+      numeroExoneracion: "",
+      fechaEmision: "",
+      tipoExoneracion: "Compras autorizadas",
+      porcentaje: 0, // Número
+      nombreInstitucion: "",
+    });
   };
 
   return (
     <div>
       <h3 className="text-xl font-bold mb-4">Exonera</h3>
-      <form>
+
+      {/* Mostrar mensaje de éxito */}
+      {showSuccessMessage && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">¡Datos de exoneración agregados correctamente!</strong>
+        </div>
+      )}
+
+      <form onSubmit={handleAgregarExoneracion}>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-bold mb-2">Número Doc. Exoneración:</label>
@@ -29,6 +73,7 @@ export function Exonera({ onChange }) {
               value={formExoneraData.numeroExoneracion}
               onChange={handleExoneraChange}
               className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
 
@@ -40,6 +85,7 @@ export function Exonera({ onChange }) {
               value={formExoneraData.fechaEmision}
               onChange={handleExoneraChange}
               className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
 
@@ -66,8 +112,8 @@ export function Exonera({ onChange }) {
               onChange={handleExoneraChange}
               className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
             >
-              <option value="0%">0%</option>
-              <option value="13%">13%</option>
+              <option value={0}>0%</option>
+              <option value={13}>13%</option> {/* Cambiar a número */}
             </select>
           </div>
 
@@ -79,9 +125,17 @@ export function Exonera({ onChange }) {
               value={formExoneraData.nombreInstitucion}
               onChange={handleExoneraChange}
               className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
         </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200 mt-4"
+        >
+          Agregar
+        </button>
       </form>
     </div>
   );

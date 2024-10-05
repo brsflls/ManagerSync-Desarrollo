@@ -11,6 +11,7 @@ export function Refers({ onChange }) {
 
   // Estado para almacenar todas las referencias agregadas
   const [referencias, setReferencias] = useState([]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Para mostrar el mensaje de éxito
 
   // Manejar los cambios en los inputs del formulario
   const handleReferenciaChange = (e) => {
@@ -42,11 +43,26 @@ export function Refers({ onChange }) {
       fechaDocumento: "",
       tipoReferencia: "Anula Documento de Referencia",
     });
+
+    // Mostrar el mensaje de éxito
+    setShowSuccessMessage(true);
+
+    // Ocultar el mensaje después de 3 segundos
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
   };
 
   return (
     <div>
       <h3 className="text-xl font-bold mb-4">Referencias</h3>
+
+      {/* Mostrar mensaje de éxito */}
+      {showSuccessMessage && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">¡Referencia agregada correctamente!</strong>
+        </div>
+      )}
 
       {/* Formulario para agregar una referencia */}
       <form onSubmit={handleAgregarReferencia}>

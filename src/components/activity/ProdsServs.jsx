@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 export function ProdsServs({ onChange }) {
-  // Estado para los datos del producto
   const [productData, setProductData] = useState({
     codigo: "",
     servicio: "Si",
@@ -12,27 +11,60 @@ export function ProdsServs({ onChange }) {
     porcentajeIVA: "",
   });
 
-  // Estado para el detalle de la factura (lista de productos)
   const [detalleFactura, setDetalleFactura] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Estado para el mensaje de éxito
 
-  // Manejar los cambios en los inputs del formulario
   const handleProductChange = (e) => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
+    setErrors({ ...errors, [name]: "" }); // Limpiar el error correspondiente al input modificado
   };
 
-  // Manejar el botón de agregar producto al detalle de la factura
   const handleAgregarProducto = (e) => {
     e.preventDefault();
-    
-    // Añadir el nuevo producto al detalle de factura
+
+    const newErrors = {};
+
+    // Validaciones de los campos
+    if (!productData.codigo) {
+      newErrors.codigo = "El código es obligatorio.";
+    }
+    if (!productData.descripcion) {
+      newErrors.descripcion = "La descripción es obligatoria.";
+    }
+    if (productData.cantidad <= 0) {
+      newErrors.cantidad = "La cantidad debe ser mayor que 0.";
+    }
+    if (!productData.precioBruto || productData.precioBruto <= 0) {
+      newErrors.precioBruto = "El precio bruto es obligatorio y debe ser mayor que 0.";
+    }
+    if (productData.porcentajeDesc === "" || productData.porcentajeDesc < 0 || productData.porcentajeDesc > 100) {
+      newErrors.porcentajeDesc = "El porcentaje de descuento debe estar entre 0 y 100.";
+    }
+    if (productData.porcentajeIVA === "" || productData.porcentajeIVA < 0 || productData.porcentajeIVA > 100) {
+      newErrors.porcentajeIVA = "El porcentaje de IVA debe estar entre 0 y 100.";
+    }
+
+    // Si hay errores, se establecen en el estado
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     const updatedFactura = [...detalleFactura, productData];
     setDetalleFactura(updatedFactura);
-
-    // Pasar el detalle actualizado al componente padre
     onChange(updatedFactura);
 
-    // Limpiar el formulario después de agregar el producto
+    // Mostrar mensaje de éxito
+    setShowSuccessMessage(true);
+
+    // Ocultar el mensaje después de 3 segundos
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
+
+    // Limpiar formulario
     setProductData({
       codigo: "",
       servicio: "Si",
@@ -48,10 +80,15 @@ export function ProdsServs({ onChange }) {
     <div>
       <h3 className="text-xl font-bold mb-4">Productos/Servicios</h3>
 
-      {/* Formulario para agregar producto */}
+      {/* Mostrar mensaje de éxito */}
+      {showSuccessMessage && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">¡Producto agregado correctamente!</strong>
+        </div>
+      )}
+
       <form onSubmit={handleAgregarProducto}>
         <div className="grid grid-cols-8 gap-2 mb-4">
-          {/* Código */}
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Código</label>
             <input
@@ -61,9 +98,8 @@ export function ProdsServs({ onChange }) {
               onChange={handleProductChange}
               className="w-full border-2 border-gray-300 rounded-lg p-1"
             />
+            {errors.codigo && <p className="text-red-500 text-sm">{errors.codigo}</p>}
           </div>
-
-          {/* Servicio */}
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Servicio</label>
             <select
@@ -76,8 +112,6 @@ export function ProdsServs({ onChange }) {
               <option value="No">No</option>
             </select>
           </div>
-
-          {/* Descripción */}
           <div className="col-span-2">
             <label className="block text-gray-700 font-bold mb-1">Descripción</label>
             <input
@@ -87,9 +121,8 @@ export function ProdsServs({ onChange }) {
               onChange={handleProductChange}
               className="w-full border-2 border-gray-300 rounded-lg p-1"
             />
+            {errors.descripcion && <p className="text-red-500 text-sm">{errors.descripcion}</p>}
           </div>
-
-          {/* Cantidad */}
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Cant</label>
             <input
@@ -100,9 +133,8 @@ export function ProdsServs({ onChange }) {
               className="w-full border-2 border-gray-300 rounded-lg p-1"
               min="1"
             />
+            {errors.cantidad && <p className="text-red-500 text-sm">{errors.cantidad}</p>}
           </div>
-
-          {/* Precio Bruto */}
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Precio Bruto</label>
             <input
@@ -113,9 +145,8 @@ export function ProdsServs({ onChange }) {
               className="w-full border-2 border-gray-300 rounded-lg p-1"
               min="0"
             />
+            {errors.precioBruto && <p className="text-red-500 text-sm">{errors.precioBruto}</p>}
           </div>
-
-          {/* %Desc */}
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">%Desc</label>
             <input
@@ -127,9 +158,8 @@ export function ProdsServs({ onChange }) {
               min="0"
               max="100"
             />
+            {errors.porcentajeDesc && <p className="text-red-500 text-sm">{errors.porcentajeDesc}</p>}
           </div>
-
-          {/* %IVA */}
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">%IVA</label>
             <input
@@ -141,10 +171,10 @@ export function ProdsServs({ onChange }) {
               min="0"
               max="100"
             />
+            {errors.porcentajeIVA && <p className="text-red-500 text-sm">{errors.porcentajeIVA}</p>}
           </div>
         </div>
 
-        {/* Botón para agregar */}
         <button
           type="submit"
           className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
@@ -153,7 +183,6 @@ export function ProdsServs({ onChange }) {
         </button>
       </form>
 
-      {/* Tabla con el detalle de la factura */}
       {detalleFactura.length > 0 && (
         <div className="mt-6">
           <h4 className="text-lg font-bold mb-2">Detalle de la Factura</h4>

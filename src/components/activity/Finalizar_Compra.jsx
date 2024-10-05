@@ -25,15 +25,49 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
   // Aplicar documento (enviar datos al backend)
   const handleAplicarDocumento = async () => {
     const allData = {
-      inicio: inicioData,
-      emisor: emisorData,
-      productosServicios: prodsServsData,
-      exonera: exoneraData,
-      referencias: refersData,
-      totales,
-      archivo: archivo ? archivo.name : null, // Opcional
+      condicion_venta: inicioData?.condicionVenta, // Cambio a snake_case para que coincida con el backend
+      moneda: inicioData?.moneda,
+      plazo: inicioData?.plazo,
+      tipo_cambio: inicioData?.tipoCambio,
+      observacion: inicioData?.observacion,
+      tipo_compra: inicioData?.tipoCompra,
+      identificacion: emisorData?.identificacion,
+      tipo_identificacion: emisorData?.tipoIdentificacion,
+      nombre: emisorData?.nombre,
+      telefono: emisorData?.telefono,
+      correo_electronico: emisorData?.correoElectronico,
+      direccion_exacta: emisorData?.direccionExacta,
+      provincia: emisorData?.provincia,
+      canton: emisorData?.canton,
+      distrito: emisorData?.distrito,
+      barrio: emisorData?.barrio,
+      sub_total: totales?.subTotal,
+      impuestos: totales?.impuestos,
+      descuentos: totales?.descuentos,
+      total: totales?.total,
+      archivo: archivo ? archivo.name : null, // Archivo opcional
+      numero_exoneracion: exoneraData?.numeroExoneracion,
+      fecha_emision_exoneracion: exoneraData?.fechaEmision,
+      tipo_exoneracion: exoneraData?.tipoExoneracion,
+      porcentaje_exoneracion: parseFloat(exoneraData?.porcentaje) || 0, // Convertir a número
+      nombre_institucion_exoneracion: exoneraData?.nombreInstitucion,
+      productosServicios: prodsServsData?.map(prod => ({
+        codigo: prod.codigo,
+        descripcion: prod.descripcion,
+        cantidad: prod.cantidad,
+        precio_bruto: prod.precioBruto,
+        porcentaje_descuento: prod.porcentajeDesc,
+        porcentaje_iva: prod.porcentajeIVA,
+        servicio: prod.servicio === "Si" ? true : false,
+      })),
+      referencias: refersData?.map(ref => ({
+        tipo_documento: ref.tipoDocumento,
+        numero_documento: ref.numeroDocumento,
+        fecha_documento: ref.fechaDocumento,
+        tipo_referencia: ref.tipoReferencia,
+      })),
     };
-
+  
     try {
       const response = await fetch('http://localhost/managersyncbdf/public/api/compras', {
         method: 'POST',
@@ -43,17 +77,20 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
         },
         body: JSON.stringify(allData),
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
-        // Mostrar ventana de éxito
         alert("Factura de compra generada con éxito!");
-
-        // Otras acciones si lo necesitas (ej: limpiar el formulario o redirigir)
       } else {
         console.error('Error al crear la factura', result);
-        alert("Error al aplicar documento");
+        // Mostrar errores detallados
+        if (result.errors) {
+          const errores = Object.keys(result.errors).map(key => `${key}: ${result.errors[key].join(', ')}`).join('\n');
+          alert(`Errores al aplicar documento:\n${errores}`);
+        } else {
+          alert("Error al aplicar documento");
+        }
       }
     } catch (error) {
       console.error('Error en la solicitud', error);
@@ -104,7 +141,7 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
       <p>Número Doc. Exoneración: {exoneraData?.numeroExoneracion}</p>
       <p>Fecha de Emisión: {exoneraData?.fechaEmision}</p>
       <p>Tipo de Exoneración: {exoneraData?.tipoExoneracion}</p>
-      <p>Porcentaje: {exoneraData?.porcentaje}</p>
+      <p>Porcentaje: {exoneraData?.porcentaje}%</p>
       <p>Nombre Institución: {exoneraData?.nombreInstitucion}</p>
 
       {/* Mostrar datos de Referencias */}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 export function Emisor({ onChange }) {
-  // Estado para los datos del formulario de Emisor
   const [formEmisorData, setFormEmisorData] = useState({
     identificacion: "",
     tipoIdentificacion: "Cédula Física",
@@ -19,8 +18,9 @@ export function Emisor({ onChange }) {
   const [cantonesData, setCantonesData] = useState({});
   const [cantones, setCantones] = useState([]);
   const [distritos, setDistritos] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  // Cargar las provincias, cantones y distritos desde la API
   useEffect(() => {
     const fetchProvinciasCantonesDistritos = async () => {
       try {
@@ -28,31 +28,16 @@ export function Emisor({ onChange }) {
           'https://services.arcgis.com/LjCtRQt1uf8M6LGR/arcgis/rest/services/Distritos_CR/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
         );
         const data = await response.json();
-        console.log('Datos recibidos de la API:', data);
-
-        // Procesamos los datos en un formato adecuado usando los nombres correctos de los campos
         const dataFormatted = data.features.reduce((acc, item) => {
           const { NOM_PROV, NOM_CANT, NOM_DIST } = item.attributes;
-
-          // Si la provincia no está en el acumulador, la agregamos
-          if (!acc[NOM_PROV]) {
-            acc[NOM_PROV] = {};
-          }
-
-          // Si el cantón no está en la provincia, lo agregamos
-          if (!acc[NOM_PROV][NOM_CANT]) {
-            acc[NOM_PROV][NOM_CANT] = [];
-          }
-
-          // Agregamos el distrito al cantón
+          if (!acc[NOM_PROV]) acc[NOM_PROV] = {};
+          if (!acc[NOM_PROV][NOM_CANT]) acc[NOM_PROV][NOM_CANT] = [];
           acc[NOM_PROV][NOM_CANT].push(NOM_DIST);
           return acc;
         }, {});
 
-        console.log('Datos formateados:', dataFormatted);
-
-        setProvincias(Object.keys(dataFormatted)); // Establece las provincias en el estado
-        setCantonesData(dataFormatted); // Guarda el objeto completo de provincias, cantones y distritos
+        setProvincias(Object.keys(dataFormatted));
+        setCantonesData(dataFormatted);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -61,30 +46,70 @@ export function Emisor({ onChange }) {
     fetchProvinciasCantonesDistritos();
   }, []);
 
-  // Manejar los cambios en los inputs del formulario de Emisor
   const handleEmisorChange = (e) => {
     const { name, value } = e.target;
     const updatedData = { ...formEmisorData, [name]: value };
     setFormEmisorData(updatedData);
-    onChange(updatedData); // Pasar los datos al componente principal
 
-    // Si el campo cambiado es "provincia", actualizar cantones
     if (name === "provincia") {
-      console.log('Provincia seleccionada:', value);
-      setCantones(Object.keys(cantonesData[value] || {})); // Accede al array de cantones de la provincia seleccionada
-      setDistritos([]); // Reiniciar distritos cuando se cambie de provincia
+      setCantones(Object.keys(cantonesData[value] || {}));
+      setDistritos([]);
     }
 
-    // Si el campo cambiado es "canton", actualizar distritos
     if (name === "canton") {
-      console.log('Cantón seleccionado:', value);
       setDistritos(cantonesData[formEmisorData.provincia]?.[value] || []);
+    }
+  };
+
+  // Validar correo electrónico
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Validar formulario
+  const validateForm = () => {
+    let formErrors = {};
+    if (!formEmisorData.identificacion) formErrors.identificacion = "Campo obligatorio";
+    if (!formEmisorData.telefono) formErrors.telefono = "Campo obligatorio";
+    if (!formEmisorData.nombre) formErrors.nombre = "Campo obligatorio";
+    if (!formEmisorData.correoElectronico) {
+      formErrors.correoElectronico = "Campo obligatorio";
+    } else if (!validateEmail(formEmisorData.correoElectronico)) {
+      formErrors.correoElectronico = "Correo electrónico inválido";
+    }
+    if (!formEmisorData.direccionExacta) formErrors.direccionExacta = "Campo obligatorio";
+    
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const handleAgregar = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      onChange(formEmisorData);
+
+      setShowSuccessMessage(true); // Mostrar mensaje de éxito
+
+      // Ocultar el mensaje después de 3 segundos
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
     }
   };
 
   return (
     <div>
       <h3 className="text-xl font-bold mb-4">Emisor</h3>
+
+      {/* Mostrar mensaje de éxito */}
+      {showSuccessMessage && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">¡Datos del emisor agregados correctamente!</strong>
+        </div>
+      )}
+
       <form>
         <div className="grid grid-cols-2 gap-4">
           {/* Identificación */}
@@ -95,8 +120,9 @@ export function Emisor({ onChange }) {
               name="identificacion"
               value={formEmisorData.identificacion}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.identificacion ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
+            {errors.identificacion && <p className="text-red-500 text-sm">{errors.identificacion}</p>}
           </div>
 
           {/* Tipo de Identificación */}
@@ -123,8 +149,9 @@ export function Emisor({ onChange }) {
               name="telefono"
               value={formEmisorData.telefono}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.telefono ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
+            {errors.telefono && <p className="text-red-500 text-sm">{errors.telefono}</p>}
           </div>
 
           {/* Nombre */}
@@ -135,20 +162,22 @@ export function Emisor({ onChange }) {
               name="nombre"
               value={formEmisorData.nombre}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.nombre ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
+            {errors.nombre && <p className="text-red-500 text-sm">{errors.nombre}</p>}
           </div>
 
           {/* Correo Electrónico */}
           <div className="col-span-2">
-            <label className="block text-gray-700 font-bold mb-2">Correo Electrónico (Informativo):</label>
+            <label className="block text-gray-700 font-bold mb-2">Correo Electrónico:</label>
             <input
               type="email"
               name="correoElectronico"
               value={formEmisorData.correoElectronico}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.correoElectronico ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
+            {errors.correoElectronico && <p className="text-red-500 text-sm">{errors.correoElectronico}</p>}
           </div>
 
           {/* Dirección Exacta */}
@@ -159,8 +188,9 @@ export function Emisor({ onChange }) {
               name="direccionExacta"
               value={formEmisorData.direccionExacta}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.direccionExacta ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
+            {errors.direccionExacta && <p className="text-red-500 text-sm">{errors.direccionExacta}</p>}
           </div>
 
           {/* Provincia */}
@@ -224,9 +254,12 @@ export function Emisor({ onChange }) {
           </div>
         </div>
 
-        {/* Botón para enviar */}
-        <button type="submit" className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200 mt-4">
-          Guardar Emisor
+        {/* Botón para agregar */}
+        <button
+          onClick={handleAgregar}
+          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200 mt-4"
+        >
+          Agregar
         </button>
       </form>
     </div>
