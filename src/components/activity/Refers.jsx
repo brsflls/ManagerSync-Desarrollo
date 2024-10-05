@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export function Refers() {
+export function Refers({ onChange }) {
   // Estado para los datos de la referencia del documento
   const [referenciaData, setReferenciaData] = useState({
     tipoDocumento: "Factura electrónica",
@@ -22,8 +22,18 @@ export function Refers() {
   const handleAgregarReferencia = (e) => {
     e.preventDefault();
 
+    // Verificar si todos los campos requeridos están completos
+    if (!referenciaData.numeroDocumento || !referenciaData.fechaDocumento) {
+      alert('Por favor complete todos los campos obligatorios.');
+      return;
+    }
+
     // Agregar la referencia al estado
-    setReferencias([...referencias, referenciaData]);
+    const updatedReferencias = [...referencias, referenciaData];
+    setReferencias(updatedReferencias);
+
+    // Pasar las referencias actualizadas al componente padre
+    onChange(updatedReferencias);
 
     // Limpiar el formulario
     setReferenciaData({

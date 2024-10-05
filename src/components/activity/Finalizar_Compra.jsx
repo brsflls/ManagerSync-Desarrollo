@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData, totales, onTotalesChange }) {
+export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData, refersData, totales, onTotalesChange }) {
   const [archivo, setArchivo] = useState(null);
 
   // Manejar cambios en los inputs de totales
   const handleTotalesChange = (e) => {
     const { name, value } = e.target;
-    const floatValue = parseFloat(value) || 0.0; // Convertir a float, default 0
+    const floatValue = parseFloat(value) || 0.0;
     const newTotales = { ...totales, [name]: floatValue };
     onTotalesChange(newTotales);
 
-    // Calcular el total automáticamente
     if (name === 'subTotal' || name === 'descuentos' || name === 'impuestos') {
       const totalCalculado = (newTotales.subTotal - newTotales.descuentos + newTotales.impuestos).toFixed(2);
       onTotalesChange({ ...newTotales, total: parseFloat(totalCalculado) });
@@ -23,21 +22,70 @@ export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData,
     setArchivo(selectedFile);
   };
 
-  // Aplicar documento (simple simulación)
-  const handleAplicarDocumento = () => {
-    alert("Documento aplicado con éxito!");
-    // Aquí podrías enviar los datos a un backend o realizar otra acción
+  // Aplicar documento (enviar datos al backend)
+  const handleAplicarDocumento = async () => {
+    const allData = {
+      inicio: inicioData,
+      emisor: emisorData,
+      productosServicios: prodsServsData,
+      exonera: exoneraData,
+      referencias: refersData,
+      totales,
+      archivo: archivo ? archivo.name : null, // Opcional
+    };
+
+    try {
+      const response = await fetch('/api/facturas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(allData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Mostrar ventana de éxito
+        alert("Factura de compra generada con éxito!");
+
+        // Otras acciones si lo necesitas (ej: limpiar el formulario o redirigir)
+      } else {
+        console.error('Error al crear la factura', result);
+        alert("Error al aplicar documento");
+      }
+    } catch (error) {
+      console.error('Error en la solicitud', error);
+      alert("Error de red");
+    }
   };
 
   return (
     <div className="p-6">
       <h3 className="text-xl font-bold mb-4">Finalizar Documento</h3>
 
+      {/* Mostrar datos del Inicio */}
+      <h4 className="text-lg font-bold mb-4">Datos de Inicio:</h4>
+      <p>Condición de Venta: {inicioData?.condicionVenta}</p>
+      <p>Moneda: {inicioData?.moneda}</p>
+      <p>Plazo: {inicioData?.plazo}</p>
+      <p>Tipo de Cambio: {inicioData?.tipoCambio}</p>
+      <p>Observación: {inicioData?.observacion}</p>
+      <p>Tipo de Compra: {inicioData?.tipoCompra}</p>
+
+      {/* Mostrar datos del Emisor */}
       <h4 className="text-lg font-bold mb-4">Datos del Emisor:</h4>
       <p>Identificación: {emisorData?.identificacion}</p>
       <p>Nombre: {emisorData?.nombre}</p>
+      <p>Teléfono: {emisorData?.telefono}</p>
+      <p>Correo Electrónico: {emisorData?.correoElectronico}</p>
+      <p>Provincia: {emisorData?.provincia}</p>
+      <p>Cantón: {emisorData?.canton}</p>
+      <p>Distrito: {emisorData?.distrito}</p>
+      <p>Barrio: {emisorData?.barrio}</p>
 
-      {/* Productos y Servicios */}
+      {/* Mostrar Productos y Servicios */}
       <h4 className="text-lg font-bold mb-4">Productos/Servicios:</h4>
       {prodsServsData?.length > 0 ? (
         <ul>
@@ -49,6 +97,28 @@ export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData,
         </ul>
       ) : (
         <p>No se han añadido productos o servicios.</p>
+      )}
+
+      {/* Mostrar datos de Exoneración */}
+      <h4 className="text-lg font-bold mb-4">Exoneración:</h4>
+      <p>Número Doc. Exoneración: {exoneraData?.numeroExoneracion}</p>
+      <p>Fecha de Emisión: {exoneraData?.fechaEmision}</p>
+      <p>Tipo de Exoneración: {exoneraData?.tipoExoneracion}</p>
+      <p>Porcentaje: {exoneraData?.porcentaje}</p>
+      <p>Nombre Institución: {exoneraData?.nombreInstitucion}</p>
+
+      {/* Mostrar datos de Referencias */}
+      <h4 className="text-lg font-bold mb-4">Referencias:</h4>
+      {refersData?.length > 0 ? (
+        <ul>
+          {refersData.map((ref, index) => (
+            <li key={index}>
+              {ref.tipoDocumento} - {ref.numeroDocumento} - {ref.fechaDocumento}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No se han añadido referencias.</p>
       )}
 
       {/* Subir Archivo */}
@@ -71,7 +141,6 @@ export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData,
       <h4 className="text-lg font-bold mb-4">Totales del Documento</h4>
 
       <div className="grid grid-cols-2 gap-4">
-        {/* SubTotal */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">SubTotal</label>
           <input
@@ -83,7 +152,6 @@ export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData,
           />
         </div>
 
-        {/* Impuestos */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">Impuestos</label>
           <input
@@ -95,7 +163,6 @@ export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData,
           />
         </div>
 
-        {/* Descuentos */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">Descuentos</label>
           <input
@@ -107,7 +174,6 @@ export function Finalizar({ emisorData, prodsServsData, exoneraData, refersData,
           />
         </div>
 
-        {/* Total (calculado automáticamente) */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">Total</label>
           <input

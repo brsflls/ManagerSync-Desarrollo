@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export function ProdsServs() {
+export function ProdsServs({ onChange }) {
   // Estado para los datos del producto
   const [productData, setProductData] = useState({
     codigo: "",
@@ -24,7 +24,13 @@ export function ProdsServs() {
   // Manejar el botón de agregar producto al detalle de la factura
   const handleAgregarProducto = (e) => {
     e.preventDefault();
-    setDetalleFactura([...detalleFactura, productData]);
+    
+    // Añadir el nuevo producto al detalle de factura
+    const updatedFactura = [...detalleFactura, productData];
+    setDetalleFactura(updatedFactura);
+
+    // Pasar el detalle actualizado al componente padre
+    onChange(updatedFactura);
 
     // Limpiar el formulario después de agregar el producto
     setProductData({

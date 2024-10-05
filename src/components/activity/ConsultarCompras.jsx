@@ -11,6 +11,11 @@ export function ConsultarCompras() {
     navigate('/Compras');  // Redirigir a la ruta del módulo Compras
   };
 
+  // Función para redirigir a la vista de Reporte General
+  const handleReporteGeneral = () => {
+    navigate('/Reporte_general');  // Redirigir a la ruta del módulo Reporte General
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <Header /> {/* Incluimos el Header */}
@@ -26,11 +31,11 @@ export function ConsultarCompras() {
           >
             Registrar Compra Manual
           </button>
-          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
-            Ver Compras Emitidas
-          </button>
-          <button className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
-            Ver Facturas Registradas
+          <button
+            onClick={handleReporteGeneral}
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            Reporte General
           </button>
         </div>
 
@@ -66,8 +71,6 @@ export function ConsultarCompras() {
         </div>
         <Footer /> {/* Incluimos el Footer */}
       </div>
-
-
     </div>
   );
 }
