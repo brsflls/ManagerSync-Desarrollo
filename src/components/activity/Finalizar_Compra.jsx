@@ -35,7 +35,7 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
     };
 
     try {
-      const response = await fetch('/api/facturas', {
+      const response = await fetch('http://localhost/managersyncbdf/public/api/compras', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
