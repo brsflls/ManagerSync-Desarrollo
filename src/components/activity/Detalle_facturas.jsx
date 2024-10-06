@@ -1,128 +1,109 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Factura } from './Factura'; // Asegúrate de importar el nuevo componente
 
-export function Detalle_facturas() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+// Modal básico
+function Modal({ isVisible, onClose, children }) {
+  if (!isVisible) return null;
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+  return (
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg relative">
+        <button
+          className="absolute top-2 right-2 text-gray-700 font-bold"
+          onClick={onClose}
+        >
+          X
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+}
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+Modal.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, selectedCliente, precioUnitario }) {
+  const [facturaId, setFacturaId] = useState(null); // Almacena el ID de la factura registrada
+  const [isModalOpen, setIsModalOpen] = useState(false); // Controlar la visibilidad del modal
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <div className="bg-blue-100 justify-center items-center flex flex-col">
       <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg">
-        {/* Título principal */}
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-          Detalle Factura
-        </h1>
-
-        {/* Cuadro de detalle de venta */}
+        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Detalle Factura</h1>
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          {/* Subtítulo */}
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-            Detalle Venta
-          </h2>
-
-          {/* Información de la venta */}
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Detalle Venta</h2>
+          <div className="flex justify-between mb-4">
+            <span className="text-lg font-medium text-gray-600">Cliente Seleccionado:</span>
+            <span className="text-lg text-gray-800">{selectedCliente}</span>
+          </div>
           <div className="space-y-4">
             <div className="flex justify-between">
               <span className="text-lg font-medium text-gray-600">Subtotal:</span>
-              <span className="text-lg text-gray-800">$0.00</span>
+              <span className="text-lg text-gray-800">₡{subtotal.toFixed(2)}</span>
             </div>
-
             <div className="flex justify-between">
               <span className="text-lg font-medium text-gray-600">Descuento:</span>
-              <span className="text-lg text-gray-800">$0.00</span>
+              <span className="text-lg text-gray-800">₡0.00</span>
             </div>
-
             <div className="flex justify-between">
               <span className="text-lg font-medium text-gray-600">Venta Neta:</span>
-              <span className="text-lg text-gray-800">$0.00</span>
+              <span className="text-lg text-gray-800">₡{subtotal.toFixed(2)}</span>
             </div>
-
             <div className="flex justify-between">
               <span className="text-lg font-medium text-gray-600">Serv. Cliente:</span>
-              <span className="text-lg text-gray-800">$0.00</span>
+              <span className="text-lg text-gray-800">₡0.00</span>
             </div>
-
             <div className="flex justify-between">
               <span className="text-lg font-medium text-gray-600">Monto I.V.A.:</span>
-              <span className="text-lg text-gray-800">$0.00</span>
+              <span className="text-lg text-gray-800">₡{totalIVA.toFixed(2)}</span>
             </div>
-
             <hr className="my-4" />
-
-            {/* Total */}
             <div className="flex justify-between font-bold text-xl text-gray-700">
               <span>Total:</span>
-              <span className='text-blue-950'>$0.00</span>
+              <span className='text-blue-950'>₡{totalVenta.toFixed(2)}</span>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Botón para abrir el modal */}
       <button
-        className="mt-3 text-2xl bg-blue-950 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg"
-        onClick={handleOpenModal} // Abre el modal
+        className="mt-4 mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={handleOpenModal}
       >
-        Crear Factura
+        Facturar
       </button>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-8 w-11/4 max-w-md">
-            <h2 className="text-2xl font-bold mb-4 text-center">Registrar Factura</h2>
-
-            <div className="mb-4 flex justify-between">
-              <label>Total:</label>
-              <input type="text" className="border p-1 rounded" />
-            </div>
-            <div className="mb-4 flex justify-between">
-              <label>Efectivo:</label>
-              <input type="text" className="border p-1 rounded" />
-            </div>
-            <div className="mb-4 flex justify-between ">
-              <label>Tarjeta:</label>
-              <input type="text" className="border p-1 rounded" />
-              
-            </div>
-            <div className="mb-4 flex justify-between">
-              <label>Sinpe:</label>
-              <input type="text" className="border p-1 rounded" />
-            </div>
-            <div className="mb-4 flex justify-between">
-              <label>Depósito:</label>
-              <input type="text" className="border p-1 rounded" />
-            </div>
-            <div className="mb-4 flex justify-between">
-              <label>Cheque:</label>
-              <input type="text" className="border p-1 rounded" />
-            </div>
-            <div className="mb-4 flex justify-between">
-              <label>Vuelto:</label>
-              <input type="text" className="border p-1 rounded" />
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                className="bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mr-2"
-                onClick={handleCloseModal} // Cierra el modal
-              >
-                Cancelar
-              </button>
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
-                Facturar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Modal que contiene el componente Factura */}
+      <Modal isVisible={isModalOpen} onClose={handleCloseModal}>
+        <Factura
+          subtotal={subtotal}
+          totalIVA={totalIVA}
+          totalVenta={totalVenta}
+          carrito={carrito}
+          selectedCliente={selectedCliente}
+          setFacturaId={setFacturaId}
+          precioUnitario={precioUnitario} // Pasar el precio unitario
+          onClose={handleCloseModal} // Pasar la función para cerrar el modal
+        />
+      </Modal>
     </div>
   );
-};
+}
 
-export default Detalle_facturas;
+Detalle_facturas.propTypes = {
+  subtotal: PropTypes.number.isRequired,
+  totalIVA: PropTypes.number.isRequired,
+  totalVenta: PropTypes.number.isRequired,
+  carrito: PropTypes.array.isRequired,
+  selectedCliente: PropTypes.string.isRequired,
+  precioUnitario: PropTypes.number,
+};

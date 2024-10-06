@@ -8,7 +8,7 @@ import{Forgot_pass}from "./components/activity/Forgot_pass";
 import{Compras}from "./components/activity/Compras";
 import{Reporte_general}from "./components/activity/Reporte_general";
 import{Ventas}from "./components/activity/Ventas";
-import{Registro_cliente}from "./components/activity/Registro_cliente";
+
 import{Registro_factura}from "./components/activity/Registro_factura";
 import{Settings}from "./components/activity/Settings";
 import './index.css'

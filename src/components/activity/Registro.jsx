@@ -122,7 +122,7 @@ for (const key in formData) {
                 required
               />
             </div>
-
+            {/*
             <div className="mb-2">
               <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Rol
@@ -138,7 +138,7 @@ for (const key in formData) {
                 <option value="contador">Contador</option>
                 <option value="auditor">Auditor</option>
               </select>
-            </div>
+            </div>*/}
 
             <div className="mb-2">
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
