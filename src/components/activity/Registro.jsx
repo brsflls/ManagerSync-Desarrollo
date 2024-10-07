@@ -67,7 +67,7 @@ for (const key in formData) {
   return (
     <>
       <Header />
-      <div className="bg-blue-100 w-screen h-max">
+      <div className="bg-slate-300 w-screen h-max">
         <div className="mx-auto max-w-2xl pb-10">
           <h1 className="font-bold text-5xl text-center py-10">¡Bienvenido(a)!</h1>
 
@@ -176,7 +176,13 @@ for (const key in formData) {
               <input
                 type="file"
                 id="profile_image"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-full file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-slate-200 file:text-blue-900
+                                  hover:file:bg-slate-300"
+                
                 accept="image/*"
                 onChange={handleChange}
               />
@@ -192,7 +198,7 @@ for (const key in formData) {
               </button>
               <button
                 type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-blue-950 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Registrarse
               </button>

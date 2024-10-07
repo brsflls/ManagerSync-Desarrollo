@@ -187,7 +187,8 @@ export function MantenimientoProductos() {
   return (
     <>
       <Header />
-      <div className="bg-blue-100 w-screen h-max">
+      <div className="bg-slate-300 w-screen h-max">
+        
         <div className="mx-auto py-16 max-w-6xl">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-bold mb-6 text-center">Registrar Producto</h1>

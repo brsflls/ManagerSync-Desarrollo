@@ -5,19 +5,13 @@ import { Footer } from '.././Footer.jsx';
 
 
 export function Reporte_general() {
-  
-  return (
+
+    return (
     <>
         <Header/>
         <div className=" bg-blue-100  w-screen h-max  " >
         <div className="mx-auto py-16 ">
-      
-       
 
-         
-
-
-  
 
 <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
     <h1 className="font-bold text-5xl p-5 ">Reporte General</h1>
@@ -31,13 +25,13 @@ export function Reporte_general() {
                     Cliente
                 </th>
                 <th scope="col" className="px-6 py-3">
-                   Identificación
+                Identificación
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Fecha
+                Fecha
                 </th>
                 <th scope="col" className="px-6 py-3">
-                   Cantidad
+                Cantidad
                 </th>
                 <th scope="col" className="px-6 py-3">
                     Estado
@@ -53,13 +47,13 @@ export function Reporte_general() {
         <tbody>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   1234
+                    1234
                 </th>
                 <td className="px-6 py-4">
-                Diego Vargas
+                    Diego Vargas
                 </td>
                 <td className="px-6 py-4">
-                   33
+                    33
                 </td>
                 <td className="px-6 py-4">
                     $2999
@@ -82,10 +76,10 @@ export function Reporte_general() {
                     234
                 </th>
                 <td className="px-6 py-4">
-               José Ramirez
+                    José Ramirez
                 </td>
                 <td className="px-6 py-4">
-                  44
+                    44
                 </td>
                 <td className="px-6 py-4">
                     $1999
@@ -105,7 +99,7 @@ export function Reporte_general() {
             </tr>
             <tr className="bg-white dark:bg-gray-800">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   4567
+                    4567
                 </th>
                 <td className="px-6 py-4">
                 Brit Fallas
@@ -134,18 +128,16 @@ export function Reporte_general() {
     </table>
     <div className="text-end ">
     <button type="submit" className="m-3  text-white bg-gray-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Atras</button>
-  
-  
     </div>
     
 </div>
 
 </div>
 
-          </div>
-          <Footer/>
+        </div>
+        <Footer/>
 
     </>
     
-  );
+);
 } 

@@ -76,7 +76,7 @@ export function Punto_venta() {
     <>
       <Header />
 
-      <div className="bg-blue-100 w-screen  h-max grid grid-cols-8 gap-3">
+      <div className="bg-slate-300 w-screen  h-max grid grid-cols-8 gap-3">
         <div>
           <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
         </div>

@@ -52,7 +52,7 @@ export function Login() {
   return (
     <>
       <Header />
-      <div className="bg-blue-100 w-screen max-h-full pb-20">
+      <div className="bg-slate-300 w-screen max-h-full pb-20">
         <div className="mx-auto max-w-2xl">
           <h1 className="font-bold text-5xl text-center py-20">¡Bienvenido(a)!</h1>
           <form className="max-w-56 rounded-xl mx-auto bg-white mb-5 p-3" onSubmit={handleLogin}>
@@ -91,7 +91,7 @@ export function Login() {
             </div>
             <button
               type="submit"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-slate-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Iniciar sesión
             </button>

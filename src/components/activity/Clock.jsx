@@ -12,7 +12,7 @@ export function Clock() {
   }, []);
 
   return (
-    <div style={{ color: 'black', fontSize: '18px' }}>
+    <div style={{ color: 'gray', fontSize: '16px' }}>
       {time.toLocaleTimeString()}
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { BackgroundAnimation } from './Background.jsx'; // Importar el componente de animación
-
+import { Sidebar } from '../Sidebar.jsx';
 export function MantenimientoProveedores() {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
@@ -13,6 +13,7 @@ export function MantenimientoProveedores() {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingProveedor, setEditingProveedor] = useState(null);
+  const { logout } = useAccountManagement();
 
   const fetchProveedores = () => {
     fetch('http://localhost/managersyncbdf/public/api/proveedores/all')
@@ -126,7 +127,7 @@ export function MantenimientoProveedores() {
     <>
     <BackgroundAnimation/>
       <Header />
-      <div className="bg-blue-100 w-screen h-max">
+      <div className="bg-slate-300 w-screen h-max">
         <div className="mx-auto py-16 max-w-6xl">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-bold mb-6">Registrar Proveedor</h1>

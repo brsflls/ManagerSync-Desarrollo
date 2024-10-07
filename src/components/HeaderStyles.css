@@ -88,3 +88,9 @@ nav .menu span{
         margin: 0.2rem  0.5rem;
     }
 }
+
+.scrolled{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;}
