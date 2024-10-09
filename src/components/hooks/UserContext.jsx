@@ -15,6 +15,10 @@ const UserProvider = ({ children }) => {
   const [token, setToken] = useState(() => {
     return localStorage.getItem('token') || '';
   });
+  
+  // Agregar lógica para los roles
+  const isAdmin = user?.role === 'admin';  // Verifica si el usuario es admin
+  const isVendedor = user?.role === 'vendedor'; // Verifica si el usuario es vendedor
 
   useEffect(() => {
     if (user) {
@@ -33,7 +37,7 @@ const UserProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken }}>
+    <UserContext.Provider value={{ user, setUser, token, setToken, isAdmin, isVendedor }}>
       {children}
     </UserContext.Provider>
   );

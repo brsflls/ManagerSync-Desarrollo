@@ -223,19 +223,20 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
             readOnly
           />
         </div>
-
-        {carrito.map((item, index) => (
+  {/* Mostrar y editar las descripciones del carrito */}
+  {carrito.map((item, index) => (
           <div key={item.id} className="flex justify-between mb-2">
             <span>{item.nombre}</span>
             <input
               type="text"
               className="border p-1 rounded w-full"
               placeholder="Descripción"
-              value={descripciones[index] || ''}
+              value={descripciones[index] || item.descripcion || ''}
               onChange={(e) => handleDescriptionChange(index, e.target.value)}
             />
           </div>
         ))}
+
 
         <div className="flex justify-between mt-4">
           <button

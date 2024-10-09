@@ -9,10 +9,13 @@ import { ProdsServs } from './ProdsServs.jsx';
 import { Refers } from "./Refers.jsx";
 import { Finalizar } from "./Finalizar_Compra.jsx";
 import { Inicio } from './InicioCompras'; // Importamos el componente de Inicio
+import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+import { Sidebar } from '../Sidebar.jsx';
 
 // Componente principal de Compras
 export function Compras() {
   // Estados para almacenar los datos de cada módulo
+  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
   const [activeTab, setActiveTab] = useState('inicio');
   const [inicioData, setInicioData] = useState({});
   const [emisorData, setEmisorData] = useState({});
@@ -35,11 +38,14 @@ export function Compras() {
   const handleTotalesChange = (data) => setTotales(data);
 
   return (
-    <div className="bg-blue-100 relative">
+    <div className="bg-slate-300  relative ">
       <BackgroundAnimation />
       <Header />
-      <div className="container mx-auto py-10 relative z-10">
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+      <div className="container mx-auto  relative grid grid-cols-8  z-10">
+      <div>
+          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+        </div>
+        <div className="max-w-4xl mx-auto col-span-7 my-10 bg-white p-8 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold mb-6 text-center">Crear documento de Compra Manual</h2>
           <div className="tabs flex justify-between border-b-2 mb-4">
             <button onClick={() => handleTabClick('inicio')} className={`px-4 py-2 ${activeTab === 'inicio' ? 'border-b-2 border-blue-500 text-blue-500 font-bold' : 'text-gray-500'}`}>

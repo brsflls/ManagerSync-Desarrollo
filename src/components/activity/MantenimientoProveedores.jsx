@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { BackgroundAnimation } from './Background.jsx'; // Importar el componente de animación
+import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
 import { Sidebar } from '../Sidebar.jsx';
 export function MantenimientoProveedores() {
   const [nombre, setNombre] = useState('');
@@ -13,7 +14,7 @@ export function MantenimientoProveedores() {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingProveedor, setEditingProveedor] = useState(null);
-  const { logout } = useAccountManagement();
+  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
 
   const fetchProveedores = () => {
     fetch('http://localhost/managersyncbdf/public/api/proveedores/all')
@@ -127,8 +128,13 @@ export function MantenimientoProveedores() {
     <>
     <BackgroundAnimation/>
       <Header />
-      <div className="bg-slate-300 w-screen h-max">
-        <div className="mx-auto py-16 max-w-6xl">
+      <div className="bg-slate-300  grid grid-cols-8 w-screen h-max">
+
+      <div>
+          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+        </div>
+
+        <div className="col-span-7 py-16  p-5">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-bold mb-6">Registrar Proveedor</h1>
             <form onSubmit={handleSubmit} className="space-y-4">

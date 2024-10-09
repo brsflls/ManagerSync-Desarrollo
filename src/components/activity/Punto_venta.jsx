@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../hooks/UserContext";
 import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+
 import { Header } from "../Header.jsx";
 import { Detalle_facturas } from "./Detalle_facturas.jsx";
 import { Footer } from "../Footer.jsx";
@@ -88,7 +89,7 @@ export function Punto_venta() {
                 onClick={handleReiniciarVenta}
                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full"
               >
-                Reiniciar Venta
+                Nueva Venta
               </button>
             </div>
             <div className="grid grid-cols-2 gap-4 p-3">

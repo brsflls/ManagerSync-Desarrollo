@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { BackgroundAnimation } from './Background.jsx'; // Importar el componente de animación
+import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+import { Sidebar } from '../Sidebar.jsx';
 
 export function MantenimientoProductos() {
   const [codigoProducto, setCodigoProducto] = useState(''); // Código de Producto
@@ -19,6 +21,7 @@ export function MantenimientoProductos() {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
 
   const fetchProductos = () => {
     fetch('http://localhost/managersyncbdf/public/api/productos/all')
@@ -187,9 +190,11 @@ export function MantenimientoProductos() {
   return (
     <>
       <Header />
-      <div className="bg-slate-300 w-screen h-max">
-        
-        <div className="mx-auto py-16 max-w-6xl">
+      <div className="bg-slate-300 w-screen h-max  grid grid-cols-8">
+      <div>
+          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+        </div>
+        <div className="mx-auto ps-5 py-16 max-w-6xl">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-bold mb-6 text-center">Registrar Producto</h1>
             <form onSubmit={handleSubmit} className="space-y-4">

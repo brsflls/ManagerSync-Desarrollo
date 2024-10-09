@@ -35,7 +35,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className="bg-blue-100 justify-center items-center flex flex-col">
+    <div className="bg-slate-300 justify-center items-center flex flex-col">
       <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Detalle Factura</h1>
         <div className="bg-white p-6 rounded-lg shadow-lg">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useUser } from "../hooks/UserContext"; // Hook para manejar el estado del usuario
 import { LoadingPage } from '../../LoadingPage.jsx';
@@ -13,6 +13,7 @@ import { Compras } from '../activity/Compras.jsx';
 import { Settings } from '../activity/Settings.jsx';
 import { Forgot_pass } from '../activity/Forgot_pass.jsx';
 import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
+import { MantenimientoUsuarios } from '../activity/MantenimientoUsuarios.jsx';
 import { MantenimientoClientes } from '../activity/MantenimientoClientes.jsx';
 import { MantenimientoProveedores } from '../activity/MantenimientoProveedores.jsx';
 import ProtectedRoute from './ProtectedRoute'; // Ajusta la ruta
@@ -24,6 +25,37 @@ import { ConsultarCompras } from '../activity/ConsultarCompras.jsx';
 function PublicRoute({ children }) {
   const { user } = useUser(); // Hook para obtener usuario logueado
   return user ? <Navigate to="/Settings" /> : children;
+}
+
+// Ruta para proteger solo para admins
+function AdminRoute({ children }) {
+  const { isAdmin } = useUser(); // Verifica si el usuario es admin
+  const [hasNoPermission, setHasNoPermission] = useState(false);
+  const [redirectToSettings, setRedirectToSettings] = useState(false);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      setHasNoPermission(true);
+      const timer = setTimeout(() => {
+        setRedirectToSettings(true); // Establecer la redirección después de 5 segundos
+      }, 1000); // 5000 ms = 5 segundos
+      return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta
+    }
+  }, [isAdmin]);
+
+  if (redirectToSettings) {
+    return <Navigate to="/Settings" />;
+  }
+
+  if (hasNoPermission) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-6xl font-bold text-red-500">No tienes permisos!</h1>
+      </div>
+    );
+  }
+
+  return isAdmin ? children : null; // Devuelve null si no hay permisos y no se ha redirigido
 }
 
 export function RouteMain() {
@@ -48,15 +80,22 @@ export function RouteMain() {
         <Route path="/Detalle_facturas" element={<ProtectedRoute><Detalle_facturas /></ProtectedRoute>} />
         <Route path="/Reporte_general" element={<Reporte_general />} />
         <Route path="/Ventas" element={<Ventas />} />
-        <Route path="/Compras" element={<Compras />} />
-        <Route path="/ConsultarCompras" element={<ConsultarCompras />} />
-        <Route path="/MantenimientoProductos" element={
-          <ProtectedRoute>
-            <MantenimientoProductos />
+        <Route path="/Compras" element={<ProtectedRoute><AdminRoute><Compras /></AdminRoute>
           </ProtectedRoute>} />
-        <Route path="/MantenimientoProveedores" element={
+        <Route path="/ConsultarCompras" element={<ConsultarCompras />} />
+        <Route path="/MantenimientoUsuarios" element={
           <ProtectedRoute>
-            <MantenimientoProveedores />
+            <MantenimientoUsuarios />
+          </ProtectedRoute>} />
+        {/* Solo los administradores pueden acceder a MantenimientoProductos */}
+        <Route path="/MantenimientoProductos" element={
+         <ProtectedRoute><AdminRoute>
+            <MantenimientoProductos />
+          </AdminRoute></ProtectedRoute> 
+        } />
+        <Route path="/MantenimientoProveedores" element={
+          <ProtectedRoute><AdminRoute>
+            <MantenimientoProveedores /> </AdminRoute>
           </ProtectedRoute>} />
         <Route path="/MantenimientoClientes" element={
           <ProtectedRoute>

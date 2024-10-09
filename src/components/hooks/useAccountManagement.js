@@ -1,8 +1,9 @@
-// useAccountManagement.js
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext'; // Asegúrate de importar correctamente
 
-export const useAccountManagement = (setUser, setToken) => {
+export const useAccountManagement = () => {
   const navigate = useNavigate();
+  const { setUser, setToken } = useUser(); // Extraer setUser y setToken directamente del contexto
 
   const deleteAccount = async (token) => {
     try {
@@ -10,8 +11,8 @@ export const useAccountManagement = (setUser, setToken) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {

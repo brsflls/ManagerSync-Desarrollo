@@ -124,20 +124,7 @@ export function Settings() {
                       required
                     />
                   </div>
-                  <div>
-                    <label className="block text-gray-700">Rol</label>
-                    <select
-                      name="role"
-                      value={formData.role}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded"
-                      required
-                    >
-                      <option value="admin">Admin</option>
-                      <option value="contador">Contador</option>
-                      <option value="auditor">Auditor</option>
-                    </select>
-                  </div>
+                
                   <div>
                     <label className="block text-gray-700">Imagen de perfil</label>
                     <input

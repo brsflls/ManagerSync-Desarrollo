@@ -9,21 +9,30 @@ export function Register() {
     nombre: '',
     email: '',
     cedula: '',
-    role: 'contador',
+    cedula_empresa: '',
+    role: 'admin',
+    empresa: 'Juridica',
     password: '',
     password_confirmation: '',
-    image: null // Añadir esta línea
+    image: null
   });
+  
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
+  const [isAdmin, setIsAdmin] = useState(formData.role === 'admin'); // Estado para controlar si es admin
   const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { id, value, type, files } = event.target;
     setFormData({
       ...formData,
-      [id]: type === 'file' ? files[0] : value // Cambiar solo si es un archivo
+      [id]: type === 'file' ? files[0] : value
     });
+
+    // Si cambia el rol, actualizamos el estado isAdmin
+    if (id === 'role') {
+      setIsAdmin(value === 'admin');
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -33,19 +42,16 @@ export function Register() {
       setErrors({ password_confirmation: 'Las contraseñas no coinciden' });
       return;
     }
-  
-   
 
     const formDataToSend = new FormData();
-for (const key in formData) {
-    formDataToSend.append(key === 'image' ? 'profile_image' : key, formData[key]);
-}
+    for (const key in formData) {
+      formDataToSend.append(key === 'image' ? 'profile_image' : key, formData[key]);
+    }
 
-  
     try {
       const response = await fetch('http://managersyncbdf.test/api/register', {
         method: 'POST',
-        body: formDataToSend // Cambiar a FormData
+        body: formDataToSend
       });
   
       if (!response.ok) {
@@ -63,11 +69,11 @@ for (const key in formData) {
       console.error('Error:', error.message);
     }
   };
-  
+
   return (
     <>
       <Header />
-      <div className="bg-slate-300 w-screen h-max">
+      <div className="bg-blue-100 w-screen h-max">
         <div className="mx-auto max-w-2xl pb-10">
           <h1 className="font-bold text-5xl text-center py-10">¡Bienvenido(a)!</h1>
 
@@ -85,7 +91,7 @@ for (const key in formData) {
               <input
                 type="text"
                 id="nombre"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Nombre"
                 value={formData.nombre}
                 onChange={handleChange}
@@ -100,7 +106,7 @@ for (const key in formData) {
               <input
                 type="email"
                 id="email"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="name@flowbite.com"
                 value={formData.email}
                 onChange={handleChange}
@@ -115,30 +121,66 @@ for (const key in formData) {
               <input
                 type="text"
                 id="cedula"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Cédula"
                 value={formData.cedula}
                 onChange={handleChange}
                 required
               />
             </div>
-            {/*
+
             <div className="mb-2">
               <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Rol
               </label>
               <select
                 id="role"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 value={formData.role}
                 onChange={handleChange}
                 required
               >
                 <option value="admin">Administrador</option>
                 <option value="contador">Contador</option>
-                <option value="auditor">Auditor</option>
+                <option value="empleado">Empleado</option>
               </select>
-            </div>*/}
+            </div>
+
+            {isAdmin && (
+              <>
+                <div className="mb-2">
+                  <label htmlFor="empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    identificador de empresa
+                  </label>
+                  <select
+                    id="empresa"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    value={formData.empresa}
+                    onChange={handleChange}
+                    required={isAdmin}
+                  >
+                    <option value="fisica">Fisica</option>
+                    <option value="extranjera">Extranjera</option>
+                    <option value="juridica">Juridica</option>
+                  </select>
+                </div>
+
+                <div className="mb-2">
+                  <label htmlFor="cedula_empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Cédula de empresa
+                  </label>
+                  <input
+                    type="text"
+                    id="cedula_empresa"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    placeholder="Cédula-empresa"
+                    value={formData.cedula_empresa}
+                    onChange={handleChange}
+                    required={isAdmin}
+                  />
+                </div>
+              </>
+            )}
 
             <div className="mb-2">
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -147,7 +189,7 @@ for (const key in formData) {
               <input
                 type="password"
                 id="password"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -161,7 +203,7 @@ for (const key in formData) {
               <input
                 type="password"
                 id="password_confirmation"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 value={formData.password_confirmation}
                 onChange={handleChange}
                 required
@@ -176,33 +218,18 @@ for (const key in formData) {
               <input
                 type="file"
                 id="profile_image"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                                  file:mr-4 file:py-2 file:px-4
-                                  file:rounded-full file:border-0
-                                  file:text-sm file:font-semibold
-                                  file:bg-slate-200 file:text-blue-900
-                                  hover:file:bg-slate-300"
-                
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 accept="image/*"
                 onChange={handleChange}
               />
             </div>
 
-            <div className="grid grid-cols-2">
-              <button
-                type="button"
-                className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                onClick={() => navigate('/LogIn')}
-              >
-                Iniciar sesión
-              </button>
-              <button
-                type="submit"
-                className="text-white bg-blue-950 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Registrarse
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="mt-2 w-full text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              Registrar
+            </button>
           </form>
         </div>
       </div>

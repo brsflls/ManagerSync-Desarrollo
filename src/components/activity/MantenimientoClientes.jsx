@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
 import { Sidebar } from '../Sidebar.jsx';
 
 export function MantenimientoClientes() {
-  const { logout } = useAccountManagement();
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -13,6 +13,7 @@ export function MantenimientoClientes() {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCliente, setEditingCliente] = useState(null);
+  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
 
   const fetchClientes = () => {
     fetch('http://localhost/managersyncbdf/public/api/clientes/all')
@@ -111,12 +112,13 @@ export function MantenimientoClientes() {
   return (
     <>
       <Header />
-      <div className="bg-slate-300 w-screen h-max">
-        <div>
-          {/* Pasa la función logout al Sidebar */}
+      <div className="bg-slate-300  grid grid-cols-8 w-screen h-max  ">
+      <div>
+          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
         </div>
-        <div className="mx-auto py-16 max-w-6xl">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+
+        <div className=" col-span-7 py-16 ">
+          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
             <h1 className="text-2xl font-bold mb-6">Registrar Cliente</h1>
             <form onSubmit={editingCliente ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
@@ -193,8 +195,11 @@ export function MantenimientoClientes() {
               </div>
             </form>
           </div>
+          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto">
 
           <h2 className="text-xl font-semibold mt-10 mb-4">Clientes Registrados</h2>
+          
+
           <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead className="bg-gray-200 text-gray-600">
               <tr>
@@ -232,6 +237,7 @@ export function MantenimientoClientes() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       <Footer />
