@@ -11,6 +11,8 @@ export function ConsultarCompras() {
   const [compras, setCompras] = useState([]); // Estado para almacenar las compras
   const [loading, setLoading] = useState(true); // Estado de carga
   const [error, setError] = useState(null); // Estado para manejar errores
+  const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar/ocultar el modal
+  const [selectedCompra, setSelectedCompra] = useState(null); // Estado para almacenar la compra seleccionada para edición
 
   // Función para obtener las compras desde la API
   const fetchCompras = async () => {
@@ -42,6 +44,56 @@ export function ConsultarCompras() {
   // Función para redirigir a la vista de Reporte General
   const handleReporteGeneral = () => {
     navigate('/Reporte_general');  // Redirigir a la ruta del módulo Reporte General
+  };
+
+  // Función para eliminar una factura
+  const handleDelete = (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta factura?')) {
+      fetch(`http://localhost/managersyncbdf/public/api/compras/${id}`, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (response.ok) {
+            fetchCompras(); // Refetch compras después de eliminar
+          } else {
+            console.error('Error al eliminar la factura', response.statusText);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  };
+
+  // Función para abrir el modal de edición
+  const handleEdit = (compra) => {
+    setSelectedCompra(compra); // Almacenar la compra seleccionada en el estado
+    setModalVisible(true); // Mostrar el modal
+  };
+
+  // Función para manejar la actualización de la compra
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost/managersyncbdf/public/api/compras/${selectedCompra.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedCompra), // Enviar los datos actualizados
+    })
+      .then(response => {
+        if (response.ok) {
+          fetchCompras(); // Refetch compras después de actualizar
+          setModalVisible(false); // Ocultar el modal
+        } else {
+          console.error('Error al actualizar la factura', response.statusText);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  };
+
+  // Función para manejar los cambios en los inputs del modal
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedCompra({ ...selectedCompra, [name]: value }); // Actualizar el estado de la compra seleccionada
   };
 
   return (
@@ -78,12 +130,18 @@ export function ConsultarCompras() {
           {loading && <p className="text-center">Cargando compras...</p>}
           {error && <p className="text-center text-red-500">Error: {error}</p>}
 
+          {/* Mostrar mensaje si no hay compras registradas */}
+          {!loading && compras.length === 0 && (
+            <p className="text-center text-gray-600 font-semibold">No hay compras registradas</p>
+          )}
+
           {/* Tabla de compras */}
-          {!loading && !error && (
+          {!loading && compras.length > 0 && (
             <div className="overflow-x-auto shadow-md rounded-lg">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                   <tr>
+                    <th className="py-3 px-6 text-left border-b">ID Factura</th>
                     <th className="py-3 px-6 text-left border-b">Condición Venta</th>
                     <th className="py-3 px-6 text-left border-b">Moneda</th>
                     <th className="py-3 px-6 text-left border-b">Tipo Identificación</th>
@@ -101,11 +159,13 @@ export function ConsultarCompras() {
                     <th className="py-3 px-6 text-left border-b">Tipo Exoneración</th>
                     <th className="py-3 px-6 text-left border-b">Institución Exoneración</th>
                     <th className="py-3 px-6 text-left border-b">Fecha Creación</th>
+                    <th className="py-3 px-6 text-left border-b">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="text-gray-700 text-sm">
                   {compras.map((compra, index) => (
                     <tr key={index} className="hover:bg-gray-50 transition">
+                      <td className="py-3 px-6 text-left">{compra.id}</td>
                       <td className="py-3 px-6 text-left">{compra.condicion_venta}</td>
                       <td className="py-3 px-6 text-left">{compra.moneda}</td>
                       <td className="py-3 px-6 text-left">{compra.tipo_identificacion}</td>
@@ -123,6 +183,20 @@ export function ConsultarCompras() {
                       <td className="py-3 px-6 text-left">{compra.tipo_exoneracion}</td>
                       <td className="py-3 px-6 text-left">{compra.nombre_institucion_exoneracion}</td>
                       <td className="py-3 px-6 text-left">{compra.fecha_creacion}</td>
+                      <td className="py-3 px-6 text-left">
+                        <button 
+                          onClick={() => handleEdit(compra)} 
+                          className="text-blue-500 hover:underline mr-2"
+                        >
+                          Editar
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(compra.id)} 
+                          className="text-red-500 hover:underline"
+                        >
+                          Eliminar
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
