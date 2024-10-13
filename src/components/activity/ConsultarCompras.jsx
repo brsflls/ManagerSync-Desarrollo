@@ -9,8 +9,10 @@ export function ConsultarCompras() {
   const navigate = useNavigate();
   const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
   const [compras, setCompras] = useState([]); // Estado para almacenar las compras
+  const [filteredCompras, setFilteredCompras] = useState([]); // Estado para almacenar las compras filtradas
   const [loading, setLoading] = useState(true); // Estado de carga
   const [error, setError] = useState(null); // Estado para manejar errores
+  const [searchQuery, setSearchQuery] = useState(''); // Estado para manejar la búsqueda
   const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar/ocultar el modal
   const [selectedCompra, setSelectedCompra] = useState(null); // Estado para almacenar la compra seleccionada para edición
 
@@ -23,6 +25,7 @@ export function ConsultarCompras() {
       }
       const data = await response.json(); // Parseamos la respuesta como JSON
       setCompras(data); // Guardamos las compras en el estado
+      setFilteredCompras(data); // Inicialmente, las compras filtradas son todas
       setLoading(false); // Deshabilitamos el estado de carga
     } catch (error) {
       console.error('Error fetching compras:', error);
@@ -35,6 +38,20 @@ export function ConsultarCompras() {
   useEffect(() => {
     fetchCompras();
   }, []);
+
+  // Función para manejar el cambio en el campo de búsqueda
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value === '') {
+      setFilteredCompras(compras); // Restablecer las compras filtradas si el campo de búsqueda está vacío
+    } else {
+      const filtered = compras.filter((compra) =>
+        compra.nombre.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        compra.identificacion.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setFilteredCompras(filtered); // Actualizar el estado de compras filtradas
+    }
+  };
 
   // Función para redirigir a la vista de Compras
   const handleRegistrarCompraManual = () => {
@@ -110,6 +127,17 @@ export function ConsultarCompras() {
         <div className="w-4/5 flex-grow container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
 
+          {/* Campo de búsqueda */}
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Buscar por nombre o identificación"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </div>
+
           {/* Botones de acciones */}
           <div className="flex mb-8 space-x-4">
             <button
@@ -131,12 +159,12 @@ export function ConsultarCompras() {
           {error && <p className="text-center text-red-500">Error: {error}</p>}
 
           {/* Mostrar mensaje si no hay compras registradas */}
-          {!loading && compras.length === 0 && (
+          {!loading && filteredCompras.length === 0 && (
             <p className="text-center text-gray-600 font-semibold">No hay compras registradas</p>
           )}
 
           {/* Tabla de compras */}
-          {!loading && compras.length > 0 && (
+          {!loading && filteredCompras.length > 0 && (
             <div className="overflow-x-auto shadow-md rounded-lg">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
@@ -163,7 +191,7 @@ export function ConsultarCompras() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-700 text-sm">
-                  {compras.map((compra, index) => (
+                  {filteredCompras.map((compra, index) => (
                     <tr key={index} className="hover:bg-gray-50 transition">
                       <td className="py-3 px-6 text-left">{compra.id}</td>
                       <td className="py-3 px-6 text-left">{compra.condicion_venta}</td>
