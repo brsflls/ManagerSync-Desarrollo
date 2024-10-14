@@ -234,6 +234,140 @@ export function ConsultarCompras() {
         </div>
       </div>
 
+      {/* Modal para editar la compra */}
+      {modalVisible && selectedCompra && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-md w-1/2 max-h-screen overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">Editar Compra</h2>
+            <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-4 space-y-4">
+              {/* Input para Condición Venta */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Condición Venta</label>
+                <input
+                  type="text"
+                  name="condicion_venta"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.condicion_venta || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Moneda */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Moneda</label>
+                <input
+                  type="text"
+                  name="moneda"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.moneda || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Tipo Identificación */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Tipo Identificación</label>
+                <input
+                  type="text"
+                  name="tipo_identificacion"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.tipo_identificacion || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Identificación */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Identificación</label>
+                <input
+                  type="text"
+                  name="identificacion"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.identificacion || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Nombre */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.nombre || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Tipo de Cambio */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Tipo Cambio</label>
+                <input
+                  type="number"
+                  name="tipo_cambio"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.tipo_cambio || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Subtotal */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Subtotal</label>
+                <input
+                  type="number"
+                  name="sub_total"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.sub_total || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Impuestos */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Impuestos</label>
+                <input
+                  type="number"
+                  name="impuestos"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.impuestos || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Input para Descuentos */}
+              <div>
+                <label className="block text-gray-700 font-semibold">Descuentos</label>
+                <input
+                  type="number"
+                  name="descuentos"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCompra.descuentos || ''}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="col-span-2 flex justify-between mt-4">
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200"
+                >
+                  Actualizar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalVisible(false)}
+                  className="bg-gray-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-gray-600 transition duration-200"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Footer fijo al final de la página */}
       <footer className="bg-gray-200 py-4 text-center w-full mt-auto">
         <Footer />
