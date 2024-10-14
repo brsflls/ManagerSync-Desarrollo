@@ -9,7 +9,7 @@ export function Sidebar({ logout }) { // Recibe la función logout como prop
         { title: "Ventas", src: "Ventas",  link: "/Punto_venta" },
         { title: "Compras", src: "Compras", link: "/ConsultarCompras"  }, // Añadir enlace para Productos 
         { title: "Reportes", src: "Reportes", gap: true },
-        { title: "Inventarios", src: "Inventarios" },
+        { title: "Inventarios", src: "Inventarios" , link: "/ConsultarProductos"},
         { 
             title: "Clientes", 
             src: "Clientes", 

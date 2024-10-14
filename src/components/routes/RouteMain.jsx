@@ -20,7 +20,7 @@ import ProtectedRoute from './ProtectedRoute'; // Ajusta la ruta
 import { Detalle_facturas } from '../activity/Detalle_facturas.jsx';
 import { Punto_venta } from '../activity/Punto_venta.jsx';
 import { ConsultarCompras } from '../activity/ConsultarCompras.jsx';
-
+import { HistorialInventario } from '../activity/ConsultarProductos.jsx';
 // Ruta para redirigir si el usuario está logueado
 function PublicRoute({ children }) {
   const { user } = useUser(); // Hook para obtener usuario logueado
@@ -83,6 +83,7 @@ export function RouteMain() {
         <Route path="/Compras" element={<ProtectedRoute><AdminRoute><Compras /></AdminRoute>
           </ProtectedRoute>} />
         <Route path="/ConsultarCompras" element={<ConsultarCompras />} />
+        <Route path="/ConsultarProductos" element={<HistorialInventario/>} />
         <Route path="/MantenimientoUsuarios" element={
           <ProtectedRoute>
             <MantenimientoUsuarios />
