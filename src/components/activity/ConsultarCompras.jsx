@@ -4,6 +4,7 @@ import { Header } from '../Header.jsx';  // Importamos Header
 import { Footer } from '../Footer.jsx';  // Importamos Footer
 import { Sidebar } from '../Sidebar.jsx';
 import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+import jsPDF from "jspdf";  // Importa jsPDF para generar el PDF
 
 export function ConsultarCompras() {
   const navigate = useNavigate();
@@ -113,16 +114,57 @@ export function ConsultarCompras() {
     setSelectedCompra({ ...selectedCompra, [name]: value }); // Actualizar el estado de la compra seleccionada
   };
 
+  // Nueva función para descargar la factura en formato estilo tiquete
+  const handleDownloadTicket = (compra) => {
+    const doc = new jsPDF({
+      unit: 'mm',
+      format: [80, 200], // tamaño pequeño de recibo estilo tiquete
+    });
+  
+    doc.setFontSize(10);
+    doc.text("Factura de Compra", 10, 10);
+    doc.text(`ID Factura: ${compra.id}`, 10, 20);
+    doc.text(`Condición Venta: ${compra.condicion_venta}`, 10, 30);
+    doc.text(`Moneda: ${compra.moneda}`, 10, 40);
+    doc.text(`Tipo Identificación: ${compra.tipo_identificacion}`, 10, 50);
+    doc.text(`Identificación: ${compra.identificacion}`, 10, 60);
+    doc.text(`Nombre: ${compra.nombre}`, 10, 70);
+    doc.text(`Tipo Cambio: ${compra.tipo_cambio}`, 10, 80);
+    doc.text(`Tipo Compra: ${compra.tipo_compra}`, 10, 90);
+    doc.text(`Plazo: ${compra.plazo}`, 10, 100);
+    doc.text(`Observación: ${compra.observacion || 'N/A'}`, 10, 110);
+  
+    // Convertir valores a números si es necesario
+    const subTotal = parseFloat(compra.sub_total) || 0;
+    const impuestos = parseFloat(compra.impuestos) || 0;
+    const descuentos = parseFloat(compra.descuentos) || 0;
+    const total = parseFloat(compra.total) || 0;
+  
+    doc.text(`Subtotal: ${subTotal.toFixed(2)}`, 10, 120);
+    doc.text(`Impuestos: ${impuestos.toFixed(2)}`, 10, 130);
+    doc.text(`Descuentos: ${descuentos.toFixed(2)}`, 10, 140);
+    doc.text(`Total: ${total.toFixed(2)}`, 10, 150);
+  
+    doc.text(`Número Exoneración: ${compra.numero_exoneracion || 'N/A'}`, 10, 160);
+    doc.text(`Tipo Exoneración: ${compra.tipo_exoneracion || 'N/A'}`, 10, 170);
+    doc.text(`Institución Exoneración: ${compra.nombre_institucion_exoneracion || 'N/A'}`, 10, 180);
+  
+    doc.text(`Fecha Creación: ${compra.fecha_creacion}`, 10, 190);
+  
+    // Guardar el PDF con un nombre único
+    doc.save(`Factura_Compra_${compra.id}.pdf`);
+  };
+  
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <Header /> {/* Incluimos el Header */}
-      
+
       <div className="flex flex-grow">
         {/* Sidebar */}
         <div className="w-1/5 bg-gray-200 h-full">
           <Sidebar logout={logout} />
         </div>
-        
+
         {/* Contenido principal */}
         <div className="w-4/5 flex-grow container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
@@ -183,10 +225,6 @@ export function ConsultarCompras() {
                     <th className="py-3 px-6 text-left border-b">Impuestos</th>
                     <th className="py-3 px-6 text-left border-b">Descuentos</th>
                     <th className="py-3 px-6 text-left border-b">Total</th>
-                    <th className="py-3 px-6 text-left border-b">Número Exoneración</th>
-                    <th className="py-3 px-6 text-left border-b">Tipo Exoneración</th>
-                    <th className="py-3 px-6 text-left border-b">Institución Exoneración</th>
-                    <th className="py-3 px-6 text-left border-b">Fecha Creación</th>
                     <th className="py-3 px-6 text-left border-b">Acciones</th>
                   </tr>
                 </thead>
@@ -207,10 +245,6 @@ export function ConsultarCompras() {
                       <td className="py-3 px-6 text-left">{compra.impuestos}</td>
                       <td className="py-3 px-6 text-left">{compra.descuentos}</td>
                       <td className="py-3 px-6 text-left">{compra.total}</td>
-                      <td className="py-3 px-6 text-left">{compra.numero_exoneracion}</td>
-                      <td className="py-3 px-6 text-left">{compra.tipo_exoneracion}</td>
-                      <td className="py-3 px-6 text-left">{compra.nombre_institucion_exoneracion}</td>
-                      <td className="py-3 px-6 text-left">{compra.fecha_creacion}</td>
                       <td className="py-3 px-6 text-left">
                         <button 
                           onClick={() => handleEdit(compra)} 
@@ -220,9 +254,15 @@ export function ConsultarCompras() {
                         </button>
                         <button 
                           onClick={() => handleDelete(compra.id)} 
-                          className="text-red-500 hover:underline"
+                          className="text-red-500 hover:underline mr-2"
                         >
                           Eliminar
+                        </button>
+                        <button 
+                          onClick={() => handleDownloadTicket(compra)} 
+                          className="text-green-500 hover:underline"
+                        >
+                          Descargar Tiquete
                         </button>
                       </td>
                     </tr>
