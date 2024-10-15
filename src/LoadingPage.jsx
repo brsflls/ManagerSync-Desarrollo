@@ -12,9 +12,9 @@ export function  LoadingPage() {
       <Header/>
       <ImgLoadingPage image=".\src\assets\image.svg"/>
       <CardLoadingPage image00=".\src\assets\fast.svg" image01=".\src\assets\efficient.svg" image02=".\src\assets\calendar.svg" image03=".\src\assets\users.svg"/>
-      <EndSectionLoad image=".\src\assets\image.svg"/>
+      <EndSectionLoad image=".\src\assets\bg1.jpg"/>
       <PriceCard></PriceCard>
       <Footer/>
     </div>
-       )
+      )
 }

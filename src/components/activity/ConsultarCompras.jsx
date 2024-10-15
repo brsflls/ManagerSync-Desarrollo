@@ -156,25 +156,25 @@ export function ConsultarCompras() {
   };
   
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
+    <div className="bg-slate-300 h-400 flex flex-col">
       <Header /> {/* Incluimos el Header */}
 
-      <div className="flex flex-grow">
+      <div className="flex flex-grow flex-grid">
         {/* Sidebar */}
-        <div className="w-1/5 bg-gray-200 h-full">
+        <div className=" basis-1/4 md:basis-1/3 h-full">
           <Sidebar logout={logout} />
         </div>
 
         {/* Contenido principal */}
-        <div className="w-4/5 flex-grow container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
+        <div className=" basis-1/2 flex-initial md:basis-1/3 flex-grow container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6 ">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
 
           {/* Campo de búsqueda */}
-          <div className="mb-4">
+          <div className="mb-4 ">
             <input
               type="text"
               placeholder="Buscar por nombre o identificación"
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="italic w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
               value={searchQuery}
               onChange={handleSearchChange}
             />
@@ -409,7 +409,7 @@ export function ConsultarCompras() {
       )}
 
       {/* Footer fijo al final de la página */}
-      <footer className="bg-gray-200 py-4 text-center w-full mt-auto">
+      <footer className="bg-gray-200 py-4 text-center mt-9 w-full mt-auto">
         <Footer />
       </footer>
     </div>

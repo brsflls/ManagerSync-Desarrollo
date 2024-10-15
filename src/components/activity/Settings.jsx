@@ -34,15 +34,21 @@ export function Settings() {
     <>
       <Header />
       
-      <div className="bg-slate-300 w-screen h-max grid grid-cols-8 gap-0">
-        <div>  <Sidebar logout={logout} /></div>
-        <div className="col-span-7 py-16">
+      <div className="bg-slate-300 w-screen flex flex-row h-max  gap-0">
+
+
+        <div className='basis-1/3flex-grow flex-grid mr-4'>  
+          <Sidebar logout={logout} />
+        </div>
+
+
+        <div className="basis-1/2 py-13 pt-16 ml-1 flex-grow flex-grid" >
           <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
             <h1 className="font-bold text-5xl p-10">Hola, {user.nombre}</h1>
-            <h2 className="font-semibold text-3xl p-5">Rol: {user.role}</h2>
+            <h2 className="font-semibold indent-6 text-3xl p-5">Rol: {user.role}</h2>
 
             <div className="grid grid-cols-2 p-10">
-              <div className="relative w-32 h-32 overflow-hidden bg-gray-100 rounded-full">
+              <div className="relative w-32 h-32 overflow-hidden bg-gray-100 rounded-full drop-shadow">
                 {user?.profile_image ? (
                   <img
                     src={user.profile_image}
@@ -86,6 +92,7 @@ export function Settings() {
 
                
               </div>
+              
             </div>
 
             {editMode && (

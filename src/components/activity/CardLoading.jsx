@@ -8,8 +8,9 @@ export function CardLoadingPage({ image00, image01, image02, image03 }) {
     
     
     <div className='bg-slate-300  flex flex-col justify-center items-center h-screen' id="servicios">
-
-      <div><h1 className='text-7xl font-bold mb-16 text-blue-950 justofy-center items-center'>Nuestros servicios</h1>
+        <h1 className='text-7xl font-bold mb-16 text-blue-950 justify-center items-center'>Nuestros servicios</h1>
+      <div>
+        
       <motion.div 
     variants={fadeln("up",0.2)}
     initial= "hidden"
