@@ -11,6 +11,7 @@ import { Finalizar } from "./Finalizar_Compra.jsx";
 import { Inicio } from "./InicioCompras"; // Importamos el componente de Inicio
 import { useAccountManagement } from "../hooks/useAccountManagement"; // Importa el hook
 import { Sidebar } from "../Sidebar.jsx";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 
 // Componente principal de Compras
 export function Compras() {
@@ -41,7 +42,7 @@ export function Compras() {
     <>
       <BackgroundAnimation />
       <Header />
-      <div className=" w-screen  h-max bg-slate-300    mx-auto  relative grid grid-cols-8  ">
+      <div className="w-screen h-max bg-slate-300 mx-auto relative grid grid-cols-8">
         <div>
           <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
         </div>
@@ -131,10 +132,13 @@ export function Compras() {
               refersData={refersData}
               totales={totales}
               onTotalesChange={handleTotalesChange}
+              // Pasa aquí la función para mostrar el modal
+              onApplyDocument={() => setShowModal(true)}
             />
           )}
         </div>
       </div>
+
       <Footer />
     </>
   );

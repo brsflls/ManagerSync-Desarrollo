@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-
+import { fadeln } from "../variants";
 
 export function CardFlip() {
 
@@ -15,7 +15,17 @@ function handleFlip() {
 }
 
 return (
-    <div className="flex items-center justify-center h-auto cursor-pointer" id="contacto">
+    <motion.div className="flex items-center justify-center h-auto cursor-pointer" id="contacto"
+                variants={fadeln("up",0.2)}
+                initial= "hidden"
+                whileInView={"show"}
+                viewport={{once:false, amount:0.7}}
+                
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 200, damping: 10 }}>
+
+                
         <div
             className="flip-card w-[900px] h-[460px] rounded-md"
             onClick={handleFlip}
@@ -31,7 +41,9 @@ return (
             
             
         <div
-            className="flip-card-front w-[100%] h-[100%]  border-[0px] text-white rounded-lg p-4"
+            className="justify-center items-center
+            grid-cols-2
+            flip-card-front w-[100%] h-[100%]  border-[0px] text-white rounded-lg p-4"
             
         >
             
@@ -55,16 +67,16 @@ return (
             className="flip-card-back w-[100%] h-[100%] border-[0px] text-white rounded-lg p-4"
             
         >
-            <h1 className="text-3xl font-sans font-bold mb-6 rounded-lg">Contacto</h1>
-            <p className="mt-5 font-sans text-2xl  rounded-lg leading-10"> 
-                managersync1@gmail.com <br />
-                (+506) 1111 - 111 <br />
+            <h1 className="text-6xl font-sans font-bold mb-7 pb-5 rounded-lg justify-center text-center ">Contacto</h1>
+            <p className="mt-5 font-sans font-semibold text-2xl leading-relaxed text-center  rounded-lg"> 
+                managersync1@gmail.com <br/><br/>
+                (+506) 1111 - 1111 <br/><br/>
                 Esparza, Puntarenas
 </p>
         </div>
         
         </motion.div>
     </div>
-    </div>
+    </motion.div>
 );
 };

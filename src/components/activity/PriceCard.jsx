@@ -1,13 +1,25 @@
 import { motion } from "framer-motion";
+import { fadeln } from "../variants";
 import { ButtonLoadingPage } from "./ButtonLoadPage";
+import { useNavigate } from "react-router-dom";
 
 export function PriceCard() {
+
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate("/Registro");
+    };
+    
     return (
         <section className="bg-slate-300 px-4 py-12">
-            <div className="mx-auto w-fit">
+            <motion.div className="mx-auto w-fit"
+                            variants={fadeln("up",0.2)}
+                            initial= "hidden"
+                            whileInView={"show"}
+                            viewport={{once:false, amount:0.7}}>
             <h1 className='text-7xl font-bold mb-16 text-blue-950 text-bold text-center leaning-7' id="precio">Planes</h1>
             <Card />
-        </div>
+        </motion.div>
         </section>
 );
 };
@@ -27,6 +39,8 @@ const Card = () => {
             scale: 1.05,
         },
         }}
+
+        
             className="relative h-96 w-80 shrink-0 overflow-hidden rounded-xl bg-slate-500 p-8"
     >
         <div className="relative z-10 text-white">
@@ -55,9 +69,10 @@ const Card = () => {
         </p>
         </div>
         
-        <button className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/40 hover:text-white">
-        Empieza ahora
-        </button>
+        <motion.button className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/40 hover:text-white"
+        >
+            Empieza ahora
+        </motion.button>
     </motion.div>
 );
 };

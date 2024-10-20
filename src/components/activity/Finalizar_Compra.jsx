@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 
-export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData, refersData, totales, onTotalesChange }) {
+export const Finalizar = ({ 
+  inicioData, 
+  emisorData, 
+  prodsServsData, 
+  exoneraData, 
+  refersData, 
+  totales, 
+  onTotalesChange, 
+  onApplyDocument // Recibe la función para mostrar el modal
+}) => {
   const [archivo, setArchivo] = useState(null);
+  const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+  const navigate = useNavigate(); // Inicializa useNavigate
 
   // Manejar cambios en los inputs de totales
   const handleTotalesChange = (e) => {
@@ -25,7 +37,7 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
   // Aplicar documento (enviar datos al backend)
   const handleAplicarDocumento = async () => {
     const allData = {
-      condicion_venta: inicioData?.condicionVenta, // Cambio a snake_case para que coincida con el backend
+      condicion_venta: inicioData?.condicionVenta,
       moneda: inicioData?.moneda,
       plazo: inicioData?.plazo,
       tipo_cambio: inicioData?.tipoCambio,
@@ -49,7 +61,7 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
       numero_exoneracion: exoneraData?.numeroExoneracion,
       fecha_emision_exoneracion: exoneraData?.fechaEmision,
       tipo_exoneracion: exoneraData?.tipoExoneracion,
-      porcentaje_exoneracion: parseFloat(exoneraData?.porcentaje) || 0, // Convertir a número
+      porcentaje_exoneracion: parseFloat(exoneraData?.porcentaje) || 0,
       nombre_institucion_exoneracion: exoneraData?.nombreInstitucion,
       productosServicios: prodsServsData?.map(prod => ({
         codigo: prod.codigo,
@@ -81,7 +93,7 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
       const result = await response.json();
   
       if (response.ok) {
-        alert("Factura de compra generada con éxito!");
+        setShowModal(true); // Muestra el modal de éxito
       } else {
         console.error('Error al crear la factura', result);
         // Mostrar errores detallados
@@ -96,6 +108,11 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
       console.error('Error en la solicitud', error);
       alert("Error de red");
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    navigate("/ConsultarCompras"); // Redirige a ConsultarCompras
   };
 
   return (
@@ -226,12 +243,32 @@ export function Finalizar({ inicioData, emisorData, prodsServsData, exoneraData,
       {/* Botón para aplicar documento */}
       <div className="mt-6">
         <button
-          onClick={handleAplicarDocumento}
+          onClick={handleAplicarDocumento} // Llama a la función para aplicar el documento
           className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
         >
           Aplicar Documento
         </button>
       </div>
+
+      {/* Modal de éxito */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Factura registrada con éxito
+            </h3>
+            <p className="text-center text-gray-600 mb-4">
+              ¡Gracias por registrar su factura de compra o gasto!
+            </p>
+            <button
+              onClick={handleCloseModal} // Cambia a handleCloseModal para redirigir
+              className="block w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};

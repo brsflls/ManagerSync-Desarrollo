@@ -29,14 +29,12 @@ export const Header = () => {
         {/* Mostrar solo si el usuario está autenticado */}
         {user ? (
           <li>
-          
-            <Link to="/Settings" className="text-slate-500 text-l">
-              Perfil de usuario
-            </Link> 
-            
             <div className="flex items-center"><Clock/>
-  <div className="m-5 w-3 h-3 bg-green-500 rounded-full mr-1" />
-  <span className="leading-none">En línea</span>
+              <div className="m-5 w-3 h-3 bg-green-500 rounded-full mr-1" />
+              <span className="leading-none">En línea</span>
+                <Link to="/Settings" className="text-slate-500 text-l">
+                  Perfil de usuario
+                </Link> 
 </div>
 
           </li>
