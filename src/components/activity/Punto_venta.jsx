@@ -210,7 +210,7 @@ export function Punto_venta() {
                   {carrito.map((item, index) => (
                     <tr key={index} className="border-b border-gray-200">
                       <td className="p-3">{item.cantidad}</td>
-                      <td className="p-3">{item.id}</td> {/* Aquí se usa item.id */}
+                      <td className="p-3">{item.codigo_cabys}</td> {/* Aquí se usa item.id */}
                       <td className="p-3">{item.descripcion}</td>
                       <td className="p-3">{(item.total * 0.13).toFixed(2)}</td>
                       <td className="p-3">{`₡${item.precio_consumidor}`}</td>

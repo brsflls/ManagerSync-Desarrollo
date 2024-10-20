@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useUser } from "../hooks/UserContext";
-import { PDFViewer, PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer'; // Importar react-pdf
+import { PDFViewer, PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer';
 
-export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedCliente, precioUnitario, onClose }) {
+export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedCliente, onClose }) {
   const { user } = useUser();
-  const [numeroFactura, setNumeroFactura] = useState('');
   const [tipoFactura, setTipoFactura] = useState('venta');
   const [fechaEmision, setFechaEmision] = useState(new Date().toISOString().split('T')[0]);
-  const [fechaVencimiento, setFechaVencimiento] = useState(new Date().toISOString().split('T')[0]); 
-  const [codigoUnico, setCodigoUnico] = useState('');
-  const [estado, setEstado] = useState('Emitida'); 
+  const [fechaVencimiento, setFechaVencimiento] = useState(new Date().toISOString().split('T')[0]);
+  const [estado, setEstado] = useState('Emitida');
   const [descripciones, setDescripciones] = useState({});
   const [facturaId, setFacturaId] = useState(null);
-  const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+  const [codigoUnico, setCodigoUnico] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  // Nueva lógica de pago
+  const [metodoPago, setMetodoPago] = useState('efectivo');
+  const [cantidadPagada, setCantidadPagada] = useState(0);
+  const [vuelto, setVuelto] = useState(0);
+  const [numeroTarjeta, setNumeroTarjeta] = useState('');
+  const [nombreTitular, setNombreTitular] = useState('');
 
   const handleDescriptionChange = (index, value) => {
     setDescripciones(prev => ({
@@ -22,42 +28,44 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }));
   };
 
-  // Modifica el componente FacturaPDF para incluir los detalles del carrito
-const FacturaPDF = () => (
-  <Document>
-    <Page>
-      <Text style={{ marginBottom: 5 }}>Factura #{facturaId}</Text>
-      <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente}</Text>
-      <Text style={{ marginBottom: 5 }}>Fecha de emisión: {fechaEmision}</Text>
-      <Text style={{ marginBottom: 5 }}>Fecha de vencimiento: {fechaVencimiento}</Text>
-      <Text style={{ marginBottom: 5 }}>Estado: {estado}</Text>
-      <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
-      <Text style={{ marginBottom: 5 }}>Detalles de la factura:</Text>
-      {carrito.map((item, index) => (
-        <Text key={index} style={{ marginBottom: 5 }}>
-          {item.descripcion} - Cantidad: {item.cantidad}, 
-          Precio Unitario: ₡{item.precio_consumidor}, 
-          Total: ₡{(item.cantidad * item.precio_consumidor).toFixed(2)}
-        </Text>
-      ))}
-      <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
-      <Text style={{ marginBottom: 5 }}>Subtotal: ₡{subtotal.toFixed(2)}</Text>
-      <Text style={{ marginBottom: 5 }}>IVA: ₡{totalIVA.toFixed(2)}</Text>
-      <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}</Text>
-    </Page>
-  </Document>
-);
+  // Componente para generar el PDF
+  const FacturaPDF = () => (
+    <Document>
+      <Page>
+        <Text style={{ marginBottom: 5 }}>Factura #{facturaId}</Text>
+        <Text style={{ marginBottom: 5 }}>Código Único: {codigoUnico}</Text>
+        <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente}</Text>
+        <Text style={{ marginBottom: 5 }}>Fecha de emisión: {fechaEmision}</Text>
+        <Text style={{ marginBottom: 5 }}>Fecha de vencimiento: {fechaVencimiento}</Text>
+        <Text style={{ marginBottom: 5 }}>Estado: {estado}</Text>
+        <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
+        <Text style={{ marginBottom: 5 }}>Detalles de la factura:</Text>
+        {carrito.map((item, index) => (
+          <Text key={index} style={{ marginBottom: 5 }}>
+            {item.descripcion} - Cantidad: {item.cantidad}, 
+            Precio Unitario: ₡{item.precio_consumidor}, 
+            Total: ₡{(item.cantidad * item.precio_consumidor).toFixed(2)}
+          </Text>
+        ))}
+        <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
+        <Text style={{ marginBottom: 5 }}>Subtotal: ₡{subtotal.toFixed(2)}</Text>
+        <Text style={{ marginBottom: 5 }}>IVA: ₡{totalIVA.toFixed(2)}</Text>
+        <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}</Text>
+      </Page>
+    </Document>
+  );
 
-
+  const calcularVuelto = (montoPagado) => {
+    const cambio = montoPagado - totalVenta;
+    setVuelto(cambio >= 0 ? cambio : 0);
+  };
 
   const handleFacturar = async () => {
-    // Validar campos obligatorios
-    if (!selectedCliente || !codigoUnico || !user) {
+    if (!selectedCliente || !user || (metodoPago === 'efectivo' && cantidadPagada < totalVenta)) {
       alert("Por favor, completa todos los campos requeridos.");
       return;
     }
 
-    // Construir la factura
     const facturaData = {
       cliente_id: selectedCliente,
       usuario_id: user.id,
@@ -66,7 +74,6 @@ const FacturaPDF = () => (
       total: totalVenta,
       tipo: tipoFactura,
       estado: estado,
-      codigo_unico: codigoUnico,
     };
 
     try {
@@ -78,15 +85,11 @@ const FacturaPDF = () => (
 
       if (response.ok) {
         const result = await response.json();
-        setFacturaId(result.id); // Almacenar el ID de la factura registrada
+        setFacturaId(result.id);
+        setCodigoUnico(result.codigo_unico);
         alert("Factura registrada exitosamente.");
-
-        // Guardar automáticamente los detalles de la factura después de registrar la factura
-        await handleGuardarDetalle(result.id); // Pasar el ID de la factura aquí
-
-        // Mostrar el modal después de guardar la factura y el detalle
+        await handleGuardarDetalle(result.id);
         setShowModal(true);
-        
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.errors ? JSON.stringify(errorData.errors) : 'Error desconocido'}`);
@@ -98,14 +101,8 @@ const FacturaPDF = () => (
   };
 
   const handleGuardarDetalle = async (facturaIdParam) => {
-    const idFactura = facturaIdParam;
-    if (!idFactura) {
-      alert("Primero registra la factura antes de guardar los detalles.");
-      return;
-    }
-
     const detalles = carrito.map((item) => {
-      const cantidad = item.cantidad || 0; 
+      const cantidad = item.cantidad || 0;
       const precioUnitario = item.precio_consumidor || 0;
 
       if (cantidad <= 0) {
@@ -118,14 +115,12 @@ const FacturaPDF = () => (
         return null;
       }
 
-      const total = cantidad * precioUnitario;
-
       return {
-        factura_id: idFactura,
+        factura_id: facturaIdParam,
         producto_id: item.id,
         cantidad: cantidad,
         precio_unitario: precioUnitario,
-        total: total,
+        total: cantidad * precioUnitario,
         descripcion: item.descripcion || ''
       };
     }).filter(item => item !== null);
@@ -158,7 +153,6 @@ const FacturaPDF = () => (
     alert("Detalles guardados exitosamente.");
   };
 
-  // Función para actualizar el stock en el backend
   const actualizarStockProducto = async (productoId, cantidadVendida) => {
     try {
       const response = await fetch(`http://localhost/managersyncbdf/public/api/productos/${productoId}/reducir-stock`, {
@@ -181,7 +175,7 @@ const FacturaPDF = () => (
     <div className="bg-blue-100 justify-center items-center flex flex-col">
       <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Registrar Factura</h1>
-       
+
         {/* Formulario de datos de la factura */}
         <div className="mb-4 flex justify-between">
           <label>Tipo:</label>
@@ -216,16 +210,6 @@ const FacturaPDF = () => (
           />
         </div>
         <div className="mb-4 flex justify-between">
-          <label>Código Único:</label>
-          <input
-            type="text"
-            className="border p-1 rounded"
-            value={codigoUnico}
-            onChange={(e) => setCodigoUnico(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4 flex justify-between">
           <label>Estado:</label>
           <select
             className="border p-1 rounded"
@@ -247,7 +231,63 @@ const FacturaPDF = () => (
             readOnly
           />
         </div>
-        
+
+        {/* Sección de pago */}
+        <div className="mb-4 flex justify-between">
+          <label>Método de Pago:</label>
+          <select
+            className="border p-1 rounded"
+            value={metodoPago}
+            onChange={(e) => {
+              setMetodoPago(e.target.value);
+              setCantidadPagada(0); // Reiniciar monto pagado al cambiar método
+            }}
+          >
+            <option value="efectivo">Efectivo</option>
+            <option value="tarjeta">Tarjeta</option>
+          </select>
+        </div>
+        {metodoPago === 'efectivo' ? (
+          <div className="mb-4 flex justify-between">
+            <label>Cantidad Pagada:</label>
+            <input
+              type="number"
+              className="border p-1 rounded"
+              value={cantidadPagada}
+              onChange={(e) => {
+                const value = parseFloat(e.target.value);
+                setCantidadPagada(value);
+                calcularVuelto(value);
+              }}
+              required
+            />
+            <span className="ml-2">Vuelto: ₡{vuelto.toFixed(2)}</span>
+          </div>
+        ) : (
+          <div>
+            <div className="mb-4 flex justify-between">
+              <label>Número de Tarjeta:</label>
+              <input
+                type="text"
+                className="border p-1 rounded"
+                value={numeroTarjeta}
+                onChange={(e) => setNumeroTarjeta(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-4 flex justify-between">
+              <label>Nombre del Titular:</label>
+              <input
+                type="text"
+                className="border p-1 rounded"
+                value={nombreTitular}
+                onChange={(e) => setNombreTitular(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+        )}
+
         {/* Mostrar y editar las descripciones del carrito */}
         {carrito.map((item, index) => (
           <div key={item.id} className="flex justify-between items-center mb-2">
@@ -277,7 +317,7 @@ const FacturaPDF = () => (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg">
             <h2 className="text-xl mb-4">Factura generada correctamente.</h2>
-            
+
             {/* Vista previa del PDF */}
             <PDFViewer style={{ width: '100%', height: '400px' }}>
               <FacturaPDF />
@@ -290,19 +330,16 @@ const FacturaPDF = () => (
                 </button>
               )}
             </PDFDownloadLink>
-            
-           
 
             <button
-  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
-  onClick={() => {
-    setShowModal(false); // Cierra el modal
-    onClose(); // Llama a la función onClose para regresar al punto de venta
-  }}
->
-  Cerrar
-</button>
-
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+              onClick={() => {
+                setShowModal(false);
+                onClose();
+              }}
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       )}
