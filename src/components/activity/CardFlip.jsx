@@ -37,7 +37,7 @@ return (
             
             <div>
                 <h1 className="text-4xl font-sans font-bold mb-6 b rounded-lg">Sobre nosotros</h1>
-                <p className="mt-5 font-sans text-2xl leading-relaxed  rounded-lg">
+                <p className="mt-5 font-sans text-2xl leading-relaxed text-justify rounded-lg">
                 Somos una empresa especializada en soluciones de facturación electrónica, 
                 comprometida con la innovación y la eficiencia en la gestión de documentos fiscales. 
                 Nuestro sistema facilita a las empresas la emisión, recepción y almacenamiento de facturas electrónicas de manera segura 

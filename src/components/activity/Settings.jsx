@@ -1,4 +1,3 @@
-// Settings.jsx
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../hooks/UserContext';
 import { useProfileForm } from '../hooks/useProfileForm';
@@ -122,6 +121,38 @@ export function Settings() {
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
                       required
+                    />
+                  </div>
+                  
+                  {/* Añadir los campos de contraseña */}
+                  <div>
+                    <label className="block text-gray-700">Contraseña actual</label>
+                    <input
+                      type="password"
+                      name="current_password"
+                      value={formData.current_password}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Nueva contraseña</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Confirmar nueva contraseña</label>
+                    <input
+                      type="password"
+                      name="password_confirmation"
+                      value={formData.password_confirmation}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
                     />
                   </div>
                 

@@ -1,4 +1,3 @@
-// useUpdateProfile.js
 import { useState } from 'react';
 
 export const useUpdateProfile = (token, setUser, setToken) => {
@@ -10,7 +9,14 @@ export const useUpdateProfile = (token, setUser, setToken) => {
     data.append('nombre', formData.nombre);
     data.append('email', formData.email);
     data.append('cedula', formData.cedula);
-    data.append('role', formData.role);
+    
+    // Añade los campos de la contraseña si están presentes en formData
+    if (formData.current_password && formData.password && formData.password_confirmation) {
+      data.append('current_password', formData.current_password);
+      data.append('password', formData.password);
+      data.append('password_confirmation', formData.password_confirmation); // Confirmación de la nueva contraseña
+    }
+    
     if (profileImage) {
       data.append('profile_image', profileImage);
     }

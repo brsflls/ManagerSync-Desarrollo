@@ -11,7 +11,8 @@ import { Reporte_general } from '../activity/Reporte_general.jsx';
 import { Ventas } from '../activity/Ventas.jsx';
 import { Compras } from '../activity/Compras.jsx';
 import { Settings } from '../activity/Settings.jsx';
-import { Forgot_pass } from '../activity/Forgot_pass.jsx';
+import { ResetPassword } from '../activity/ResetPassword.jsx';
+import { ForgotPassword } from '../activity/ForgotPassword.jsx';
 import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
 import { MantenimientoUsuarios } from '../activity/MantenimientoUsuarios.jsx';
 import { MantenimientoClientes } from '../activity/MantenimientoClientes.jsx';
@@ -84,9 +85,11 @@ export function RouteMain() {
           </ProtectedRoute>} />
         <Route path="/ConsultarCompras" element={<ConsultarCompras />} />
         <Route path="/ConsultarProductos" element={<HistorialInventario/>} />
+
         <Route path="/MantenimientoUsuarios" element={
-          <ProtectedRoute>
-            <MantenimientoUsuarios />
+          <ProtectedRoute><AdminRoute>
+            <MantenimientoUsuarios /></AdminRoute>
+
           </ProtectedRoute>} />
         {/* Solo los administradores pueden acceder a MantenimientoProductos */}
         <Route path="/MantenimientoProductos" element={
@@ -107,7 +110,8 @@ export function RouteMain() {
             <Settings />
           </ProtectedRoute>
         } />
-        <Route path="/forgot_pass" element={<Forgot_pass />} />
+          <Route path="/ResetPassword/:token" element={<ResetPassword />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />  
       </Routes>
     </Router>
   );

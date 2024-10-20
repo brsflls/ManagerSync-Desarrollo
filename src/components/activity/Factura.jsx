@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useUser } from "../hooks/UserContext";
+import { PDFViewer, PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer'; // Importar react-pdf
 
 export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedCliente, precioUnitario, onClose }) {
   const { user } = useUser();
@@ -11,7 +12,8 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
   const [codigoUnico, setCodigoUnico] = useState('');
   const [estado, setEstado] = useState('Emitida'); 
   const [descripciones, setDescripciones] = useState({});
-  const [facturaId, setFacturaId] = useState(null); // Para almacenar el ID de la factura registrada
+  const [facturaId, setFacturaId] = useState(null);
+  const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
 
   const handleDescriptionChange = (index, value) => {
     setDescripciones(prev => ({
@@ -20,9 +22,37 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }));
   };
 
+  // Modifica el componente FacturaPDF para incluir los detalles del carrito
+const FacturaPDF = () => (
+  <Document>
+    <Page>
+      <Text style={{ marginBottom: 5 }}>Factura #{facturaId}</Text>
+      <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente}</Text>
+      <Text style={{ marginBottom: 5 }}>Fecha de emisión: {fechaEmision}</Text>
+      <Text style={{ marginBottom: 5 }}>Fecha de vencimiento: {fechaVencimiento}</Text>
+      <Text style={{ marginBottom: 5 }}>Estado: {estado}</Text>
+      <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
+      <Text style={{ marginBottom: 5 }}>Detalles de la factura:</Text>
+      {carrito.map((item, index) => (
+        <Text key={index} style={{ marginBottom: 5 }}>
+          {item.descripcion} - Cantidad: {item.cantidad}, 
+          Precio Unitario: ₡{item.precio_consumidor}, 
+          Total: ₡{(item.cantidad * item.precio_consumidor).toFixed(2)}
+        </Text>
+      ))}
+      <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
+      <Text style={{ marginBottom: 5 }}>Subtotal: ₡{subtotal.toFixed(2)}</Text>
+      <Text style={{ marginBottom: 5 }}>IVA: ₡{totalIVA.toFixed(2)}</Text>
+      <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}</Text>
+    </Page>
+  </Document>
+);
+
+
+
   const handleFacturar = async () => {
     // Validar campos obligatorios
-    if (!selectedCliente || !numeroFactura || !codigoUnico || !user) {
+    if (!selectedCliente || !codigoUnico || !user) {
       alert("Por favor, completa todos los campos requeridos.");
       return;
     }
@@ -31,7 +61,6 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     const facturaData = {
       cliente_id: selectedCliente,
       usuario_id: user.id,
-      numero_factura: numeroFactura,
       fecha_emision: fechaEmision,
       fecha_vencimiento: fechaVencimiento,
       total: totalVenta,
@@ -49,9 +78,15 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Factura registrada:", result);
         setFacturaId(result.id); // Almacenar el ID de la factura registrada
         alert("Factura registrada exitosamente.");
+
+        // Guardar automáticamente los detalles de la factura después de registrar la factura
+        await handleGuardarDetalle(result.id); // Pasar el ID de la factura aquí
+
+        // Mostrar el modal después de guardar la factura y el detalle
+        setShowModal(true);
+        
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.errors ? JSON.stringify(errorData.errors) : 'Error desconocido'}`);
@@ -62,8 +97,9 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
   };
 
-  const handleGuardarDetalle = async () => {
-    if (!facturaId) {
+  const handleGuardarDetalle = async (facturaIdParam) => {
+    const idFactura = facturaIdParam;
+    if (!idFactura) {
       alert("Primero registra la factura antes de guardar los detalles.");
       return;
     }
@@ -85,7 +121,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
       const total = cantidad * precioUnitario;
 
       return {
-        factura_id: facturaId,
+        factura_id: idFactura,
         producto_id: item.id,
         cantidad: cantidad,
         precio_unitario: precioUnitario,
@@ -108,7 +144,6 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         });
 
         if (response.ok) {
-          // Petición adicional para actualizar el stock del producto
           await actualizarStockProducto(detalle.producto_id, detalle.cantidad);
         } else {
           const errorData = await response.json();
@@ -121,9 +156,6 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
 
     alert("Detalles guardados exitosamente.");
-    
-    // Cerrar el modal después de guardar los detalles
-    onClose();
   };
 
   // Función para actualizar el stock en el backend
@@ -149,16 +181,8 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     <div className="bg-blue-100 justify-center items-center flex flex-col">
       <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Registrar Factura</h1>
-        <div className="mb-4 flex justify-between">
-          <label>Número de Factura:</label>
-          <input
-            type="text"
-            className="border p-1 rounded"
-            value={numeroFactura}
-            onChange={(e) => setNumeroFactura(e.target.value)}
-            required
-          />
-        </div>
+       
+        {/* Formulario de datos de la factura */}
         <div className="mb-4 flex justify-between">
           <label>Tipo:</label>
           <select
@@ -223,20 +247,20 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
             readOnly
           />
         </div>
-  {/* Mostrar y editar las descripciones del carrito */}
-  {carrito.map((item, index) => (
-          <div key={item.id} className="flex justify-between mb-2">
-            <span>{item.nombre}</span>
+        
+        {/* Mostrar y editar las descripciones del carrito */}
+        {carrito.map((item, index) => (
+          <div key={item.id} className="flex justify-between items-center mb-2">
+            <span className="text-gray-700">{item.descripcion}</span>
             <input
               type="text"
-              className="border p-1 rounded w-full"
+              className="border p-1 rounded flex-grow ml-2"
               placeholder="Descripción"
               value={descripciones[index] || item.descripcion || ''}
               onChange={(e) => handleDescriptionChange(index, e.target.value)}
             />
           </div>
         ))}
-
 
         <div className="flex justify-between mt-4">
           <button
@@ -245,14 +269,43 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
           >
             Facturar
           </button>
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleGuardarDetalle}
-          >
-            Guardar Detalle
-          </button>
         </div>
       </div>
+
+      {/* Modal para guardar o imprimir la factura */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-xl mb-4">Factura generada correctamente.</h2>
+            
+            {/* Vista previa del PDF */}
+            <PDFViewer style={{ width: '100%', height: '400px' }}>
+              <FacturaPDF />
+            </PDFViewer>
+
+            <PDFDownloadLink document={<FacturaPDF />} fileName={`factura_${facturaId}.pdf`}>
+              {({ loading }) => (
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
+                  {loading ? 'Generando PDF...' : 'Guardar PDF'}
+                </button>
+              )}
+            </PDFDownloadLink>
+            
+           
+
+            <button
+  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+  onClick={() => {
+    setShowModal(false); // Cierra el modal
+    onClose(); // Llama a la función onClose para regresar al punto de venta
+  }}
+>
+  Cerrar
+</button>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -263,5 +316,5 @@ Factura.propTypes = {
   totalVenta: PropTypes.number.isRequired,
   carrito: PropTypes.array.isRequired,
   selectedCliente: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired, // Añadir onClose como prop
+  onClose: PropTypes.func.isRequired,
 };

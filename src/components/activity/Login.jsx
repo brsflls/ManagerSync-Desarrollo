@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Importar Link para redirección
 import { useUser } from '../hooks/UserContext.jsx';
 import "../../index.css";
 import { Header } from '../Header.jsx';
@@ -74,6 +74,7 @@ export function Login() {
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Contraseña
               </label>
+              
               <input
                 type="password"
                 id="password"
@@ -85,9 +86,9 @@ export function Login() {
             </div>
             {errors.server && <p className="text-red-500 mb-5">{errors.server}</p>}
             <div className="flex items-start mb-5">
-              <a href="#" className="text-sm text-blue-500 hover:underline">
+              <Link to="/forgotpassword" className="text-sm text-blue-500 hover:underline"> {/* Cambié a Link */}
                 ¿Olvidaste tu contraseña?
-              </a>
+              </Link>
             </div>
             <button
               type="submit"
@@ -101,4 +102,4 @@ export function Login() {
       <Footer />
     </>
   );
-}
+} 

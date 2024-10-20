@@ -1,76 +1,76 @@
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import "../../index.css";
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import { useAccountManagement } from '../hooks/useAccountManagement.js';
+import { Sidebar } from '../Sidebar.jsx';
+import { useUser } from '../hooks/UserContext'; // Importar el contexto de usuario
 
 export function MantenimientoUsuarios() {
+  const { token, user } = useUser(); // Obtener el token y la información del usuario del contexto
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     cedula: '',
-    role: 'vendedor', // Cambiar a 'vendedor' o según tu lógica
+    cedula_empresa: user?.cedula_empresa || '', // Cargar cédula de la empresa del usuario
+    empresa: user?.empresa || '', // Cargar nombre de la empresa del usuario
+    role: '', // Cambié el valor inicial a una cadena vacía para que el usuario seleccione
     password: '',
-    password_confirmation: '',
-    image: null
+    password_confirmation: ''
   });
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingUsuario, setEditingUsuario] = useState(null);
   const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState('');
-  const [usuarios, setUsuarios] = useState([]); // Para listar los usuarios
-  const navigate = useNavigate();
+  const { logout } = useAccountManagement();
 
-  useEffect(() => {
-    // Fetch para obtener la lista de usuarios al cargar el componente
-    const fetchUsuarios = async () => {
-      try {
-        const response = await fetch('http://managersyncbdf.test/api/usuarios', {
-          headers: {
-            'Authorization': `Bearer ${token}` // Asegúrate de manejar el token correctamente
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Error al obtener usuarios');
+  // Función para obtener usuarios
+  const fetchUsuarios = async () => {
+    try {
+      const response = await fetch('http://managersyncbdf.test/api/usuarios/all', {
+        headers: {
+          'Authorization': `Bearer ${token}` // Usar el token del contexto
         }
+      });
 
-        const data = await response.json();
-        setUsuarios(data.usuarios);
-      } catch (error) {
-        console.error('Error:', error.message);
+      if (!response.ok) {
+        throw new Error('Error al obtener usuarios');
       }
-    };
 
-    fetchUsuarios();
-  }, []);
-
-  const handleChange = (event) => {
-    const { id, value, type, files } = event.target;
-    setFormData({
-      ...formData,
-      [id]: type === 'file' ? files[0] : value
-    });
+      const data = await response.json();
+      setUsuarios(data);
+    } catch (error) {
+      console.error('Error fetching usuarios:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    fetchUsuarios();
+  }, [token]); // Agregar token como dependencia
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({ ...prevData, [name]: value }));
+  };
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     if (formData.password !== formData.password_confirmation) {
       setErrors({ password_confirmation: 'Las contraseñas no coinciden' });
       return;
     }
 
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key === 'image' ? 'profile_image' : key, formData[key]);
-    }
-
     try {
       const response = await fetch('http://managersyncbdf.test/api/register', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}` // Incluye el token aquí
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Usar el token del contexto
         },
-        body: formDataToSend
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -79,75 +79,252 @@ export function MantenimientoUsuarios() {
         return;
       }
 
-      const data = await response.json();
-      setSuccess('Usuario registrado correctamente.');
-      setTimeout(() => {
-        navigate('/usuarios'); // Redirigir a la lista de usuarios o donde sea necesario
-      }, 2000);
+      fetchUsuarios(); // Refetch usuarios después de agregar
+      resetForm();
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error('Error:', error);
     }
   };
+
+  // Función para manejar la eliminación de un usuario
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm('¿Estás seguro de que quieres eliminar este usuario?');
+    if (!confirmDelete) return; // Cancelar si el usuario no confirma
+
+    try {
+      const response = await fetch(`http://managersyncbdf.test/api/usuarios/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}` // Usar el token del contexto
+        }
+      });
+
+      if (response.ok) {
+        fetchUsuarios(); // Refetch usuarios después de eliminar
+      } else {
+        console.error('Error al eliminar el usuario', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  // Función para manejar la edición de un usuario
+  const handleEdit = (usuario) => {
+    setFormData({
+      nombre: usuario.nombre,
+      email: usuario.email,
+      cedula: usuario.cedula,
+      cedula_empresa: usuario.cedula_empresa,
+      empresa: usuario.empresa,
+      role: usuario.role,
+      password: '',
+      password_confirmation: ''
+    });
+    setEditingUsuario(usuario.id);
+  };
+
+  // Función para manejar la actualización de un usuario
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const updatedUsuario = { ...formData };
+
+    try {
+      const response = await fetch(`http://managersyncbdf.test/api/usuarios/${editingUsuario}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Usar el token del contexto
+        },
+        body: JSON.stringify(updatedUsuario),
+      });
+
+      if (response.ok) {
+        fetchUsuarios(); // Refetch usuarios después de actualizar
+        resetForm();
+      } else {
+        console.error('Error al actualizar el usuario', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  // Función para restablecer el formulario
+  const resetForm = () => {
+    setFormData({
+      nombre: '',
+      email: '',
+      cedula: '',
+      cedula_empresa: user?.cedula_empresa || '', // Resetear cédula de empresa
+      empresa: user?.empresa || '', // Resetear nombre de empresa
+      role: '', // Cambié el valor inicial a una cadena vacía
+      password: '',
+      password_confirmation: ''
+    });
+    setEditingUsuario(null);
+    setErrors({});
+  };
+
+  // Mostrar cargando mientras se obtienen usuarios
+  if (loading) return <p>Cargando usuarios...</p>;
 
   return (
     <>
       <Header />
-      <div className="bg-blue-100 w-screen h-max">
-        <div className="mx-auto max-w-2xl pb-10">
-          <h1 className="font-bold text-5xl text-center py-10">Mantenimiento de Usuarios</h1>
+      <div className="bg-slate-300 grid grid-cols-8 w-screen h-max">
+        <div>
+          <Sidebar logout={logout} />
+        </div>
 
-          {success && <p className="text-green-500 mt-2">{success}</p>}
+        <div className="col-span-7 py-16">
+          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
+            <h1 className="text-2xl font-bold mb-6">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
+            <form onSubmit={editingUsuario ? handleUpdate : handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-gray-700 font-semibold">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Cédula</label>
+                <input
+                  type="text"
+                  name="cedula"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  value={formData.cedula}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Cédula Empresa</label>
+                <input
+                  type="text"
+                  name="cedula_empresa"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  value={formData.cedula_empresa}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Empresa</label>
+                <input
+                  type="text"
+                  name="empresa"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  value={formData.empresa}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Rol
+                </label>
+                <select
+                  id="role"
+                  name="role" // Asegúrate de incluir el atributo name
+                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Seleccione un rol</option> {/* Opción para seleccionar un rol */}
+                  <option value="admin">Administrador</option>
+                  <option value="contador">Contador</option>
+                  <option value="empleado">Empleado</option>
+                </select>
+              </div>
 
-          <form className="rounded-xl max-w-56 mx-auto mb-5 bg-white p-3" onSubmit={handleSubmit}>
-            {errors.email && <p className="text-red-500">{errors.email[0]}</p>}
-            {errors.cedula && <p className="text-red-500">{errors.cedula[0]}</p>}
-            {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
+              {!editingUsuario && (
+                <>
+                  <div>
+                    <label className="block text-gray-700 font-semibold">Contraseña</label>
+                    <input
+                      type="password"
+                      name="password"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 font-semibold">Confirmar Contraseña</label>
+                    <input
+                      type="password"
+                      name="password_confirmation"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      value={formData.password_confirmation}
+                      onChange={handleChange}
+                      required
+                    />
+                    {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
+                  </div>
+                </>
+              )}
+              <button
+                type="submit"
+                className="w-full mt-4 bg-blue-500 text-white p-2 rounded-md"
+              >
+                {editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}
+              </button>
+            </form>
 
-            <div className="mb-2">
-              <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de usuario</label>
-              <input type="text" id="nombre" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo electrónico</label>
-              <input type="email" id="email" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" value={formData.email} onChange={handleChange} required />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="cedula" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cédula de identidad</label>
-              <input type="text" id="cedula" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Cédula" value={formData.cedula} onChange={handleChange} required />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
-              <input type="password" id="password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={formData.password} onChange={handleChange} required />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="password_confirmation" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar contraseña</label>
-              <input type="password" id="password_confirmation" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={formData.password_confirmation} onChange={handleChange} required />
-              {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagen de perfil</label>
-              <input type="file" id="image" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" accept="image/*" onChange={handleChange} />
-            </div>
-
-            <div className="grid grid-cols-2">
-              <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white hover:bg-gray-100 hover:text-blue-700" onClick={() => navigate('/LogIn')}>Iniciar sesión</button>
-              <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Registrar Usuario</button>
-            </div>
-          </form>
-
-          {/* Aquí puedes agregar una lista de usuarios */}
-          <div>
-            <h2 className="text-lg font-bold">Lista de Usuarios</h2>
-            <ul>
-              {usuarios.map((usuario) => (
-                <li key={usuario.id}>{usuario.nombre} - {usuario.email}</li>
-              ))}
-            </ul>
+            <h2 className="text-xl font-bold mt-8">Usuarios Registrados</h2>
+            <table className="min-w-full mt-4">
+              <thead>
+                <tr>
+                  <th className="border px-4 py-2">ID</th>
+                  <th className="border px-4 py-2">Nombre</th>
+                  <th className="border px-4 py-2">Email</th>
+                  <th className="border px-4 py-2">Rol</th>
+                  <th className="border px-4 py-2">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuarios.map(usuario => (
+                  <tr key={usuario.id}>
+                    <td className="border px-4 py-2">{usuario.id}</td>
+                    <td className="border px-4 py-2">{usuario.nombre}</td>
+                    <td className="border px-4 py-2">{usuario.email}</td>
+                    <td className="border px-4 py-2">{usuario.role}</td>
+                    <td className="border px-4 py-2">
+                      <button
+                        onClick={() => handleEdit(usuario)}
+                        className="bg-yellow-500 text-white p-1 rounded mr-2"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => handleDelete(usuario.id)}
+                        className="bg-red-500 text-white p-1 rounded"
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

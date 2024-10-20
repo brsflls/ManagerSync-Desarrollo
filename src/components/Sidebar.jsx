@@ -21,6 +21,11 @@ export function Sidebar({ logout }) { // Recibe la función logout como prop
             link: "/MantenimientoProveedores" // Añadir enlace para Proveedores
         },
         { 
+            title: "Usuarios", 
+            src: "Clientes", 
+            link: "/mantenimientousuarios" // Añadir enlace para Proveedores
+        },
+        { 
             title: "Productos", 
             src: "Productos", 
             link: "/MantenimientoProductos" // Añadir enlace para Productos

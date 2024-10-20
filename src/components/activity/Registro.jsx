@@ -11,15 +11,16 @@ export function Register() {
     cedula: '',
     cedula_empresa: '',
     role: 'admin',
-    empresa: 'Juridica',
+    empresa: 'juridica', // Cambia esto según lo que necesites
     password: '',
     password_confirmation: '',
     image: null
   });
-  
+
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
-  const [isAdmin, setIsAdmin] = useState(formData.role === 'admin'); // Estado para controlar si es admin
+  const [cedulaEmpresaStatus, setCedulaEmpresaStatus] = useState(null);
+  const [isValidatingCedula, setIsValidatingCedula] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -28,16 +29,50 @@ export function Register() {
       ...formData,
       [id]: type === 'file' ? files[0] : value
     });
+  };
 
-    // Si cambia el rol, actualizamos el estado isAdmin
-    if (id === 'role') {
-      setIsAdmin(value === 'admin');
+  const verificarCedulaEmpresa = async () => {
+    const cedulaEmpresa = formData.cedula_empresa;
+    const esFisica = formData.empresa === 'fisica';
+    const esJuridica = formData.empresa === 'juridica';
+
+    // Validamos la longitud de la cédula dependiendo del tipo de empresa
+    if ((esFisica && cedulaEmpresa.length !== 9) || (esJuridica && cedulaEmpresa.length !== 10)) {
+      setCedulaEmpresaStatus(null);
+      console.log('Cédula inválida según el tipo de empresa');
+      return;
+    }
+
+    console.log('Verificando cédula de empresa:', cedulaEmpresa);
+    setIsValidatingCedula(true);
+
+    try {
+      const response = await fetch(`https://api.hacienda.go.cr/fe/ae?identificacion=${cedulaEmpresa}`);
+      const data = await response.json();
+
+      console.log('Respuesta de la API:', data); // Ver respuesta de la API
+
+      // Accediendo al estado en la propiedad situacion
+      const estado = data.situacion.estado.toLowerCase(); // Convertimos a minúsculas para evitar problemas de comparación
+
+      if (estado === 'no inscrito') {
+        setCedulaEmpresaStatus('no inscrito');
+      } else if (estado === 'inscrito') {
+        setCedulaEmpresaStatus('inscrito');
+      } else {
+        setCedulaEmpresaStatus(null);
+      }
+    } catch (error) {
+      console.error('Error al verificar la cédula de empresa:', error);
+      setCedulaEmpresaStatus(null);
+    } finally {
+      setIsValidatingCedula(false);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (formData.password !== formData.password_confirmation) {
       setErrors({ password_confirmation: 'Las contraseñas no coinciden' });
       return;
@@ -53,14 +88,13 @@ export function Register() {
         method: 'POST',
         body: formDataToSend
       });
-  
+
       if (!response.ok) {
         const data = await response.json();
         setErrors(data.errors || {});
         return;
       }
-  
-      const data = await response.json();
+
       setSuccess('Usuario registrado correctamente.');
       setTimeout(() => {
         navigate('/LogIn');
@@ -130,57 +164,50 @@ export function Register() {
             </div>
 
             <div className="mb-2">
-              <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Rol
+              <label htmlFor="empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Identificador de empresa
               </label>
               <select
-                id="role"
+                id="empresa"
                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                value={formData.role}
+                value={formData.empresa}
                 onChange={handleChange}
                 required
               >
-                <option value="admin">Administrador</option>
-                <option value="contador">Contador</option>
-                <option value="empleado">Empleado</option>
+                <option value="fisica">Fisica</option>
+                <option value="extranjera">Extranjera</option>
+                <option value="juridica">Juridica</option>
               </select>
             </div>
 
-            {isAdmin && (
-              <>
-                <div className="mb-2">
-                  <label htmlFor="empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    identificador de empresa
-                  </label>
-                  <select
-                    id="empresa"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    value={formData.empresa}
-                    onChange={handleChange}
-                    required={isAdmin}
-                  >
-                    <option value="fisica">Fisica</option>
-                    <option value="extranjera">Extranjera</option>
-                    <option value="juridica">Juridica</option>
-                  </select>
-                </div>
-
-                <div className="mb-2">
-                  <label htmlFor="cedula_empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Cédula de empresa
-                  </label>
-                  <input
-                    type="text"
-                    id="cedula_empresa"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    placeholder="Cédula-empresa"
-                    value={formData.cedula_empresa}
-                    onChange={handleChange}
-                    required={isAdmin}
-                  />
-                </div>
-              </>
-            )}
+            <div className="mb-2">
+              <label htmlFor="cedula_empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Cédula de empresa
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="cedula_empresa"
+                  className={`shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
+                    cedulaEmpresaStatus === 'inscrito' ? 'border-green-500' : cedulaEmpresaStatus === 'no inscrito' ? 'border-red-500' : ''
+                  }`}
+                  placeholder="Cédula-empresa"
+                  value={formData.cedula_empresa}
+                  onChange={handleChange}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={verificarCedulaEmpresa}
+                  className="absolute right-0 top-0 mt-1 mr-2 bg-blue-500 text-white text-xs py-1 px-2 rounded"
+                  disabled={isValidatingCedula}
+                >
+                  {isValidatingCedula ? 'Validando...' : 'Validar'}
+                </button>
+                {cedulaEmpresaStatus === 'inscrito' && <span className="absolute inset-y-0 right-10 flex items-center pr-3 text-green-500">✔</span>}
+                {cedulaEmpresaStatus === 'no inscrito' && <p className="text-red-500 mt-1">La cédula no se encuentra inscrita en el sistema de Hacienda.</p>}
+              </div>
+            </div>
 
             <div className="mb-2">
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -190,6 +217,7 @@ export function Register() {
                 type="password"
                 id="password"
                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="Contraseña"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -204,11 +232,11 @@ export function Register() {
                 type="password"
                 id="password_confirmation"
                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="Confirmar contraseña"
                 value={formData.password_confirmation}
                 onChange={handleChange}
                 required
               />
-              {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
             </div>
 
             <div className="mb-2">
@@ -217,18 +245,18 @@ export function Register() {
               </label>
               <input
                 type="file"
-                id="profile_image"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                id="image"
                 accept="image/*"
+                className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none"
                 onChange={handleChange}
               />
             </div>
 
             <button
               type="submit"
-              className="mt-2 w-full text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="w-full text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Registrar
+              Registrarse
             </button>
           </form>
         </div>
