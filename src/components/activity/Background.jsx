@@ -38,7 +38,7 @@ export function BackgroundAnimation() {
             balls.forEach(ball => {
                 context.beginPath();
                 context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                context.fillStyle = 'rgba(138, 164, 196, 0.36)';
                 context.fill();
                 context.closePath();
 
@@ -60,7 +60,7 @@ export function BackgroundAnimation() {
             clearTimeout(timer);
             timer = setTimeout(() => {
                 setIsVisible(true);
-            }, 2000); // Cambiar el tiempo de espera si es necesario
+            }, 4000); // Cambiar el tiempo de espera si es necesario
         };
 
         const handleKeyDown = () => {

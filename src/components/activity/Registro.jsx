@@ -106,26 +106,26 @@ export function Register() {
 
   return (
     <>
-      <Header />
-      <div className="bg-blue-100 w-screen h-max">
-        <div className="mx-auto max-w-2xl pb-10">
-          <h1 className="font-bold text-5xl text-center py-10">¡Bienvenido(a)!</h1>
+    <Header />
+    <div className="bg-slate-300 w-screen max-h-full pb-20">
+      <div className="mx-auto max-w-2xl">
+        <h1 className="font-bold lg:text-5xl text-4xl text-center py-20">¡Bienvenido(a)!</h1>
 
           <form className="rounded-xl max-w-56 mx-auto mb-5 bg-white p-3" onSubmit={handleSubmit}>
-            {success && <p className="text-green-500 mt-2">{success}</p>}
+            {success && <p className="text-cyan-600 mt-2">{success}</p>}
 
-            {errors.email && <p className="text-red-500">{errors.email[0]}</p>}
-            {errors.cedula && <p className="text-red-500">{errors.cedula[0]}</p>}
-            {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
+            {errors.email && <p className="text-pink-700">{errors.email[0]}</p>}
+            {errors.cedula && <p className="text-pink-700">{errors.cedula[0]}</p>}
+            {errors.password_confirmation && <p className="text-pink-700">{errors.password_confirmation}</p>}
 
             <div className="mb-2">
-              <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="nombre" className="block mb-2 ml-0.5 text-sm font-medium text-gray-900">
                 Nombre de usuario
               </label>
               <input
                 type="text"
                 id="nombre"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
                 placeholder="Nombre"
                 value={formData.nombre}
                 onChange={handleChange}
@@ -134,14 +134,14 @@ export function Register() {
             </div>
 
             <div className="mb-2">
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="email" className="block mb-2 ml-0.5 text-sm font-medium text-gray-900 dark:text-white">
                 Correo electrónico
               </label>
               <input
                 type="email"
                 id="email"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="name@flowbite.com"
+                className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
+                placeholder="nombre@email.com"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -155,7 +155,7 @@ export function Register() {
               <input
                 type="text"
                 id="cedula"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
                 placeholder="Cédula"
                 value={formData.cedula}
                 onChange={handleChange}
@@ -169,14 +169,14 @@ export function Register() {
               </label>
               <select
                 id="empresa"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
                 value={formData.empresa}
                 onChange={handleChange}
                 required
               >
-                <option value="fisica">Fisica</option>
+                <option value="fisica">Física</option>
                 <option value="extranjera">Extranjera</option>
-                <option value="juridica">Juridica</option>
+                <option value="juridica">Jurídica</option>
               </select>
             </div>
 
@@ -188,10 +188,10 @@ export function Register() {
                 <input
                   type="text"
                   id="cedula_empresa"
-                  className={`shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
-                    cedulaEmpresaStatus === 'inscrito' ? 'border-green-500' : cedulaEmpresaStatus === 'no inscrito' ? 'border-red-500' : ''
+                  className={`shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5
+                    ${cedulaEmpresaStatus === 'inscrito' ? 'border-cyan-600' : cedulaEmpresaStatus === 'no inscrito' ? 'border-pink-700' : ''
                   }`}
-                  placeholder="Cédula-empresa"
+                  placeholder="Cédula de empresa"
                   value={formData.cedula_empresa}
                   onChange={handleChange}
                   required
@@ -199,13 +199,13 @@ export function Register() {
                 <button
                   type="button"
                   onClick={verificarCedulaEmpresa}
-                  className="absolute right-0 top-0 mt-1 mr-2 bg-blue-500 text-white text-xs py-1 px-2 rounded"
+                  className="absolute right-0 top-0 mt-2 font-medium mr-2 bg-sky-50 text-sky-800 hover:bg-sky-100 text-xs py-1 px-2 rounded"
                   disabled={isValidatingCedula}
                 >
                   {isValidatingCedula ? 'Validando...' : 'Validar'}
                 </button>
-                {cedulaEmpresaStatus === 'inscrito' && <span className="absolute inset-y-0 right-10 flex items-center pr-3 text-green-500">✔</span>}
-                {cedulaEmpresaStatus === 'no inscrito' && <p className="text-red-500 mt-1">La cédula no se encuentra inscrita en el sistema de Hacienda.</p>}
+                {cedulaEmpresaStatus === 'inscrito' && <span className="absolute inset-y-0 right-10 flex items-center pr-3 text-cyan-600">✔</span>}
+                {cedulaEmpresaStatus === 'no inscrito' && <p className="text-pink-700 mt-1">La cédula no se encuentra inscrita en el sistema de Hacienda.</p>}
               </div>
             </div>
 
@@ -216,7 +216,7 @@ export function Register() {
               <input
                 type="password"
                 id="password"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
                 placeholder="Contraseña"
                 value={formData.password}
                 onChange={handleChange}
@@ -231,7 +231,7 @@ export function Register() {
               <input
                 type="password"
                 id="password_confirmation"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
                 placeholder="Confirmar contraseña"
                 value={formData.password_confirmation}
                 onChange={handleChange}
@@ -245,17 +245,21 @@ export function Register() {
               </label>
               <input
                 type="file"
-                id="image"
+                id="profile_image"
+                className="shadow-sm mb-5  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                  file:py-2 file:px-4 file:-ml-2
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-sky-50 file:text-sky-800
+                  hover:file:bg-sky-100"
                 accept="image/*"
-                className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none"
                 onChange={handleChange}
               />
             </div>
 
             <button
               type="submit"
-              className="w-full text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
+              className="mt-2 w-full text-sm px-5 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200">
               Registrarse
             </button>
           </form>

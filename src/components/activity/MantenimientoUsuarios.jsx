@@ -173,14 +173,14 @@ export function MantenimientoUsuarios() {
   return (
     <>
       <Header />
-      <div className="bg-slate-300 grid grid-cols-8 w-screen h-max">
-        <div>
+      <div className="bg-slate-300 flex w-screen h-max">
+        <div className='basis-1/4'>
           <Sidebar logout={logout} />
         </div>
 
-        <div className="col-span-7 py-16">
-          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
-            <h1 className="text-2xl font-bold mb-6">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
+        <div className="col-span-7 flex py-16">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-full pt-12 -mt-7 p-6 rounded-xl mx-auto bg-white">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
             <form onSubmit={editingUsuario ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-gray-700 font-semibold">Nombre</label>
@@ -285,7 +285,7 @@ export function MantenimientoUsuarios() {
               )}
               <button
                 type="submit"
-                className="w-full mt-4 bg-blue-500 text-white p-2 rounded-md"
+                className="w-full mt-4 font-medium text-white bg-sky-900  hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 p-2 rounded-md"
               >
                 {editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}
               </button>
@@ -306,20 +306,18 @@ export function MantenimientoUsuarios() {
                 {usuarios.map(usuario => (
                   <tr key={usuario.id}>
                     <td className="border px-4 py-2">{usuario.id}</td>
-                    <td className="border px-4 py-2">{usuario.nombre}</td>
-                    <td className="border px-4 py-2">{usuario.email}</td>
-                    <td className="border px-4 py-2">{usuario.role}</td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-6 py-2">{usuario.nombre}</td>
+                    <td className="border px-6 py-2">{usuario.email}</td>
+                    <td className="border px-3 py-2">{usuario.role}</td>
+                    <td className="border px-1 py-2">
                       <button
                         onClick={() => handleEdit(usuario)}
-                        className="bg-yellow-500 text-white p-1 rounded mr-2"
-                      >
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(usuario.id)}
-                        className="bg-red-500 text-white p-1 rounded"
-                      >
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Eliminar
                       </button>
                     </td>

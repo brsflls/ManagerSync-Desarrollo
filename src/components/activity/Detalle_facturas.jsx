@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Factura } from './Factura'; // Asegúrate de importar el nuevo componente
+import { Factura } from './Factura'; 
 
-// Modal básico
 function Modal({ isVisible, onClose, children }) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+    <div className=" fixed inset-0 bg-gray-800 bg-opacity-50 flex m-5 justify-center items-center w-96">
       <div className="bg-white p-6 rounded-lg shadow-lg relative">
         <button
           className="absolute top-2 right-2 text-gray-700 font-bold"
@@ -35,35 +34,35 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className="bg-slate-300 justify-center items-center flex flex-col">
-      <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Detalle Factura</h1>
+    <div className="bg-slate-300 flex flex-col justify-center items-center place-items-center">
+      <div className="w-full py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center place-items-center">
+        <h1 className="text-2xl font-bold text-gray-800 mb-8 text-center">Detalle Factura</h1>
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Detalle Venta</h2>
+
           <div className="flex justify-between mb-4">
             <span className="text-lg font-medium text-gray-600">Cliente Seleccionado:</span>
             <span className="text-lg text-gray-800">{selectedCliente ? selectedCliente.nombre : 'Ninguno'}</span>
           </div>
           <div className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-lg font-medium text-gray-600">Subtotal:</span>
-              <span className="text-lg text-gray-800">₡{subtotal.toFixed(2)}</span>
+              <span className="text-base font-medium mr-24 text-gray-600">Subtotal:</span>
+              <span className="text-medium text-gray-800">₡{subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-lg font-medium text-gray-600">Descuento:</span>
-              <span className="text-lg text-gray-800">₡0.00</span>
+              <span className="text-base font-medium text-gray-600">Descuento:</span>
+              <span className="text-medium text-gray-800">₡0.00</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-lg font-medium text-gray-600">Venta Neta:</span>
-              <span className="text-lg text-gray-800">₡{subtotal.toFixed(2)}</span>
+              <span className="text-base font-medium text-gray-600">Venta Neta:</span>
+              <span className="text-medium text-gray-800">₡{subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-lg font-medium text-gray-600">Serv. Cliente:</span>
-              <span className="text-lg text-gray-800">₡0.00</span>
+              <span className="text-base font-medium text-gray-600">Serv. Cliente:</span>
+              <span className="text-medium text-gray-800">₡0.00</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-lg font-medium text-gray-600">Monto I.V.A.:</span>
-              <span className="text-lg text-gray-800">₡{totalIVA.toFixed(2)}</span>
+              <span className="text-base font-medium text-gray-600">Monto I.V.A.:</span>
+              <span className="text-medium text-gray-800">₡{totalIVA.toFixed(2)}</span>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between font-bold text-xl text-gray-700">
@@ -72,15 +71,15 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Botón para abrir el modal */}
+              {/* Botón para abrir el modal */}
       <button
-        className="mt-4 mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleOpenModal}
-      >
+        className="mt-6 mb-1 py-2 px-4 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-bold place-self-center"
+        onClick={handleOpenModal}>
         Facturar
       </button>
+      </div>
+
+
 
       {/* Modal que contiene el componente Factura */}
       <Modal isVisible={isModalOpen} onClose={handleCloseModal}>

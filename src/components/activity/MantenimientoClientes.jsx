@@ -111,31 +111,34 @@ export function MantenimientoClientes() {
 
   return (
     <>
-      <Header />
-      <div className="bg-slate-300  grid grid-cols-8 w-screen h-max  ">
-      <div>
-          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+      <Header/>
+      <div className="bg-slate-300  w-screen flex h-max  gap-0">
+
+      <div className="basis-1/4 mr-4 h-full">
+          <Sidebar logout={logout}/>
         </div>
 
-        <div className=" col-span-7 py-16 ">
-          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
-            <h1 className="text-2xl font-bold mb-6">Registrar Cliente</h1>
+        <div className="flex gap-6">
+            {/* Contenido principal */}
+        <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-20 bg-white rounded-lg shadow-lg" >
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Registrar clientes</h1>
+
             <form onSubmit={editingCliente ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-700 font-semibold">Nombre</label>
+                <label className="block text-gray-700 font-semibold text-base">Nombre</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   required
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold">Dirección</label>
+                <label className="block text-gray-700 font-semibold text-base">Dirección</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
                   value={direccion}
                   onChange={(e) => setDireccion(e.target.value)}
                   required
@@ -145,7 +148,7 @@ export function MantenimientoClientes() {
                 <label className="block text-gray-700 font-semibold">Teléfono</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
                   value={telefono}
                   onChange={(e) => setTelefono(e.target.value)}
                   required
@@ -155,7 +158,7 @@ export function MantenimientoClientes() {
                 <label className="block text-gray-700 font-semibold">Email</label>
                 <input
                   type="email"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -165,7 +168,7 @@ export function MantenimientoClientes() {
                 <label className="block text-gray-700 font-semibold">Cédula</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
                   value={cedula}
                   onChange={(e) => setCedula(e.target.value)}
                   required
@@ -174,8 +177,7 @@ export function MantenimientoClientes() {
               <div className="flex justify-between">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600"
-                >
+                  className="px-5 my-4 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200">
                   {editingCliente ? 'Actualizar' : 'Agregar'}
                 </button>
                 <button
@@ -188,19 +190,15 @@ export function MantenimientoClientes() {
                     setCedula('');
                     setEditingCliente(null);
                   }}
-                  className="bg-gray-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-gray-600"
-                >
+                  className="px-5 my-4 py-2.5 text-center font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                   Cancelar
                 </button>
               </div>
             </form>
           </div>
-          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto">
-
-          <h2 className="text-xl font-semibold mt-10 mb-4">Clientes Registrados</h2>
-          
-
-          <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>
+          <table className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6  mb-4 bg-white rounded-lg shadow-lg">
             <thead className="bg-gray-200 text-gray-600">
               <tr>
                 <th className="p-3 text-left">Nombre</th>
@@ -220,16 +218,16 @@ export function MantenimientoClientes() {
                   <td className="p-3">{cliente.email}</td>
                   <td className="p-3">{cliente.cedula}</td>
                   <td className="p-3">
+
                     <button
                       onClick={() => handleEdit(cliente)}
-                      className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 mr-2"
-                    >
+                      className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
                       Editar
                     </button>
+
                     <button
                       onClick={() => handleDelete(cliente.id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
+                      className="text-sm font-medium mt-2 px-4 py-1 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                       Eliminar
                     </button>
                   </td>
@@ -240,7 +238,9 @@ export function MantenimientoClientes() {
           </div>
         </div>
       </div>
-      <Footer />
+      <footer className="text-center w-full ">
+        <Footer />
+      </footer>
     </>
   );
 }

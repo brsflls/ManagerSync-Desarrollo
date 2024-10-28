@@ -127,16 +127,15 @@ export function MantenimientoProveedores() {
   return (
     <>
     <BackgroundAnimation/>
-      <Header />
-      <div className="bg-slate-300  grid grid-cols-8 w-screen h-max">
-
-      <div>
-          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+    <Header/>
+      <div className="bg-slate-300  w-screen flex h-max gap-0">
+      <div className="basis-1/4 mr-4 h-full">
+          <Sidebar logout={logout}/>
         </div>
 
-        <div className="col-span-7 py-16  p-5">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-6">Registrar Proveedor</h1>
+        <div className="flex gap-12">
+          <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-20 bg-white rounded-lg shadow-lg">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Registrar Proveedor</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-gray-700 font-semibold">Nombre del proveedor</label>
@@ -190,8 +189,7 @@ export function MantenimientoProveedores() {
               <div className="flex justify-between">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600"
-                >
+                  className="px-5 my-4 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200">
                   Agregar
                 </button>
                 <button
@@ -203,15 +201,15 @@ export function MantenimientoProveedores() {
                     setEmail('');
                     setCedulaJuridica('');
                   }}
-                  className="bg-gray-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-gray-600"
-                >
+                  className="px-5 my-4 py-2.5 text-center font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                   Cancelar
                 </button>
               </div>
             </form>
           </div>
-
-          <h2 className="text-xl font-semibold mt-10 mb-4">Proveedores Registrados</h2>
+          <div className="flex gap-9">
+        <div className="basis-2/4 w-full py-2 h-min pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Proveedores Registrados</h2>
           <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead className="bg-gray-200 text-gray-600">
               <tr>
@@ -219,7 +217,7 @@ export function MantenimientoProveedores() {
                 <th className="p-3 text-left">Dirección</th>
                 <th className="p-3 text-left">Teléfono</th>
                 <th className="p-3 text-left">Email</th>
-                <th className="p-3 text-left">Cédula Jurídica</th>
+                <th className="p-3 text-left">Cédula</th>
                 <th className="p-3 text-left">Acciones</th>
               </tr>
             </thead>
@@ -249,7 +247,8 @@ export function MantenimientoProveedores() {
               ))}
             </tbody>
           </table>
-
+          </div>
+          </div>
           {/* Modal para editar proveedor */}
           {modalVisible && (
             <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -264,7 +263,7 @@ export function MantenimientoProveedores() {
                       value={nombre}
                       onChange={(e) => setNombre(e.target.value)}
                       required
-                                       />
+                  />
                   </div>
                   <div>
                     <label className="block text-gray-700 font-semibold">Dirección</label>

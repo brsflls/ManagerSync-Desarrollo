@@ -78,13 +78,12 @@ export function Punto_venta() {
         <div>
           <Sidebar logout={logout} />
         </div>
-        <div className="col-span-5 pt-2 ps-3">
-          <div className="relative p-3 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
+        <div className="pt-2 ps-3">
+          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg">
             <div className="grid grid-cols-6">
               <button
                 onClick={handleReiniciarVenta}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full"
-              >
+                className="-mt-4 ml-3 px-1 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 w-full">
                 Nueva Venta
               </button>
             </div>
@@ -128,24 +127,21 @@ export function Punto_venta() {
                 <a
                   href="#"
                   aria-current="page"
-                  className="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active"
-                >
+                  className="inline-block p-4  active:text-blue-900 active:bg-gray-100 hover:text-gray-600 hover:bg-gray-50 rounded-t-lg active">
                   Contado
                 </a>
               </li>
               <li className="me-2">
                 <a
                   href="#"
-                  className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50"
-                >
+                  className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">
                   Crédito
                 </a>
               </li>
               <li className="me-2">
                 <a
                   href="#"
-                  className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50"
-                >
+                  className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">
                   Proforma
                 </a>
               </li>
@@ -187,8 +183,7 @@ export function Punto_venta() {
               <div className="col-span-1">
                 <button
                   onClick={handleAgregarProducto}
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
+                  className="px-4 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
                   Agregar
                 </button>
               </div>
@@ -196,7 +191,7 @@ export function Punto_venta() {
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead className="bg-gray-200 text-gray-600">
+                <thead className="bg-gray-100 text-gray-600">
                   <tr>
                     <th className="p-3 text-left">Cantidad</th>
                     <th className="p-3 text-left">Código</th>
@@ -223,7 +218,7 @@ export function Punto_venta() {
           </div>
         </div>
 
-        <div className="pt-2 pr-6 col-span-2">
+        <div className="pt-2 pr-12 basis-1/4 ml-7 mr-5 h-full col-span-2">
           <Detalle_facturas 
             subtotal={subtotal}
             totalIVA={totalIVA}

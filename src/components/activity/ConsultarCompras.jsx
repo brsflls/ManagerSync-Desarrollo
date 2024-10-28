@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../Header.jsx';  // Importamos Header
-import { Footer } from '../Footer.jsx';  // Importamos Footer
+import { Header } from '../Header.jsx'; 
+import { Footer } from '../Footer.jsx'; 
 import { Sidebar } from '../Sidebar.jsx';
 import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
 import jsPDF from "jspdf";  // Importa jsPDF para generar el PDF
@@ -9,41 +9,42 @@ import 'jspdf-autotable'; // Importa jsPDF autotable
 
 export function ConsultarCompras() {
   const navigate = useNavigate();
-  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
-  const [compras, setCompras] = useState([]); // Estado para almacenar las compras
-  const [filteredCompras, setFilteredCompras] = useState([]); // Estado para almacenar las compras filtradas
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // Estado para manejar errores
-  const [searchQuery, setSearchQuery] = useState(''); // Estado para manejar la búsqueda
+  const { logout } = useAccountManagement(); 
+  const [compras, setCompras] = useState([]); 
+  const [filteredCompras, setFilteredCompras] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [searchQuery, setSearchQuery] = useState(''); 
   const [selectedDate, setSelectedDate] = useState(''); // Estado para filtrar por fecha
   const [selectedTipoCompra, setSelectedTipoCompra] = useState(''); // Estado para filtrar por tipo de compra
-  const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar/ocultar el modal
-  const [selectedCompra, setSelectedCompra] = useState(null); // Estado para almacenar la compra seleccionada para edición
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [selectedCompra, setSelectedCompra] = useState(null); 
 
   // Función para obtener las compras desde la API
   const fetchCompras = async () => {
     try {
       const response = await fetch('http://localhost/managersyncbdf/public/api/compras/all');
-      if (!response.ok) {
-        throw new Error('Error fetching data');
-      }
-      const data = await response.json(); // Parseamos la respuesta como JSON
-      setCompras(data); // Guardamos las compras en el estado
-      setFilteredCompras(data); // Inicialmente, las compras filtradas son todas
-      setLoading(false); // Deshabilitamos el estado de carga
+        if (!response.ok) {
+          throw new Error('Error fetching data');
+        }
+
+      const data = await response.json(); 
+        setCompras(data); 
+        setFilteredCompras(data);
+        setLoading(false);
+      
     } catch (error) {
-      console.error('Error fetching compras:', error);
-      setError(error.message); // Guardamos el error en el estado
-      setLoading(false); // Deshabilitamos el estado de carga
+        console.error('Error fetching compras:', error);
+        setError(error.message); 
+        setLoading(false); 
     }
   };
 
-  // Llamar a la función para obtener las compras cuando el componente se monte
+  
   useEffect(() => {
     fetchCompras();
-  }, []);
+    }, []);
 
-  // Función para manejar el cambio en el campo de búsqueda
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     applyFilters(e.target.value, selectedDate, selectedTipoCompra);
@@ -88,12 +89,12 @@ export function ConsultarCompras() {
     setFilteredCompras(filtered);
   };
 
-  // Función para redirigir a la vista de Compras
+
   const handleRegistrarCompraManual = () => {
-    navigate('/Compras');  // Redirigir a la ruta del módulo Compras
+    navigate('/Compras'); 
   };
 
-  // Función para generar el reporte en PDF
+
   const handleReporteGeneral = () => {
     const doc = new jsPDF('landscape', 'px', 'a4'); // Cambiar a orientación horizontal
     doc.setFontSize(12);
@@ -200,7 +201,7 @@ export function ConsultarCompras() {
     doc.save(`Tiquete_Compra_${compra.id}.pdf`);
   };
 
-  // Función para eliminar una factura
+
   const handleDelete = (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta factura?')) {
       fetch(`http://localhost/managersyncbdf/public/api/compras/${id}`, {
@@ -208,7 +209,7 @@ export function ConsultarCompras() {
       })
         .then(response => {
           if (response.ok) {
-            fetchCompras(); // Refetch compras después de eliminar
+            fetchCompras(); 
           } else {
             console.error('Error al eliminar la factura', response.statusText);
           }
@@ -217,13 +218,13 @@ export function ConsultarCompras() {
     }
   };
 
-  // Función para abrir el modal de edición
+
   const handleEdit = (compra) => {
-    setSelectedCompra(compra); // Almacenar la compra seleccionada en el estado
-    setModalVisible(true); // Mostrar el modal
+    setSelectedCompra(compra); 
+    setModalVisible(true); 
   };
 
-  // Función para manejar la actualización de la compra
+
   const handleUpdate = (e) => {
     e.preventDefault();
     fetch(`http://localhost/managersyncbdf/public/api/compras/${selectedCompra.id}`, {
@@ -231,12 +232,12 @@ export function ConsultarCompras() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(selectedCompra), // Enviar los datos actualizados
+      body: JSON.stringify(selectedCompra), 
     })
       .then(response => {
         if (response.ok) {
-          fetchCompras(); // Refetch compras después de actualizar
-          setModalVisible(false); // Ocultar el modal
+          fetchCompras(); 
+          setModalVisible(false); 
         } else {
           console.error('Error al actualizar la factura', response.statusText);
         }
@@ -244,31 +245,29 @@ export function ConsultarCompras() {
       .catch(error => console.error('Error:', error));
   };
 
-  // Función para manejar los cambios en los inputs del modal
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSelectedCompra({ ...selectedCompra, [name]: value }); // Actualizar el estado de la compra seleccionada
+    setSelectedCompra({ ...selectedCompra, [name]: value }); 
   };
 
   return (
-    <div className="bg-slate-300 h-400 flex flex-col">
-      <Header /> {/* Incluimos el Header */}
-
-      <div className="flex flex-grow flex-grid">
-        {/* Sidebar */}
-        <div className="basis-1/4 md:basis-1/3 h-full">
+<>
+<Header/>
+    <div className="bg-slate-300  w-screen flex h-max  gap-0">
+      
+        <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout} />
         </div>
 
         {/* Contenido principal */}
-        <div className="basis-1/2 flex-initial md:basis-1/3 flex-grow container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
+        <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 h-min bg-white rounded-lg shadow-lg" >
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
 
           {/* Campo de búsqueda */}
           <div className="mb-4 flex space-x-4">
             <input
               type="text"
-              placeholder="Buscar por nombre o identificación"
+              placeholder="Buscar por nombre o identificación..."
               className="italic w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
               value={searchQuery}
               onChange={handleSearchChange}
@@ -294,25 +293,23 @@ export function ConsultarCompras() {
           <div className="flex mb-8 space-x-4">
             <button
               onClick={handleRegistrarCompraManual}
-              className="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-200"
-            >
+              className="text-sm font-medium mt-4 px-4 py-2 rounded-xl text-white bg-sky-900  hover:bg-indigo-900 w-full0 transition duration-200">
               Registrar Compra Manual
             </button>
             <button
-              onClick={handleReporteGeneral} // Cambia a la nueva función
-              className="bg-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 transition duration-200"
-            >
+              onClick={handleReporteGeneral}
+              className="text-sm font-medium mt-4 ml-3 px-4 py-2 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
               Reporte General
             </button>
           </div>
 
           {/* Mostrar el estado de carga o error */}
           {loading && <p className="text-center">Cargando compras...</p>}
-          {error && <p className="text-center text-red-500">Error: {error}</p>}
+          {error && <p className="text-center text-pink-700">Error: {error}</p>}
 
           {/* Mostrar mensaje si no hay compras registradas */}
           {!loading && filteredCompras.length === 0 && (
-            <p className="text-center text-gray-600 font-semibold">No hay compras registradas</p>
+            <p className="text-center m-9 text-gray-600 font-semibold">No hay compras registradas</p>
           )}
 
           {/* Tabla de compras */}
@@ -362,13 +359,13 @@ export function ConsultarCompras() {
                       <td className="py-3 px-6 text-left">
                         <button 
                           onClick={() => handleEdit(compra)} 
-                          className="text-blue-500 hover:underline mr-2"
+                          className="text-indigo-600 hover:underline mr-2"
                         >
                           Editar
                         </button>
                         <button 
                           onClick={() => handleDelete(compra.id)} 
-                          className="text-red-500 hover:underline mr-2"
+                          className="text-pink-700 hover:underline mr-2"
                         >
                           Eliminar
                         </button>
@@ -386,7 +383,7 @@ export function ConsultarCompras() {
             </div>
           )}
         </div>
-      </div>
+      
 
       {/* Modal para editar la compra */}
       {modalVisible && selectedCompra && (
@@ -523,9 +520,11 @@ export function ConsultarCompras() {
       )}
 
       {/* Footer fijo al final de la página */}
-      <footer className="bg-gray-200 py-4 text-center mt-9 w-full mt-auto">
+
+    </div>      
+    <footer className="text-center w-full ">
         <Footer />
       </footer>
-    </div>
+  </>
   );
 }

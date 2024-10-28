@@ -67,9 +67,11 @@ export function ResetPassword() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold text-center">Restablecer Contraseña</h2>
+    <>
+    <Header />
+    <div className="bg-slate-500 w-screen max-h-full pb-20">
+      <div className="mx-auto max-w-2xl">
+        <h2 className="font-bold lg:text-5xl text-4xl text-center py-20">Restablecer Contraseña</h2>
         {message && <p className="text-green-500">{message}</p>}
         {errors.password && <p className="text-red-500">{errors.password}</p>}
         {errors.server && <p className="text-red-500">{errors.server}</p>}
@@ -106,5 +108,6 @@ export function ResetPassword() {
         </form>
       </div>
     </div>
+  </>
   );
 }

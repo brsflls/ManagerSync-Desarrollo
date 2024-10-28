@@ -33,21 +33,19 @@ export function Settings() {
     <>
       <Header />
       
-      <div className="bg-slate-300 w-screen flex flex-row h-max  gap-0">
+      <div className="bg-slate-300 w-screen flex h-max  gap-0">
 
 
-        <div className='basis-1/3flex-grow flex-grid mr-4'>  
+        <div className='basis-1/4 mr-4 h-min lex-shrink-0'>  
           <Sidebar logout={logout} />
         </div>
 
+          <div className="lg:basis-2/4 flex-grow lg:flex-none py-2 pt-12 p-6 mx-auto mt-6 -ml-14 mr-14 lg:mr-0 lg:ml-5 mb-4 h-min bg-white rounded-lg shadow-lg">
+            <h1 className="font-bold lg:text-5xl lg:p-10 p-5 text-4xl lg:mt-0 -mt-6 lg:text-left text-center">Hola, {user.nombre}</h1>
+            <h2 className="font-semibold lg:indent-6 lg:text-2xl text-3xl lg:text-left text-center lg:ml-2 lg:p-2 lg:-mt-9 p-1">Rol: {user.role}</h2>
 
-        <div className="basis-1/2 py-13 pt-16 ml-1 flex-grow flex-grid" >
-          <div className="relative p-5 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
-            <h1 className="font-bold text-5xl p-10">Hola, {user.nombre}</h1>
-            <h2 className="font-semibold indent-6 text-3xl p-5">Rol: {user.role}</h2>
-
-            <div className="grid grid-cols-2 p-10">
-              <div className="relative w-32 h-32 overflow-hidden bg-gray-100 rounded-full drop-shadow">
+            <div className="lg:grid lg:grid-cols-2 lg:p-10 lg:ml-0 ml-16 lg:mt-0 mt-4">
+              <div className="relative w-32 h-32 lg:ml-14 overflow-hidden bg-gray-100 rounded-full drop-shadow">
                 {user?.profile_image ? (
                   <img
                     src={user.profile_image}
@@ -70,35 +68,34 @@ export function Settings() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 gap-2 p-4">
-                <div className="flex justify-end">
+              <div className="grid grid-cols-1 lg:gap-2 gap-4 py-4 lg:py-2">
+                <div className="flex lg:justify-end ">
                   <button
                     onClick={() => setEditMode(!editMode)}
-                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700"
-                  >
+                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 
+                    hover:bg-gray-100 hover:text-indigo-700">
                     {editMode ? 'Cancelar' : 'Editar perfil'}
                   </button>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex lg:justify-end">
                   <button
                     onClick={() => setShowConfirmDelete(true)}
-                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700"
-                  >
+                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 
+                    hover:bg-gray-100 hover:text-indigo-700">
                     Eliminar cuenta
                   </button>
                 </div>
 
-               
               </div>
               
             </div>
 
             {editMode && (
               <form onSubmit={handleUpdateProfile} className="p-10">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gray-700">Nombre</label>
+                <div className="lg:grid lg:grid-cols-2 lg:gap-4">
+                  <div className='mb-6 lg:mb-0'>
+                    <label className="block text-gray-700 mb-2">Nombre</label>
                     <input
                       type="text"
                       name="nombre"
@@ -108,8 +105,8 @@ export function Settings() {
                       required
                     />
                   </div>
-                  <div>
-                    <label className="block text-gray-700">Email</label>
+                  <div className='mb-6 lg:mb-0'>
+                    <label className="block text-gray-700 mb-2">Email</label>
                     <input
                       type="email"
                       name="email"
@@ -119,20 +116,18 @@ export function Settings() {
                       required
                     />
                   </div>
-                  <div>
-                    <label className="block text-gray-700">Cédula</label>
+                  <div className='mb-6 lg:mb-0'>
+                    <label className="block text-gray-700 mb-2">Cédula</label>
                     <input
                       type="text"
                       name="cedula"
                       value={formData.cedula}
                       onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      className="w-full p-2 border border-gray-300 rounded "
                       required
                     />
                   </div>
-                  
-                  {/* Añadir los campos de contraseña */}
-                  <div>
+                  <div className='mb-6 lg:mb-0'>
                     <label className="block text-gray-700">Contraseña actual</label>
                     <input
                       type="password"
@@ -142,7 +137,7 @@ export function Settings() {
                       className="w-full p-2 border border-gray-300 rounded"
                     />
                   </div>
-                  <div>
+                  <div className='mb-6 lg:mb-0'>
                     <label className="block text-gray-700">Nueva contraseña</label>
                     <input
                       type="password"
@@ -152,7 +147,7 @@ export function Settings() {
                       className="w-full p-2 border border-gray-300 rounded"
                     />
                   </div>
-                  <div>
+                  <div className='mb-6 lg:mb-0'>
                     <label className="block text-gray-700">Confirmar nueva contraseña</label>
                     <input
                       type="password"
@@ -164,43 +159,45 @@ export function Settings() {
                   </div>
                 
                   <div>
-                    <label className="block text-gray-700">Imagen de perfil</label>
+                    <label className="block text-gray-700 mb-2">Imagen de perfil</label>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => setProfileImage(e.target.files[0])}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      className="w-full p-2  rounded lg:ml-0 -ml-4
+                        file:lg:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                      file:bg-sky-50 file:text-sky-800
+                      hover:file:bg-sky-100"
                     />
                   </div>
                 </div>
-                {error && <p className="text-red-500">{error}</p>}
-                {success && <p className="text-green-500">{success}</p>}
-                <div className="flex justify-end mt-4">
+                {error && <p className="text-pink-700">{error}</p>}
+                {success && <p className="text-cyan-600">{success}</p>}
+                <div className="flex lg:justify-end justify-center mt-4">
                   <button
                     type="submit"
-                    className="py-2 px-4 text-white bg-blue-600 rounded"
-                  >
-                    Guardar cambios
+                    className="py-2 lg:px-4 px-10 text-white bg-sky-900 rounded-full hover:bg-indigo-900">
+                      Guardar cambios
                   </button>
                 </div>
               </form>
             )}
 
             {showConfirmDelete && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-                <div className="bg-white p-5 rounded-lg">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 lg:min-h-screen">
+                <div className="bg-white lg:p-5 px-2 py-5 rounded-lg">
                   <h3 className="text-lg">¿Estás seguro de que deseas eliminar tu cuenta?</h3>
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-end mt-4 gap-3">
                     <button
-                      className="px-4 py-2 bg-red-600 text-white rounded"
-                      onClick={() => deleteAccount(token)}
-                    >
+                      className="lg:px-4 px-6 py-2 bg-pink-700 text-white rounded-3xl"
+                      onClick={() => deleteAccount(token)}>
                       Eliminar
                     </button>
                     <button
-                      className="px-4 py-2 bg-gray-300 rounded"
-                      onClick={() => setShowConfirmDelete(false)}
-                    >
+                      className="lg:px-4 px-6 py-2 bg-gray-300 rounded-3xl"
+                      onClick={() => setShowConfirmDelete(false)}>
                       Cancelar
                     </button>
                   </div>
@@ -208,9 +205,11 @@ export function Settings() {
               </div>
             )}
           </div>
-        </div>
+        
       </div>
-      <Footer />
+      <div className="h-min">
+        <Footer />
+      </div>
     </>
   );
 }
