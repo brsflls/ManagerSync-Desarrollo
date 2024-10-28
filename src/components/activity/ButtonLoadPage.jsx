@@ -12,8 +12,11 @@ export function ButtonLoadingPage() {
   return (
     <div className="mt-5">
 
-      <motion.button className="text-2xl bg-blue-950 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg" 
-        onClick={handleClick} whileTap={{ scale: 0.85 }}>
+      <motion.button className="text-2xl bg-blue-950 hover:bg-indigo-800 text-white font-bold py-4 px-8 rounded-lg" 
+        onClick={handleClick} 
+        whileHover={{ scale: 1.2 }}   
+        onHoverStart={e => {}}
+        onHoverEnd={e => {}}>
           ¡Empieza ahora!
         </motion.button>
     </div>

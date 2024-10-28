@@ -22,7 +22,7 @@ export function ImgLoadingPage({ image }) {
       <div className='absolute inset-0 flex items-center justify-center'>
         <div className='text-center'> 
           <div>
-                <h1 className='text-7xl font-sans font-bold'> Agil. Fácil. Moderno</h1>
+                <h1 className='lg:text-7xl text-6xl font-sans font-bold'> Agil. Fácil. Moderno</h1>
           </div>
           <TextTransition className='mt-10 p-10 font-sans text-3xl flex justify-center mb-10' 
               springConfig={presets.slow}>{parrafos[index % parrafos.length]}

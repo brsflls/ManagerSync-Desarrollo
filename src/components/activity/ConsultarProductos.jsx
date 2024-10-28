@@ -104,17 +104,19 @@ export function HistorialInventario() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
-      <Header /> {/* Incluimos el Header */}
+    <>
+    <Header/>
+    <div className="bg-slate-300  w-screen flex h-max  gap-0">
       
-      <div className="flex flex-grow">
+      
+      
         {/* Sidebar */}
-        <div className="w-1/5 bg-gray-200 h-full">
+        <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout} />
         </div>
         
         {/* Contenido principal */}
-        <div className="w-4/5 flex-grow container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
+        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg ">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Historial de Inventario</h1>
 
           {/* Campo de búsqueda */}
@@ -130,7 +132,7 @@ export function HistorialInventario() {
 
           {/* Mostrar el estado de carga o error */}
           {loading && <p className="text-center">Cargando productos...</p>}
-          {error && <p className="text-center text-red-500">Error: {error}</p>}
+          {error && <p className="text-center text-pink-800">Error: {error}</p>}
 
           {/* Mostrar mensaje si no hay productos registrados */}
           {!loading && filteredProductos.length === 0 && (
@@ -170,7 +172,7 @@ export function HistorialInventario() {
                         </button>
                         <button 
                           onClick={() => handleDelete(producto.id)} 
-                          className="text-red-500 hover:underline"
+                          className="text-pink-700 hover:underline"
                         >
                           Eliminar
                         </button>
@@ -182,7 +184,7 @@ export function HistorialInventario() {
             </div>
           )}
         </div>
-      </div>
+      
 
       {/* Modal para editar el producto */}
       {modalVisible && selectedProducto && (
@@ -280,11 +282,12 @@ export function HistorialInventario() {
           </div>
         </div>
       )}
-
+    </div>
       {/* Footer fijo al final de la página */}
-      <footer className="bg-gray-200 py-4 text-center w-full mt-auto">
+      <footer className="text-center w-full mt-auto">
         <Footer />
       </footer>
-    </div>
+    
+  </>
   );
 }
