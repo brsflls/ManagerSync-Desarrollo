@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../hooks/UserContext";
-import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+import { useAccountManagement } from '../hooks/useAccountManagement';
 
 import { Header } from "../Header.jsx";
 import { Detalle_facturas } from "./Detalle_facturas.jsx";
@@ -9,8 +9,8 @@ import "../../index.css";
 import { Sidebar } from '../Sidebar.jsx';
 
 export function Punto_venta() {
-  const { user } = useUser(); // Obtener el usuario logueado
-  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
+  const { user } = useUser();
+  const { logout } = useAccountManagement();
   const [clientes, setClientes] = useState([]);
   const [productos, setProductos] = useState([]);
   const [selectedCliente, setSelectedCliente] = useState(null);
@@ -18,12 +18,10 @@ export function Punto_venta() {
   const [cantidad, setCantidad] = useState(1);
   const [carrito, setCarrito] = useState([]);
 
-  // Calcular el precio unitario promedio
   const totalPreciosUnitarios = carrito.reduce((acc, item) => acc + item.precio_consumidor, 0);
-  const precioUnitarioPromedio = totalPreciosUnitarios / (carrito.length || 1); // Asegúrate de evitar división por cero
+  const precioUnitarioPromedio = totalPreciosUnitarios / (carrito.length || 1);
 
   useEffect(() => {
-    // Función para obtener clientes
     const fetchClientes = async () => {
       try {
         const response = await fetch("http://localhost/managersyncbdf/public/api/clientes/all");
@@ -34,7 +32,6 @@ export function Punto_venta() {
       }
     };
 
-    // Función para obtener productos
     const fetchProductos = async () => {
       try {
         const response = await fetch("http://localhost/managersyncbdf/public/api/productos/all");
@@ -63,10 +60,10 @@ export function Punto_venta() {
   };
 
   const handleReiniciarVenta = () => {
-    setSelectedCliente(null); // Reiniciar cliente seleccionado
-    setSelectedProducto(null); // Reiniciar producto seleccionado
-    setCantidad(1); // Reiniciar cantidad
-    setCarrito([]); // Vaciar carrito
+    setSelectedCliente(null);
+    setSelectedProducto(null);
+    setCantidad(1);
+    setCarrito([]);
   };
 
   const subtotal = carrito.reduce((acc, item) => acc + item.total, 0);
@@ -77,14 +74,13 @@ export function Punto_venta() {
     <>
       <Header />
 
-      <div className="bg-slate-300 w-screen  h-max grid grid-cols-8 gap-3">
+      <div className="bg-slate-300 w-screen h-max grid grid-cols-8 gap-3">
         <div>
-          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+          <Sidebar logout={logout} />
         </div>
         <div className="col-span-5 pt-2 ps-3">
           <div className="relative p-3 overflow-x-auto shadow-md sm:rounded-lg max-w-6xl rounded-xl mx-auto bg-white">
             <div className="grid grid-cols-6">
-              {/* Botón para reiniciar la venta */}
               <button
                 onClick={handleReiniciarVenta}
                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full"
@@ -95,12 +91,18 @@ export function Punto_venta() {
             <div className="grid grid-cols-2 gap-4 p-3">
               <select
                 className="w-full p-2 border rounded mb-4"
-                onChange={(e) => setSelectedCliente(e.target.value)}
-                value={selectedCliente || ""}
+                onChange={(e) => {
+                  const selected = JSON.parse(e.target.value);
+                  setSelectedCliente(selected); // Guardar el objeto cliente completo
+                }}
+                value={selectedCliente ? JSON.stringify(selectedCliente) : ""}
               >
                 <option value="">Seleccionar cliente...</option>
                 {clientes.map((cliente) => (
-                  <option key={cliente.id} value={cliente.id}>
+                  <option 
+                    key={cliente.id} 
+                    value={JSON.stringify(cliente)} // Guardar el objeto completo
+                  >
                     {cliente.nombre}
                   </option>
                 ))}
@@ -108,14 +110,12 @@ export function Punto_venta() {
 
               <div>
                 <div className="flex space-x-2">
-                <button
-  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-  onClick={() => { window.location.href = '/MantenimientoClientes'; }}
->
-  Crear/Editar Cliente
-</button>
-
-                
+                  <button
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    onClick={() => { window.location.href = '/MantenimientoClientes'; }}
+                  >
+                    Crear/Editar Cliente
+                  </button>
                   <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-red-600">
                     Crear Exoneración
                   </button>
@@ -210,7 +210,7 @@ export function Punto_venta() {
                   {carrito.map((item, index) => (
                     <tr key={index} className="border-b border-gray-200">
                       <td className="p-3">{item.cantidad}</td>
-                      <td className="p-3">{item.codigo_cabys}</td> {/* Aquí se usa item.id */}
+                      <td className="p-3">{item.codigo_cabys}</td>
                       <td className="p-3">{item.descripcion}</td>
                       <td className="p-3">{(item.total * 0.13).toFixed(2)}</td>
                       <td className="p-3">{`₡${item.precio_consumidor}`}</td>
@@ -229,8 +229,8 @@ export function Punto_venta() {
             totalIVA={totalIVA}
             totalVenta={totalVenta}
             carrito={carrito}
-            selectedCliente={selectedCliente}
-            user={user} // Pasar el usuario logueado a Detalle_facturas
+            selectedCliente={selectedCliente} // Pasamos el objeto cliente completo
+            user={user} 
             precioUnitario={precioUnitarioPromedio} 
           />
         </div>

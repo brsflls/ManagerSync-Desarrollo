@@ -216,25 +216,27 @@ export function MantenimientoUsuarios() {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold">Cédula Empresa</label>
-                <input
-                  type="text"
-                  name="cedula_empresa"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  value={formData.cedula_empresa}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold">Empresa</label>
-                <input
-                  type="text"
-                  name="empresa"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  value={formData.empresa}
-                  onChange={handleChange}
-                />
-              </div>
+  <label className="block text-gray-700 font-semibold">Cédula Empresa</label>
+  <input
+    type="text"
+    name="cedula_empresa"
+    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+    value={formData.cedula_empresa}
+    readOnly
+  />
+</div>
+
+<div>
+  <label className="block text-gray-700 font-semibold">Empresa</label>
+  <input
+    type="text"
+    name="empresa"
+    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+    value={formData.empresa}
+    readOnly
+  />
+</div>
+
               <div className="mb-2">
                 <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Rol

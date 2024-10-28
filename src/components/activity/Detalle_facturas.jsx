@@ -42,7 +42,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Detalle Venta</h2>
           <div className="flex justify-between mb-4">
             <span className="text-lg font-medium text-gray-600">Cliente Seleccionado:</span>
-            <span className="text-lg text-gray-800">{selectedCliente}</span>
+            <span className="text-lg text-gray-800">{selectedCliente ? selectedCliente.nombre : 'Ninguno'}</span>
           </div>
           <div className="space-y-4">
             <div className="flex justify-between">
@@ -89,7 +89,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
           totalIVA={totalIVA}
           totalVenta={totalVenta}
           carrito={carrito}
-          selectedCliente={selectedCliente}
+          selectedCliente={selectedCliente} // Pasar el objeto cliente completo
           setFacturaId={setFacturaId}
           precioUnitario={precioUnitario} // Pasar el precio unitario
           onClose={handleCloseModal} // Pasar la función para cerrar el modal
@@ -104,6 +104,6 @@ Detalle_facturas.propTypes = {
   totalIVA: PropTypes.number.isRequired,
   totalVenta: PropTypes.number.isRequired,
   carrito: PropTypes.array.isRequired,
-  selectedCliente: PropTypes.string.isRequired,
+  selectedCliente: PropTypes.object.isRequired, // Cambiar a objeto
   precioUnitario: PropTypes.number,
 };

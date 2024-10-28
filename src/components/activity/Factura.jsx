@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useUser } from "../hooks/UserContext";
-import { PDFViewer, PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer';
+import { PDFViewer, PDFDownloadLink, Document, Page, Text, pdf } from '@react-pdf/renderer';
 
 export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedCliente, onClose }) {
   const { user } = useUser();
@@ -13,6 +13,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
   const [facturaId, setFacturaId] = useState(null);
   const [codigoUnico, setCodigoUnico] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [pdfBlob, setPdfBlob] = useState(null);
 
   // Nueva lógica de pago
   const [metodoPago, setMetodoPago] = useState('efectivo');
@@ -34,7 +35,8 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
       <Page>
         <Text style={{ marginBottom: 5 }}>Factura #{facturaId}</Text>
         <Text style={{ marginBottom: 5 }}>Código Único: {codigoUnico}</Text>
-        <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente}</Text>
+        <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente.nombre || 'Cliente no especificado'}</Text>
+        <Text style={{ marginBottom: 5 }}>Correo: {selectedCliente.email || selectedCliente.correo}</Text>
         <Text style={{ marginBottom: 5 }}>Fecha de emisión: {fechaEmision}</Text>
         <Text style={{ marginBottom: 5 }}>Fecha de vencimiento: {fechaVencimiento}</Text>
         <Text style={{ marginBottom: 5 }}>Estado: {estado}</Text>
@@ -42,6 +44,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         <Text style={{ marginBottom: 5 }}>Detalles de la factura:</Text>
         {carrito.map((item, index) => (
           <Text key={index} style={{ marginBottom: 5 }}>
+            Código cabys de producto: {item.codigo_cabys}, 
             {item.descripcion} - Cantidad: {item.cantidad}, 
             Precio Unitario: ₡{item.precio_consumidor}, 
             Total: ₡{(item.cantidad * item.precio_consumidor).toFixed(2)}
@@ -67,7 +70,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
 
     const facturaData = {
-      cliente_id: selectedCliente,
+      cliente_id: selectedCliente.id,
       usuario_id: user.id,
       fecha_emision: fechaEmision,
       fecha_vencimiento: fechaVencimiento,
@@ -118,6 +121,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
       return {
         factura_id: facturaIdParam,
         producto_id: item.id,
+        codigo_cabys: item.codigo_cabys,
         cantidad: cantidad,
         precio_unitario: precioUnitario,
         total: cantidad * precioUnitario,
@@ -171,9 +175,11 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
   };
 
+ 
   return (
     <div className="bg-blue-100 justify-center items-center flex flex-col">
-      <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow
+-lg">
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Registrar Factura</h1>
 
         {/* Formulario de datos de la factura */}
@@ -330,7 +336,6 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
                 </button>
               )}
             </PDFDownloadLink>
-
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
               onClick={() => {
@@ -352,6 +357,6 @@ Factura.propTypes = {
   totalIVA: PropTypes.number.isRequired,
   totalVenta: PropTypes.number.isRequired,
   carrito: PropTypes.array.isRequired,
-  selectedCliente: PropTypes.string.isRequired,
+  selectedCliente: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
