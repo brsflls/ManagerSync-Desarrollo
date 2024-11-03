@@ -6,6 +6,7 @@ import { useAccountManagement } from '../hooks/useAccountManagement';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { Sidebar } from '../Sidebar.jsx';
+
 import "../../index.css";
 
 export function Settings() {
@@ -33,10 +34,11 @@ export function Settings() {
     <>
       <Header />
       
+
       <div className="bg-slate-300 w-screen flex h-max  gap-0">
 
 
-        <div className='basis-1/4 mr-4 h-min lex-shrink-0'>  
+        <div className='basis-1/4 mr-4 h-min items-stretch'>  
           <Sidebar logout={logout} />
         </div>
 
@@ -186,7 +188,7 @@ export function Settings() {
             )}
 
             {showConfirmDelete && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 lg:min-h-screen">
+              <div className="overscroll-none absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 lg:min-h-screen h-max">
                 <div className="bg-white lg:p-5 px-2 py-5 rounded-lg">
                   <h3 className="text-lg">¿Estás seguro de que deseas eliminar tu cuenta?</h3>
                   <div className="flex justify-end mt-4 gap-3">

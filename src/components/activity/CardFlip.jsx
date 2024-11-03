@@ -42,9 +42,10 @@ className="flex lg:flex-row flex-col gap-32 h-screen text-center mt-24">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="white" d="M1 3h22v18H1zm2 2v1.83l9 4.55l9-4.55V5zm18 4.07l-9 4.55l-9-4.55V19h18z"/></svg>            
                 <p className="cursor-pointer text-white lg:mt-2 lg:mb-5 lg:ml-3 font-sans font-semibold lg:text-2xl leading-10 text-jus rounded-lg mt-6 text-xl text-balance lg:mx-0mx-32">
                     managersync1@gmail.com </p>
+                    
             </span>
+            
         </motion.div>
-
         <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

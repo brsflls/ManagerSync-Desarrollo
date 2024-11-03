@@ -8,15 +8,15 @@ import { Exonera } from "./Exonera_compra.jsx";
 import { ProdsServs } from "./ProdsServs.jsx";
 import { Refers } from "./Refers.jsx";
 import { Finalizar } from "./Finalizar_Compra.jsx";
-import { Inicio } from "./InicioCompras"; // Importamos el componente de Inicio
-import { useAccountManagement } from "../hooks/useAccountManagement"; // Importa el hook
+import { Inicio } from "./InicioCompras";
+import { useAccountManagement } from "../hooks/useAccountManagement"; 
 import { Sidebar } from "../Sidebar.jsx";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom"; 
 
 // Componente principal de Compras
 export function Compras() {
   // Estados para almacenar los datos de cada módulo
-  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
+  const { logout } = useAccountManagement(); 
   const [activeTab, setActiveTab] = useState("inicio");
   const [inicioData, setInicioData] = useState({});
   const [emisorData, setEmisorData] = useState({});
@@ -25,12 +25,11 @@ export function Compras() {
   const [refersData, setRefersData] = useState([]);
   const [totales, setTotales] = useState({});
 
-  // Función para cambiar la pestaña activa
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
-  // Funciones para recoger los datos de cada módulo
   const handleInicioChange = (data) => setInicioData(data);
   const handleEmisorChange = (data) => setEmisorData(data);
   const handleProdsServsChange = (data) => setProdsServsData(data);
@@ -40,75 +39,67 @@ export function Compras() {
 
   return (
     <>
-      <BackgroundAnimation />
       <Header />
-      <div className="w-screen h-max bg-slate-300 mx-auto relative grid grid-cols-8">
-        <div>
-          <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
+      <div className="bg-slate-300  w-screen flex h-max  gap-0 relative">
+      <div className="basis-1/4 mr-4 h-full">
+          <Sidebar logout={logout} />
         </div>
-        <div className="max-w-4xl mx-auto col-span-7 my-10 bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center">
-            Crear documento de Compra Manual
-          </h2>
+        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 pb-14 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg h-min">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">Crear documento de Compra Manual</h2>
+            
           <div className="tabs flex justify-between border-b-2 mb-4">
             <button
               onClick={() => handleTabClick("inicio")}
               className={`px-4 py-2 ${
                 activeTab === "inicio"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-lg border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
               Inicio
             </button>
             <button
               onClick={() => handleTabClick("emisor")}
               className={`px-4 py-2 ${
                 activeTab === "emisor"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-lg border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
               Emisor
             </button>
             <button
               onClick={() => handleTabClick("exonera")}
               className={`px-4 py-2 ${
                 activeTab === "exonera"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-lg border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
               Exonera
             </button>
             <button
               onClick={() => handleTabClick("prodsServs")}
               className={`px-4 py-2 ${
                 activeTab === "prodsServs"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-lg border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
               Prods/Servs
             </button>
             <button
               onClick={() => handleTabClick("refers")}
               className={`px-4 py-2 ${
                 activeTab === "refers"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-lg border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
               Refers
             </button>
             <button
               onClick={() => handleTabClick("finalizar")}
               className={`px-4 py-2 ${
                 activeTab === "finalizar"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-lg border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
               Finalizar
             </button>
           </div>

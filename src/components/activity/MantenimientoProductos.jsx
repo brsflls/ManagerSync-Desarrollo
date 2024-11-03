@@ -5,6 +5,8 @@ import { BackgroundAnimation } from './Background.jsx';
 import { useAccountManagement } from '../hooks/useAccountManagement';
 import { Sidebar } from '../Sidebar.jsx';
 import { CabysModal } from './CabysModal.jsx';
+import { Loading } from './Loading.jsx';
+import { div } from 'framer-motion/client';
 
 export function MantenimientoProductos() {
   const [codigoProducto, setCodigoProducto] = useState('');
@@ -202,31 +204,28 @@ export function MantenimientoProductos() {
   };
 
   if (loadingProductos || loadingCabys) {
-    return <p>Cargando datos...</p>;
+    return <div className='duration-700'> <Loading/> </div>;
   }
 
   return (
     <>
       <Header />
-      <div className="bg-slate-300 w-screen h-max grid grid-cols-8">
-        <div>
-          <Sidebar logout={logout} />
+      <div className="bg-slate-300  w-screen flex h-max gap-0 overflow-x-hidden">
+      <div className="basis-1/4 mr-4 h-full pb-96 lg:bg-slate-50">
+          <Sidebar logout={logout}/>
         </div>
-        <div className="ml-48 mx-auto ps-5 py-16 max-w-6xl">
+        <div className="flex gap-7">
           
-          {/* Botón para abrir el modal de CABYS */}
-          <div className="bg-white p-6 mb-6 rounded-lg shadow-md">
+          <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 ml-6 bg-white rounded-lg shadow-lg">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">{editingProduct ? 'Actualizar Producto' : 'Registrar Producto'}</h1>
+                      {/* Botón para abrir el modal de CABYS */}
+          <div className="bg-white p-2 mb-6 rounded-lg shadow-md">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200"
-            >
-              Seleccionar Producto CABYS
+              className="-mt-4 px-2 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 w-full font-bold transition duration-200">
+              Seleccionar CABYS
             </button>
           </div>
-
-          {/* Formulario de Registro/Actualización de Producto */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-6 text-center">{editingProduct ? 'Actualizar Producto' : 'Registrar Producto'}</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -366,73 +365,74 @@ export function MantenimientoProductos() {
                   required
                 />
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between my-6">
                 <button
                   type="submit"
-                  className={`bg-${editingProduct ? 'green' : 'blue'}-500 text-white font-semibold px-6 py-2 rounded-md shadow hover:bg-${editingProduct ? 'green' : 'blue'}-600 transition duration-200`}
-                >
+                  className={`bg-${editingProduct ? 'sky-700' : 'sky-900'}  text-sm text-center font-medium mb-3 mt-3 px-4 py-2 rounded-xl text-white shadow hover:bg-${editingProduct ? 'indigo-700' : 'indigo-900'} transition duration-200`} >
                   {editingProduct ? 'Actualizar' : 'Agregar'}
                 </button>
                 <button
                   type="button"
                   onClick={clearForm}
-                  className="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md shadow hover:bg-gray-600 transition duration-200"
-                >
+                  className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
                   Cancelar
                 </button>
               </div>
             </form>
           </div>
 
-          <h2 className="text-xl font-semibold mt-10 mb-4 text-center">Productos Registrados</h2>
-          <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <thead className="bg-gray-200 text-gray-600">
-              <tr>
-                <th className="p-3 text-left">Código CABYS</th>
-                <th className="p-3 text-left">Código de Producto</th>
-                <th className="p-3 text-left">Nombre</th>
-                <th className="p-3 text-left">Descripción</th>
-                <th className="p-3 text-left">Precio de Compra</th>
-                <th className="p-3 text-left">Precio de Consumidor</th>
-                <th className="p-3 text-left">Stock</th>
-                <th className="p-3 text-left">Unidad de Medida</th>
-                <th className="p-3 text-left">Peso por Unidad</th>
-                <th className="p-3 text-left">Categoría</th>
-                <th className="p-3 text-left">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productos.map((producto) => (
-                <tr key={producto.id} className="border-b border-gray-200">
-                  <td className="p-3">{producto.codigo_cabys}</td>
-                  <td className="p-3">{producto.codigo_producto}</td>
-                  <td className="p-3">{producto.nombre}</td>
-                  <td className="p-3">{producto.descripcion}</td>
-                  <td className="p-3">{parseFloat(producto.precio_compra).toFixed(2)}</td>
-                  <td className="p-3">{parseFloat(producto.precio_consumidor).toFixed(2)}</td>
-                  <td className="p-3">{producto.stock}</td>
-                  <td className="p-3">{producto.unidad_medida}</td>
-                  <td className="p-3">{producto.peso_por_unidad}</td>
-                  <td className="p-3">{producto.categoria}</td>
-                  <td className="p-3">
-                    <button 
-                      onClick={() => handleEdit(producto)} 
-                      className="text-blue-500 hover:underline mr-2"
-                    >
-                      Editar
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(producto.id)} 
-                      className="text-red-500 hover:underline"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="flex">
+        <div className="basis-2/4 py-2 h-min pt-12 p-5 mx-auto mt-6 ml-10 pb-12 w-9/12 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Productos Registrados</h2>
+          <div className="overflow-scroll scroll-mx-1">
 
+            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+              <thead className="bg-gray-200 text-gray-600 text-base text-justify">
+                <tr>
+                  <th className="p-3 text-left">Código CABYS</th>
+                  <th className="p-3 text-left">Código Producto</th>
+                  <th className="p-3 text-left">Nombre</th>
+                  <th className="p-3 text-left">Descripción</th>
+                  <th className="p-3 text-left">Precio Compra</th>
+                  <th className="p-3 text-left">Precio Consumidor</th>
+                  <th className="p-3 text-left">Stock</th>
+                  <th className="p-3 text-left">Unidad Medida</th>
+                  <th className="p-3 text-left">Peso Unidad</th>
+                  <th className="p-3 text-left">Categoría</th>
+                  <th className="p-3 text-left">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productos.map((producto) => (
+                  <tr key={producto.id} className="border-b border-gray-200 text-sm">
+                    <td className="p-3">{producto.codigo_cabys}</td>
+                    <td className="p-3">{producto.codigo_producto}</td>
+                    <td className="p-3">{producto.nombre}</td>
+                    <td className="p-3">{producto.descripcion}</td>
+                    <td className="p-3">{parseFloat(producto.precio_compra).toFixed(2)}</td>
+                    <td className="p-3">{parseFloat(producto.precio_consumidor).toFixed(2)}</td>
+                    <td className="p-3">{producto.stock}</td>
+                    <td className="p-3">{producto.unidad_medida}</td>
+                    <td className="p-3">{producto.peso_por_unidad}</td>
+                    <td className="p-3">{producto.categoria}</td>
+                    <td className="p-3">
+                    <button
+                        onClick={() => handleEdit(cliente)}
+                        className="text-sm text-center font-medium mt-1 px-8 mb-3 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
+                        Editar
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(cliente.id)}
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {/* Modal para mostrar la lista de CABYS */}
           <CabysModal
             isOpen={isModalOpen}
@@ -441,6 +441,8 @@ export function MantenimientoProductos() {
             onCabysSelect={handleSelectCabys}
           />
         </div>
+      </div>
+      </div>
       </div>
       <Footer />
     </>

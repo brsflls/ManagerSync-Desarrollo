@@ -58,7 +58,7 @@ export function Exonera({ onChange }) {
 
       {/* Mostrar mensaje de éxito */}
       {showSuccessMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative mb-4" role="alert">
           <strong className="font-bold">¡Datos de exoneración agregados correctamente!</strong>
         </div>
       )}
@@ -72,7 +72,7 @@ export function Exonera({ onChange }) {
               name="numeroExoneracion"
               value={formExoneraData.numeroExoneracion}
               onChange={handleExoneraChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
               required
             />
           </div>
@@ -84,7 +84,7 @@ export function Exonera({ onChange }) {
               name="fechaEmision"
               value={formExoneraData.fechaEmision}
               onChange={handleExoneraChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
               required
             />
           </div>
@@ -95,7 +95,7 @@ export function Exonera({ onChange }) {
               name="tipoExoneracion"
               value={formExoneraData.tipoExoneracion}
               onChange={handleExoneraChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             >
               <option value="Compras autorizadas">Compras autorizadas</option>
               <option value="Donaciones">Donaciones</option>
@@ -110,7 +110,7 @@ export function Exonera({ onChange }) {
               name="porcentaje"
               value={formExoneraData.porcentaje}
               onChange={handleExoneraChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             >
               <option value={0}>0%</option>
               <option value={13}>13%</option> {/* Cambiar a número */}
@@ -124,7 +124,7 @@ export function Exonera({ onChange }) {
               name="nombreInstitucion"
               value={formExoneraData.nombreInstitucion}
               onChange={handleExoneraChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
               required
             />
           </div>
@@ -132,8 +132,7 @@ export function Exonera({ onChange }) {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200 mt-4"
-        >
+          className="w-full text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-bold py-2 px-4 mt-4 transition duration-200">
           Agregar
         </button>
       </form>

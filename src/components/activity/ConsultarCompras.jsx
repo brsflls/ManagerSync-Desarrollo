@@ -253,17 +253,17 @@ export function ConsultarCompras() {
   return (
 <>
 <Header/>
-    <div className="bg-slate-300  w-screen flex h-max  gap-0">
+    <div className="bg-slate-300  w-screen flex h-max  gap-0 overscroll-x-none">
       
         <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout} />
         </div>
 
-        {/* Contenido principal */}
-        <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 h-min bg-white rounded-lg shadow-lg" >
+        
+        <div className="basis-2/4 flex-grow py-2 pt-12 p-6 mx-auto mt-6 mr-16 mb-4 h-min bg-white rounded-lg shadow-lg w-9/12" >
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
 
-          {/* Campo de búsqueda */}
+          
           <div className="mb-4 flex space-x-4">
             <input
               type="text"
@@ -359,21 +359,18 @@ export function ConsultarCompras() {
                       <td className="py-3 px-6 text-left">
                         <button 
                           onClick={() => handleEdit(compra)} 
-                          className="text-indigo-600 hover:underline mr-2"
-                        >
+                          className="text-sm text-center font-medium mt-1 px-10 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
                           Editar
                         </button>
                         <button 
                           onClick={() => handleDelete(compra.id)} 
-                          className="text-pink-700 hover:underline mr-2"
-                        >
+                          className="text-sm text-center font-medium mt-4 px-9 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
                           Eliminar
                         </button>
                         <button
                           onClick={() => handleDescargarTiquete(compra)}
-                          className="text-green-500 hover:underline"
-                        >
-                          Descargar Tiquete
+                          className="text-sm text-center font-medium mt-4 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
+                          Descargar tiquete
                         </button>
                       </td>
                     </tr>
@@ -387,17 +384,18 @@ export function ConsultarCompras() {
 
       {/* Modal para editar la compra */}
       {modalVisible && selectedCompra && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-md w-1/2 max-h-screen overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-4">Editar Compra</h2>
-            <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-4 space-y-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 ">
+          <div className="bg-white p-6 rounded-lg shadow-md w-1/2 max-h-screen  ">
+            <h2 className="text-2xl font-bold mb-7">Editar Compra</h2>
+            <div className="overflow-y-scroll overscroll-x-none scroll-mx-1 p-5 h-96">
+              <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-4 space-y-4">
               {/* Input para Condición Venta */}
               <div>
-                <label className="block text-gray-700 font-semibold">Condición Venta</label>
+                <label className="block text-gray-700 ml-0.5 font-semibold">Condición Venta</label>
                 <input
                   type="text"
                   name="condicion_venta"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.condicion_venta || ''}
                   onChange={handleInputChange}
                 />
@@ -405,11 +403,11 @@ export function ConsultarCompras() {
 
               {/* Input para Moneda */}
               <div>
-                <label className="block text-gray-700 font-semibold">Moneda</label>
-                <input
+              <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Moneda</label>
+              <input
                   type="text"
                   name="moneda"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.moneda || ''}
                   onChange={handleInputChange}
                 />
@@ -417,11 +415,11 @@ export function ConsultarCompras() {
 
               {/* Input para Tipo Identificación */}
               <div>
-                <label className="block text-gray-700 font-semibold">Tipo Identificación</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Tipo Identificación</label>
                 <input
                   type="text"
                   name="tipo_identificacion"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.tipo_identificacion || ''}
                   onChange={handleInputChange}
                 />
@@ -429,11 +427,11 @@ export function ConsultarCompras() {
 
               {/* Input para Identificación */}
               <div>
-                <label className="block text-gray-700 font-semibold">Identificación</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Identificación</label>
                 <input
                   type="text"
                   name="identificacion"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.identificacion || ''}
                   onChange={handleInputChange}
                 />
@@ -441,11 +439,11 @@ export function ConsultarCompras() {
 
               {/* Input para Nombre */}
               <div>
-                <label className="block text-gray-700 font-semibold">Nombre</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Nombre</label>
                 <input
                   type="text"
                   name="nombre"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.nombre || ''}
                   onChange={handleInputChange}
                 />
@@ -453,11 +451,11 @@ export function ConsultarCompras() {
 
               {/* Input para Tipo de Cambio */}
               <div>
-                <label className="block text-gray-700 font-semibold">Tipo Cambio</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Tipo Cambio</label>
                 <input
                   type="number"
                   name="tipo_cambio"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.tipo_cambio || ''}
                   onChange={handleInputChange}
                 />
@@ -465,11 +463,11 @@ export function ConsultarCompras() {
 
               {/* Input para Subtotal */}
               <div>
-                <label className="block text-gray-700 font-semibold">Subtotal</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Subtotal</label>
                 <input
                   type="number"
                   name="sub_total"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.sub_total || ''}
                   onChange={handleInputChange}
                 />
@@ -477,11 +475,11 @@ export function ConsultarCompras() {
 
               {/* Input para Impuestos */}
               <div>
-                <label className="block text-gray-700 font-semibold">Impuestos</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Impuestos</label>
                 <input
                   type="number"
                   name="impuestos"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.impuestos || ''}
                   onChange={handleInputChange}
                 />
@@ -489,11 +487,11 @@ export function ConsultarCompras() {
 
               {/* Input para Descuentos */}
               <div>
-                <label className="block text-gray-700 font-semibold">Descuentos</label>
+                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Descuentos</label>
                 <input
                   type="number"
                   name="descuentos"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.descuentos || ''}
                   onChange={handleInputChange}
                 />
@@ -502,19 +500,18 @@ export function ConsultarCompras() {
               <div className="col-span-2 flex justify-between mt-4">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200"
-                >
+                  className="px-5 my-4 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200">
                   Actualizar
                 </button>
                 <button
                   type="button"
                   onClick={() => setModalVisible(false)}
-                  className="bg-gray-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-gray-600 transition duration-200"
-                >
+                  className="px-5 my-4 py-2.5 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200 font-bold">
                   Cancelar
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       )}

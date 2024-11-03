@@ -3,6 +3,7 @@ import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
 import { Sidebar } from '../Sidebar.jsx';
+import { Loading } from './Loading.jsx';
 
 export function MantenimientoClientes() {
   const [nombre, setNombre] = useState('');
@@ -107,12 +108,12 @@ export function MantenimientoClientes() {
       .catch(error => console.error('Error:', error));
   };
 
-  if (loading) return <p>Cargando clientes...</p>;
+  if (loading) return <div className='duration-700'> <Loading/></div>;
 
   return (
     <>
       <Header/>
-      <div className="bg-slate-300  w-screen flex h-max  gap-0">
+      <div className="bg-slate-300  w-screen flex h-max  gap-0 overflow-x-hidden">
 
       <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout}/>
@@ -122,79 +123,80 @@ export function MantenimientoClientes() {
             {/* Contenido principal */}
         <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-20 bg-white rounded-lg shadow-lg" >
           <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Registrar clientes</h1>
-
-            <form onSubmit={editingCliente ? handleUpdate : handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 font-semibold text-base">Nombre</label>
-                <input
-                  type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
-                  value={nombre}
-                  onChange={(e) => setNombre(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold text-base">Dirección</label>
-                <input
-                  type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
-                  value={direccion}
-                  onChange={(e) => setDireccion(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold">Teléfono</label>
-                <input
-                  type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
-                  value={telefono}
-                  onChange={(e) => setTelefono(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold">Email</label>
-                <input
-                  type="email"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold">Cédula</label>
-                <input
-                  type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
-                  value={cedula}
-                  onChange={(e) => setCedula(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="flex justify-between">
-                <button
-                  type="submit"
-                  className="px-5 my-4 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200">
-                  {editingCliente ? 'Actualizar' : 'Agregar'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNombre('');
-                    setDireccion('');
-                    setTelefono('');
-                    setEmail('');
-                    setCedula('');
-                    setEditingCliente(null);
-                  }}
-                  className="px-5 my-4 py-2.5 text-center font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
-                  Cancelar
-                </button>
-              </div>
-            </form>
+            <div className="overflow-scroll scroll-mx-1">
+              <form onSubmit={editingCliente ? handleUpdate : handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-semibold text-base">Nombre</label>
+                  <input
+                    type="text"
+                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold text-base">Dirección</label>
+                  <input
+                    type="text"
+                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    value={direccion}
+                    onChange={(e) => setDireccion(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold">Teléfono</label>
+                  <input
+                    type="text"
+                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    value={telefono}
+                    onChange={(e) => setTelefono(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold">Email</label>
+                  <input
+                    type="email"
+                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold">Cédula</label>
+                  <input
+                    type="text"
+                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    value={cedula}
+                    onChange={(e) => setCedula(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex justify-between">
+                  <button
+                    type="submit"
+                    className="px-5 my-4 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200">
+                    {editingCliente ? 'Actualizar' : 'Agregar'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNombre('');
+                      setDireccion('');
+                      setTelefono('');
+                      setEmail('');
+                      setCedula('');
+                      setEditingCliente(null);
+                    }}
+                    className="px-5 my-4 py-2.5 text-center font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
           <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>

@@ -175,13 +175,12 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
   };
 
- 
   return (
-    <div className="bg-blue-100 justify-center items-center flex flex-col">
-      <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow
--lg">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Registrar Factura</h1>
+    <div className="items-center flex flex-col fixed top-16 right-80 left-72  w-auto  ">
+      <div className=" p-6 bg-white rounded-lg shadow-lg">
+        <h1 className="text-4xl font-bold text-gray-800 mb-10 mt-5 text-center">Registrar Factura</h1>
 
+<div className="overflow-y-scroll scroll-mx-1 p-5 h-96">
         {/* Formulario de datos de la factura */}
         <div className="mb-4 flex justify-between">
           <label>Tipo:</label>
@@ -189,8 +188,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
             className="border p-1 rounded"
             value={tipoFactura}
             onChange={(e) => setTipoFactura(e.target.value)}
-            required
-          >
+            required>
             <option value="venta">Venta</option>
             <option value="compra">Compra</option>
           </select>
@@ -215,24 +213,23 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
             required
           />
         </div>
-        <div className="mb-4 flex justify-between">
+        <div className="mb-6 flex justify-between">
           <label>Estado:</label>
           <select
-            className="border p-1 rounded"
+            className="border p-1 rounded "
             value={estado}
             onChange={(e) => setEstado(e.target.value)}
-            required
-          >
+            required>
             <option value="Emitida">Emitida</option>
             <option value="Pagada">Pagada</option>
             <option value="Cancelada">Cancelada</option>
           </select>
         </div>
-        <div className="mb-4 flex justify-between">
-          <label>Total:</label>
+        <div className="mb-4 flex justify-between  px-4 py-4 rounded-md">
+          <label className='font-bold text-lg'>Total:</label>
           <input
             type="text"
-            className="border p-1 rounded w-full"
+            className=" p-1 rounded w-32 text-right font-bold text-lg"
             value={`₡${totalVenta.toFixed(2)}`}
             readOnly
           />
@@ -255,10 +252,10 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         </div>
         {metodoPago === 'efectivo' ? (
           <div className="mb-4 flex justify-between">
-            <label>Cantidad Pagada:</label>
+            <label>Cantidad Pagada: </label>
             <input
               type="number"
-              className="border p-1 rounded"
+              className="border p-1 rounded w-4/12"
               value={cantidadPagada}
               onChange={(e) => {
                 const value = parseFloat(e.target.value);
@@ -295,25 +292,30 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         )}
 
         {/* Mostrar y editar las descripciones del carrito */}
+        <div className="mt-16">
         {carrito.map((item, index) => (
-          <div key={item.id} className="flex justify-between items-center mb-2">
+          <div key={item.id} className="flex justify-between items-center mb-4 overscroll-y-contain">
             <span className="text-gray-700">{item.descripcion}</span>
             <input
               type="text"
-              className="border p-1 rounded flex-grow ml-2"
+              className="border p-1 rounded px-3 ml-2 text-right"
               placeholder="Descripción"
               value={descripciones[index] || item.descripcion || ''}
               onChange={(e) => handleDescriptionChange(index, e.target.value)}
             />
           </div>
-        ))}
-
-        <div className="flex justify-between mt-4">
+        ))}</div>
+  </div>
+        <div className="flex justify-between mt-8">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleFacturar}
-          >
+            className="text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-bold py-2 px-4 "
+            onClick={handleFacturar}>
             Facturar
+          </button>
+          <button
+            className="rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200 font-bold py-2 px-4 "
+            onClick={onClose}>
+            Cancelar
           </button>
         </div>
       </div>
@@ -331,18 +333,17 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
 
             <PDFDownloadLink document={<FacturaPDF />} fileName={`factura_${facturaId}.pdf`}>
               {({ loading }) => (
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
+                <button className="mt-4 mr-3 px-2 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
                   {loading ? 'Generando PDF...' : 'Guardar PDF'}
                 </button>
               )}
             </PDFDownloadLink>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+              className="mt-4 mr-3 px-2 py-2 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800"
               onClick={() => {
                 setShowModal(false);
                 onClose();
-              }}
-            >
+              }}>
               Cerrar
             </button>
           </div>

@@ -3,7 +3,8 @@ import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { useAccountManagement } from '../hooks/useAccountManagement.js';
 import { Sidebar } from '../Sidebar.jsx';
-import { useUser } from '../hooks/UserContext'; // Importar el contexto de usuario
+import { useUser } from '../hooks/UserContext';
+import { Loading } from './Loading.jsx';
 
 export function MantenimientoUsuarios() {
   const { token, user } = useUser(); // Obtener el token y la información del usuario del contexto
@@ -168,19 +169,19 @@ export function MantenimientoUsuarios() {
   };
 
   // Mostrar cargando mientras se obtienen usuarios
-  if (loading) return <p>Cargando usuarios...</p>;
+  if (loading) return <Loading/>;
 
   return (
     <>
-      <Header />
-      <div className="bg-slate-300 flex w-screen h-max">
-        <div className='basis-1/4'>
-          <Sidebar logout={logout} />
+    <Header/>
+      <div className="bg-slate-300  w-screen flex h-max gap-0">
+      <div className="basis-1/4 mr-4 h-full">
+          <Sidebar logout={logout}/>
         </div>
 
-        <div className="col-span-7 flex py-16">
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-full pt-12 -mt-7 p-6 rounded-xl mx-auto bg-white">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
+        <div className="flex gap-12">
+        <div className="py-2  h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-12 mr-9 bg-white rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
             <form onSubmit={editingUsuario ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-gray-700 font-semibold">Nombre</label>
@@ -247,8 +248,7 @@ export function MantenimientoUsuarios() {
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   value={formData.role}
                   onChange={handleChange}
-                  required
-                >
+                  required>
                   <option value="">Seleccione un rol</option> {/* Opción para seleccionar un rol */}
                   <option value="admin">Administrador</option>
                   <option value="contador">Contador</option>
@@ -279,7 +279,7 @@ export function MantenimientoUsuarios() {
                       onChange={handleChange}
                       required
                     />
-                    {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
+                    {errors.password_confirmation && <p className="text-pink-700">{errors.password_confirmation}</p>}
                   </div>
                 </>
               )}
@@ -290,10 +290,14 @@ export function MantenimientoUsuarios() {
                 {editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}
               </button>
             </form>
+            </div>
+            </div>
 
-            <h2 className="text-xl font-bold mt-8">Usuarios Registrados</h2>
-            <table className="min-w-full mt-4">
-              <thead>
+            <div className="flex gap-16">
+        <div className="flex-shrink-0 gap-4 mr-10 w-full py-2 h-min pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Usuarios Registrados</h2>
+            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+              <thead className='bg-gray-200 text-gray-600'>
                 <tr>
                   <th className="border px-4 py-2">ID</th>
                   <th className="border px-4 py-2">Nombre</th>
@@ -309,15 +313,15 @@ export function MantenimientoUsuarios() {
                     <td className="border px-6 py-2">{usuario.nombre}</td>
                     <td className="border px-6 py-2">{usuario.email}</td>
                     <td className="border px-3 py-2">{usuario.role}</td>
-                    <td className="border px-1 py-2">
+                    <td className="border pr-1 py-2 pl-4 ml-2">
                       <button
                         onClick={() => handleEdit(usuario)}
-                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 pl-4 mr-3 ml-1 gap-2 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(usuario.id)}
-                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl gap-2 bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Eliminar
                       </button>
                     </td>
@@ -327,6 +331,7 @@ export function MantenimientoUsuarios() {
             </table>
           </div>
         </div>
+      
       </div>
       <Footer />
     </>

@@ -54,7 +54,7 @@ export function Inicio({ onChange }) {
 
       {/* Mostrar mensaje de éxito */}
       {showSuccessMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative mb-4" role="alert">
           <strong className="font-bold">¡Datos de inicio agregados correctamente!</strong>
         </div>
       )}
@@ -66,12 +66,12 @@ export function Inicio({ onChange }) {
             name="condicionVenta"
             value={formInicioData.condicionVenta}
             onChange={handleInicioChange}
-            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.condicionVenta ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.condicionVenta ? 'border-pink-700' : 'border-gray-300'} focus:border-sky-600`}
           >
             <option value="contado">Contado</option>
             <option value="credito">Crédito</option>
           </select>
-          {errors.condicionVenta && <p className="text-red-500 text-sm">{errors.condicionVenta}</p>}
+          {errors.condicionVenta && <p className="text-pink-700 text-sm">{errors.condicionVenta}</p>}
         </div>
 
         <div className="mb-4">
@@ -80,12 +80,12 @@ export function Inicio({ onChange }) {
             name="moneda"
             value={formInicioData.moneda}
             onChange={handleInicioChange}
-            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.moneda ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.moneda ? 'border-pink-700' : 'border-gray-300'} focus:border-sky-600`}
           >
             <option value="colones">₡ Colones</option>
             <option value="dolares">$ Dólares</option>
           </select>
-          {errors.moneda && <p className="text-red-500 text-sm">{errors.moneda}</p>}
+          {errors.moneda && <p className="text-pink-700 text-sm">{errors.moneda}</p>}
         </div>
 
         <div className="mb-4">
@@ -95,9 +95,9 @@ export function Inicio({ onChange }) {
             name="plazo"
             value={formInicioData.plazo}
             onChange={handleInicioChange}
-            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.plazo ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.plazo ? 'border-pink-700' : 'border-gray-300'} focus:border-sky-600`}
           />
-          {errors.plazo && <p className="text-red-500 text-sm">{errors.plazo}</p>}
+          {errors.plazo && <p className="text-pink-700 text-sm">{errors.plazo}</p>}
         </div>
 
         <div className="mb-4">
@@ -107,9 +107,9 @@ export function Inicio({ onChange }) {
             name="tipoCambio"
             value={formInicioData.tipoCambio}
             onChange={handleInicioChange}
-            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.tipoCambio ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.tipoCambio ? 'border-pink-700' : 'border-gray-300'} focus:border-sky-600`}
           />
-          {errors.tipoCambio && <p className="text-red-500 text-sm">{errors.tipoCambio}</p>}
+          {errors.tipoCambio && <p className="text-pink-700 text-sm">{errors.tipoCambio}</p>}
         </div>
 
         <div className="mb-4">
@@ -119,9 +119,9 @@ export function Inicio({ onChange }) {
             name="observacion"
             value={formInicioData.observacion}
             onChange={handleInicioChange}
-            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.observacion ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.observacion ? 'border-pink-700' : 'border-gray-300'} focus:border-sky-600`}
           />
-          {errors.observacion && <p className="text-red-500 text-sm">{errors.observacion}</p>}
+          {errors.observacion && <p className="text-pink-700 text-sm">{errors.observacion}</p>}
         </div>
 
         <div className="mb-4">
@@ -130,18 +130,17 @@ export function Inicio({ onChange }) {
             name="tipoCompra"
             value={formInicioData.tipoCompra}
             onChange={handleInicioChange}
-            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.tipoCompra ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+            className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.tipoCompra ? 'border-pink-700' : 'border-gray-300'} focus:border-sky-600`}
           >
             <option value="deducible">Compra Deducible</option>
             <option value="no_deducible">Compra No Deducible</option>
           </select>
-          {errors.tipoCompra && <p className="text-red-500 text-sm">{errors.tipoCompra}</p>}
+          {errors.tipoCompra && <p className="text-pink-700 text-sm">{errors.tipoCompra}</p>}
         </div>
 
         <button
           onClick={handleAgregar}
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
-        >
+          className="w-full text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-bold py-2 px-4 mt-4 transition duration-200">
           Agregar
         </button>
       </form>

@@ -25,13 +25,13 @@ export function Reporte_general() {
                     Cliente
                 </th>
                 <th scope="col" className="px-6 py-3">
-                Identificación
+                    Identificación
                 </th>
                 <th scope="col" className="px-6 py-3">
-                Fecha
+                    Fecha
                 </th>
                 <th scope="col" className="px-6 py-3">
-                Cantidad
+                    Cantidad
                 </th>
                 <th scope="col" className="px-6 py-3">
                     Estado
