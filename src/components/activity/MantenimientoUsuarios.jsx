@@ -169,18 +169,18 @@ export function MantenimientoUsuarios() {
   };
 
   // Mostrar cargando mientras se obtienen usuarios
-  if (loading) return <Loading/>;
+  if (loading) return <div className='duration-700'> <Loading/></div>;
 
   return (
     <>
     <Header/>
-      <div className="bg-slate-300  w-screen flex h-max gap-0">
-      <div className="basis-1/4 mr-4 h-full">
+      <div className="bg-slate-300  w-screen flex h-max gap-0 overflow-x-hidden">
+      <div className="basis-1/4 mr-4 h-full ">
           <Sidebar logout={logout}/>
         </div>
 
-        <div className="flex gap-12">
-        <div className="py-2  h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-12 mr-9 bg-white rounded-lg shadow-lg">
+        <div className="lg:flex lg:gap-6 gap-12">
+        <div className="lg:w-6/12 w-3/6 h-min pt-12 p-6 mx-auto mt-6 mb-4 -ml-10 mr-9 bg-white rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
             <form onSubmit={editingUsuario ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
@@ -188,7 +188,7 @@ export function MantenimientoUsuarios() {
                 <input
                   type="text"
                   name="nombre"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={formData.nombre}
                   onChange={handleChange}
                   required
@@ -199,7 +199,7 @@ export function MantenimientoUsuarios() {
                 <input
                   type="email"
                   name="email"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -210,7 +210,7 @@ export function MantenimientoUsuarios() {
                 <input
                   type="text"
                   name="cedula"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={formData.cedula}
                   onChange={handleChange}
                   required
@@ -221,7 +221,7 @@ export function MantenimientoUsuarios() {
   <input
     type="text"
     name="cedula_empresa"
-    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+    className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
     value={formData.cedula_empresa}
     readOnly
   />
@@ -232,7 +232,7 @@ export function MantenimientoUsuarios() {
   <input
     type="text"
     name="empresa"
-    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+    className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
     value={formData.empresa}
     readOnly
   />
@@ -245,7 +245,7 @@ export function MantenimientoUsuarios() {
                 <select
                   id="role"
                   name="role" // Asegúrate de incluir el atributo name
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 block w-full p-2.5"
                   value={formData.role}
                   onChange={handleChange}
                   required>
@@ -263,7 +263,7 @@ export function MantenimientoUsuarios() {
                     <input
                       type="password"
                       name="password"
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={formData.password}
                       onChange={handleChange}
                       required
@@ -274,7 +274,7 @@ export function MantenimientoUsuarios() {
                     <input
                       type="password"
                       name="password_confirmation"
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={formData.password_confirmation}
                       onChange={handleChange}
                       required
@@ -285,17 +285,16 @@ export function MantenimientoUsuarios() {
               )}
               <button
                 type="submit"
-                className="w-full mt-4 font-medium text-white bg-sky-900  hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 p-2 rounded-md"
+                className="w-full mt-4 font-medium text-white bg-sky-900  hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 p-2 rounded-md shadow-sm "
               >
                 {editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}
               </button>
             </form>
             </div>
-            </div>
-
-            <div className="flex gap-16">
-        <div className="flex-shrink-0 gap-4 mr-10 w-full py-2 h-min pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
+    
+        <div className="lg:basis-2/4 lg:gap-4 lg:mr-10 lg:w-full w-3/6 py-2 mb-4 h-min lg:ml-0 -ml-10 pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Usuarios Registrados</h2>
+          <div className="overflow-x-scroll">
             <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
               <thead className='bg-gray-200 text-gray-600'>
                 <tr>
@@ -316,7 +315,7 @@ export function MantenimientoUsuarios() {
                     <td className="border pr-1 py-2 pl-4 ml-2">
                       <button
                         onClick={() => handleEdit(usuario)}
-                        className="text-sm text-center font-medium mt-1 px-6 py-1 pl-4 mr-3 ml-1 gap-2 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        className="text-sm text-center font-medium mt-1 lg:px-7 px-8  py-1 mr-3 lg:ml-1 gap-2 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Editar
                       </button>
                       <button
@@ -329,6 +328,7 @@ export function MantenimientoUsuarios() {
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
         </div>
       

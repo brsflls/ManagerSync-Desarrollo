@@ -44,10 +44,10 @@ export function Compras() {
       <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout} />
         </div>
-        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 pb-14 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg h-min">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Crear documento de Compra Manual</h2>
+        <div className="lg:basis-2/4 py-2 pt-12 mx-auto p-6 pb-14 mt-6 lg:w-full w-9/12 lg:ml-5 -ml-12 mb-4 bg-white rounded-lg shadow-lg h-min">
+          <h2 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-6">Crear documento de Compra Manual</h2>
             
-          <div className="tabs flex justify-between border-b-2 mb-4">
+          <div className="tabs lg:flex justify-between border-b-2 lg:mb-4 mb-6">
             <button
               onClick={() => handleTabClick("inicio")}
               className={`px-4 py-2 ${

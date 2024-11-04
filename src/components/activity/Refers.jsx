@@ -135,9 +135,9 @@ export function Refers({ onChange }) {
       {referencias.length > 0 && (
         <div className="mt-6">
           <h4 className="text-lg font-bold mb-4">Referencias Agregadas</h4>
-          <table className="table-auto w-full border-collapse border border-gray-300">
+          <table className="lg:table-auto lg:table-cell table-caption lg:w-full w-6/12 border-collapse border border-gray-300 lg:overscroll-x-none overflow-x-scroll">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-gray-100 ">
                 <th className="border border-gray-300 px-4 py-2">Tipo Documento</th>
                 <th className="border border-gray-300 px-4 py-2">Número Documento</th>
                 <th className="border border-gray-300 px-4 py-2">Fecha Documento</th>

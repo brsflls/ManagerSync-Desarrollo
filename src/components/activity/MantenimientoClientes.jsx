@@ -119,17 +119,17 @@ export function MantenimientoClientes() {
           <Sidebar logout={logout}/>
         </div>
 
-        <div className="flex gap-6">
+        <div className="lg:flex gap-6">
             {/* Contenido principal */}
-        <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-20 bg-white rounded-lg shadow-lg" >
+        <div className="basis-2/4 lg:w-96 w-3/6 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 lg:-ml-20 -ml-12 bg-white rounded-lg shadow-lg" >
           <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Registrar clientes</h1>
-            <div className="overflow-scroll scroll-mx-1">
+            <div className="">
               <form onSubmit={editingCliente ? handleUpdate : handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-gray-700 font-semibold text-base">Nombre</label>
                   <input
                     type="text"
-                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    className="w-full mt-1 p-2 border  border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 mb-0.5 "
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
                     required
@@ -139,7 +139,7 @@ export function MantenimientoClientes() {
                   <label className="block text-gray-700 font-semibold text-base">Dirección</label>
                   <input
                     type="text"
-                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    className="w-full mt-1 p-2 border  border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 mb-0.5 "
                     value={direccion}
                     onChange={(e) => setDireccion(e.target.value)}
                     required
@@ -149,7 +149,7 @@ export function MantenimientoClientes() {
                   <label className="block text-gray-700 font-semibold">Teléfono</label>
                   <input
                     type="text"
-                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    className="w-full mt-1 p-2 border  border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 mb-0.5 "
                     value={telefono}
                     onChange={(e) => setTelefono(e.target.value)}
                     required
@@ -159,7 +159,7 @@ export function MantenimientoClientes() {
                   <label className="block text-gray-700 font-semibold">Email</label>
                   <input
                     type="email"
-                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    className="w-full mt-1 p-2 border  border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 mb-0.5 "
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -169,7 +169,7 @@ export function MantenimientoClientes() {
                   <label className="block text-gray-700 font-semibold">Cédula</label>
                   <input
                     type="text"
-                    className="w-full mt-1 p-2 border border-gray-300 rounded-md mb-0.5"
+                    className="w-full mt-1 p-2 border  border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 mb-0.5 "
                     value={cedula}
                     onChange={(e) => setCedula(e.target.value)}
                     required
@@ -198,11 +198,12 @@ export function MantenimientoClientes() {
               </form>
             </div>
           </div>
-          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 bg-white rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>
-          <table className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6  mb-4 bg-white rounded-lg shadow-lg">
-            <thead className="bg-gray-200 text-gray-600">
-              <tr>
+          <div className="lg:basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 lg:ml-0 -ml-12 w-3/6 lg:w-full  bg-white rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>
+            <div className="overflow-x-scroll">
+          <table className="lg:basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 lg:ml-0 ml-1 lg:mr-0 mr-1 mb-4 bg-white rounded-lg shadow-lg overflow-x-scroll lg:w-full w-3/6">
+          <thead className="bg-gray-100 text-gray-600 uppercase text-sm text-center rounded-xl">
+          <tr>
                 <th className="p-3 text-left">Nombre</th>
                 <th className="p-3 text-left">Dirección</th>
                 <th className="p-3 text-left">Teléfono</th>
@@ -237,6 +238,7 @@ export function MantenimientoClientes() {
               ))}
             </tbody>
           </table>
+          </div>
           </div>
         </div>
       </div>

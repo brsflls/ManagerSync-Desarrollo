@@ -105,7 +105,7 @@ export function Emisor({ onChange }) {
 
       {/* Mostrar mensaje de éxito */}
       {showSuccessMessage && (
-        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative lg:mb-4 mb-10" role="alert">
           <strong className="font-bold">¡Datos del emisor agregados correctamente!</strong>
         </div>
       )}
@@ -127,7 +127,7 @@ export function Emisor({ onChange }) {
 
           {/* Tipo de Identificación */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2">Tipo Identificación:</label>
+            <label className="block text-gray-700 font-bold mb-2 lg:mt-0 -mt-6">Tipo Identificación:</label>
             <select
               name="tipoIdentificacion"
               value={formEmisorData.tipoIdentificacion}

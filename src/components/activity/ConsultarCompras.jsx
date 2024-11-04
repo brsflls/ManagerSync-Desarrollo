@@ -260,11 +260,11 @@ export function ConsultarCompras() {
         </div>
 
         
-        <div className="basis-2/4 flex-grow py-2 pt-12 p-6 mx-auto mt-6 mr-16 mb-4 h-min bg-white rounded-lg shadow-lg w-9/12" >
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
+        <div className="lg:basis-2/4 flex-grow py-2 pt-12 p-6 mx-auto mt-6 lg:ml-0 -ml-10 mr-16 mb-4 h-min bg-white rounded-lg shadow-lg w-9/12" >
+          <h1 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
 
           
-          <div className="mb-4 flex space-x-4">
+          <div className="mb-4 lg:space-y-0 space-y-4 lg:flex lg:space-x-4">
             <input
               type="text"
               placeholder="Buscar por nombre o identificación..."
@@ -299,7 +299,7 @@ export function ConsultarCompras() {
             <button
               onClick={handleReporteGeneral}
               className="text-sm font-medium mt-4 ml-3 px-4 py-2 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
-              Reporte General
+              Generar reporte
             </button>
           </div>
 
@@ -314,9 +314,9 @@ export function ConsultarCompras() {
 
           {/* Tabla de compras */}
           {!loading && filteredCompras.length > 0 && (
-            <div className="overflow-x-auto shadow-md rounded-lg">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+            <div className="relative overflow-x-auto shadow-md rounded-lg">
+              <table className="min-w-full bg-white shadow-md rounded-lg lg:ml-0 ml-3 lg:mr-0 mr-3 lg:mb-0 mb-7 overflow-hidden">
+              <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                   <tr>
                     <th className="py-3 px-6 text-left border-b">ID Factura</th>
                     <th className="py-3 px-6 text-left border-b">Condición Venta</th>
@@ -384,11 +384,11 @@ export function ConsultarCompras() {
 
       {/* Modal para editar la compra */}
       {modalVisible && selectedCompra && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 ">
-          <div className="bg-white p-6 rounded-lg shadow-md w-1/2 max-h-screen  ">
+        <div className="fixed inset-0 lg:flex items-center justify-center bg-gray-800 bg-opacity-50 ">
+          <div className="bg-white p-6 rounded-lg shadow-md lg:w-1/2 w-80 max-h-screen lg:mt-0 mt-10 lg:ml-0 ml-6 lg:mr-0">
             <h2 className="text-2xl font-bold mb-7">Editar Compra</h2>
             <div className="overflow-y-scroll overscroll-x-none scroll-mx-1 p-5 h-96">
-              <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-4 space-y-4">
+              <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-4 lg:space-y-4 space-y-2">
               {/* Input para Condición Venta */}
               <div>
                 <label className="block text-gray-700 ml-0.5 font-semibold">Condición Venta</label>
@@ -403,7 +403,7 @@ export function ConsultarCompras() {
 
               {/* Input para Moneda */}
               <div>
-              <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Moneda</label>
+              <label className="block text-gray-700 ml-0.5 lg:-mt-4 mt-4 font-semibold">Moneda</label>
               <input
                   type="text"
                   name="moneda"
@@ -415,7 +415,7 @@ export function ConsultarCompras() {
 
               {/* Input para Tipo Identificación */}
               <div>
-                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Tipo Identificación</label>
+                <label className="block text-gray-700 ml-0.5 lg:-mt-4 font-semibold">Tipo Identificación</label>
                 <input
                   type="text"
                   name="tipo_identificacion"
@@ -427,11 +427,11 @@ export function ConsultarCompras() {
 
               {/* Input para Identificación */}
               <div>
-                <label className="block text-gray-700 ml-0.5 -mt-4 font-semibold">Identificación</label>
+                <label className="block text-gray-700 ml-0.5 lg:-mt-4 mt-6 font-semibold">Identificación</label>
                 <input
                   type="text"
                   name="identificacion"
-                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
+                  className="w-full ml-0.5 mt-2 p-3 lg:mb-0 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.identificacion || ''}
                   onChange={handleInputChange}
                 />
@@ -455,7 +455,7 @@ export function ConsultarCompras() {
                 <input
                   type="number"
                   name="tipo_cambio"
-                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
+                  className="w-full ml-0.5 mt-2 p-3 lg:mb-0 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.tipo_cambio || ''}
                   onChange={handleInputChange}
                 />
@@ -479,7 +479,7 @@ export function ConsultarCompras() {
                 <input
                   type="number"
                   name="impuestos"
-                  className="w-full ml-0.5 mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
+                  className="w-full ml-0.5 mt-2 p-3 lg:mb-0 mb-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedCompra.impuestos || ''}
                   onChange={handleInputChange}
                 />

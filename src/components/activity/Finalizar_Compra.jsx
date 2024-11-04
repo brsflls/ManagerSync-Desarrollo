@@ -116,38 +116,38 @@ export const Finalizar = ({
   };
 
   return (
-    <div className="p-6">
+    <div className="p-2">
       <h3 className="text-xl font-bold mb-6">Finalizar Documento</h3>
-        <div className="flex grid-cols-1 align-top gap-32  px-6 py-6">
+        <div className="lg:flex lg:grid-cols-2 lg:ml-0 -ml-8 justify-evenly align-top gap-44 px-16 py-6">
           <div>
             <h4 className="text-lg font-bold mb-4">Datos de Inicio:</h4>
-            <p className='mb-1'>Condición de Venta: {inicioData?.condicionVenta}</p>
-            <p className='mb-1'>Moneda: {inicioData?.moneda}</p>
-            <p className='mb-1'>Plazo: {inicioData?.plazo}</p>
-            <p className='mb-1'>Tipo de Cambio: {inicioData?.tipoCambio}</p>
-            <p className='mb-1'>Observación: {inicioData?.observacion}</p>
-            <p className='mb-1'>Tipo de Compra: {inicioData?.tipoCompra}</p>
+            <p className='lg:lg:mb-1 mb-4 mb-'>Condición de Venta: {inicioData?.condicionVenta}</p>
+            <p className='lg:mb-1 mb-4'>Moneda: {inicioData?.moneda}</p>
+            <p className='lg:mb-1 mb-4'>Plazo: {inicioData?.plazo}</p>
+            <p className='lg:mb-1 mb-4'>Tipo de Cambio: {inicioData?.tipoCambio}</p>
+            <p className='lg:mb-1 mb-4'>Observación: {inicioData?.observacion}</p>
+            <p className='lg:lg:mb-1 mb-4'>Tipo de Compra: {inicioData?.tipoCompra}</p>
           </div>
           <div>
             <h4 className="text-lg font-bold mb-4">Datos del Emisor:</h4>
-            <p className='mb-1'>Identificación: {emisorData?.identificacion}</p>
-            <p className='mb-1'>Nombre: {emisorData?.nombre}</p>
-            <p className='mb-1'>Teléfono: {emisorData?.telefono}</p>
-            <p className='mb-1'>Correo Electrónico: {emisorData?.correoElectronico}</p>
-            <p className='mb-1'>Provincia: {emisorData?.provincia}</p>
-            <p className='mb-1'>Cantón: {emisorData?.canton}</p>
-            <p className='mb-1'>Distrito: {emisorData?.distrito}</p>
-            <p className='mb-1'>Barrio: {emisorData?.barrio}</p>
+            <p className='lg:mb-1 mb-4'>Identificación: {emisorData?.identificacion}</p>
+            <p className='lg:mb-1 mb-4'>Nombre: {emisorData?.nombre}</p>
+            <p className='lg:mb-1 mb-4'>Teléfono: {emisorData?.telefono}</p>
+            <p className='lg:mb-1 mb-4'>Correo Electrónico: {emisorData?.correoElectronico}</p>
+            <p className='lg:mb-1 mb-4'>Provincia: {emisorData?.provincia}</p>
+            <p className='lg:mb-1 mb-4'>Cantón: {emisorData?.canton}</p>
+            <p className='lg:mb-1 mb-4'>Distrito: {emisorData?.distrito}</p>
+            <p className='lg:lg:mb-1 mb-4'>Barrio: {emisorData?.barrio}</p>
           </div></div> {/* grid cols*/}
           
-      <div className="flex grid-cols-1 align-top gap-40  px-6 py-6">
+      <div className="lg:flex lg:grid-cols-2 lg:ml-0 -ml-8  justify-evenly align-top gap-44  px-16 py-6">
 
           <div>
             <h4 className="text-lg font-bold mb-4">Productos/Servicios:</h4>
             {prodsServsData?.length > 0 ? (
               <ul>
                 {prodsServsData.map((prod, index) => (
-                  <li key={index} className='mb-1'>
+                  <li key={index} className='lg:lg:mb-1 mb-4'>
                     {prod.descripcion} - {prod.cantidad} x {prod.precioBruto}
                   </li>
                 ))}
@@ -159,11 +159,11 @@ export const Finalizar = ({
       
       <div>
         <h4 className="text-lg font-bold mb-4">Exoneración:</h4>
-        <p className='mb-1'>Número Doc. Exoneración: {exoneraData?.numeroExoneracion}</p>
-        <p className='mb-1'>Fecha de Emisión: {exoneraData?.fechaEmision}</p>
-        <p className='mb-1'>Tipo de Exoneración: {exoneraData?.tipoExoneracion}</p>
-        <p className='mb-1'>Porcentaje: {exoneraData?.porcentaje}%</p>
-        <p className='mb-1'>Nombre Institución: {exoneraData?.nombreInstitucion}</p>
+        <p className='lg:mb-1 mb-4'>Número Doc. Exoneración: {exoneraData?.numeroExoneracion}</p>
+        <p className='lg:mb-1 mb-4'>Fecha de Emisión: {exoneraData?.fechaEmision}</p>
+        <p className='lg:mb-1 mb-4'>Tipo de Exoneración: {exoneraData?.tipoExoneracion}</p>
+        <p className='lg:mb-1 mb-4'>Porcentaje: {exoneraData?.porcentaje}%</p>
+        <p className='lg:lg:mb-1 mb-4'>Nombre Institución: {exoneraData?.nombreInstitucion}</p>
       </div></div> {/* grid cols*/}
       <div>
         <h4 className="text-lg font-bold mb-4 mt-6">Referencias:</h4>
@@ -188,7 +188,7 @@ export const Finalizar = ({
           type="file"
           accept="image/jpeg, application/pdf"
           onChange={handleFileChange}
-          className="shadow-sm mb-5  text-gray-900 text-base  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+          className="shadow-sm lg:mb-5 mb-8 text-gray-900 text-base  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                   file:py-2 file:px-4 file:-ml-2 file:mr-6
                   file:rounded-full file:border-0
                   file:text-sm file:font-semibold
@@ -260,8 +260,8 @@ export const Finalizar = ({
 
   
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-slate-950 bg-opacity-30">
-          <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+        <div className="fixed inset-0 lg:flex items-center justify-center z-50 bg-slate-950 bg-opacity-30">
+          <div className="bg-white rounded-lg shadow-lg p-6 lg:mt-0 mt-6 lg:ml-0 ml-20 lg:max-w-sm w-2/6 mx-auto">
             <h3 className="text-xl font-semibold mb-4 text-center">
               ¡Factura registrada con éxito!
             </h3>

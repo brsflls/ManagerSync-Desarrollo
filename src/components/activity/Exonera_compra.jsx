@@ -105,7 +105,7 @@ export function Exonera({ onChange }) {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-bold mb-2">Porcentaje:</label>
+            <label className="block text-gray-700 font-bold mb-2 lg:mt-0 mt-6">Porcentaje:</label>
             <select
               name="porcentaje"
               value={formExoneraData.porcentaje}

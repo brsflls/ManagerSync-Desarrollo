@@ -113,14 +113,14 @@ export function HistorialInventario() {
           <Sidebar logout={logout} />
         </div>
         
-        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 pb-14 mt-6 ml-2 mb-4 bg-white rounded-lg shadow-lg h-min">
+        <div className="lg:basis-2/4 lg:w-auto w-10/12 py-2 pt-12 mx-auto p-6 pb-14 mt-6 lg:ml-2 -ml-16 mb-4 bg-white rounded-lg shadow-lg h-min">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Historial de Inventario</h1>
 
           <div className="mb-4">
             <input
               type="text"
               placeholder="Buscar por nombre o código de producto"
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 mb-5"
+              className="overflow-ellipsis w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 mb-5"
               value={searchQuery}
               onChange={handleSearchChange}
             />

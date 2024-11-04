@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
-import { BackgroundAnimation } from './Background.jsx'; // Importar el componente de animación
-import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+import { useAccountManagement } from '../hooks/useAccountManagement'; 
 import { Sidebar } from '../Sidebar.jsx';
+import { Loading } from './Loading.jsx';
+
 export function MantenimientoProveedores() {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
@@ -122,7 +123,7 @@ export function MantenimientoProveedores() {
       .catch(error => console.error('Error:', error));
   };
 
-  if (loading) return <p>Cargando proveedores...</p>;
+  if (loading) return <div className='duration-700'> <Loading/></div>;
 
   return (
     <>
@@ -132,7 +133,7 @@ export function MantenimientoProveedores() {
           <Sidebar logout={logout}/>
         </div>
 
-        <div className="flex gap-4">
+        <div className="lg:flex gap-4">
           <div className="py-2 w-max min-w-max  h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-12 mr-4 bg-white rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Registrar Proveedor</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -140,7 +141,7 @@ export function MantenimientoProveedores() {
                 <label className="block text-gray-700 font-semibold">Nombre del proveedor</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   required
@@ -149,7 +150,7 @@ export function MantenimientoProveedores() {
               <div>
                 <label className="block text-gray-700 font-semibold">Dirección</label>
                 <textarea
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={direccion}
                   onChange={(e) => setDireccion(e.target.value)}
                   required
@@ -159,7 +160,7 @@ export function MantenimientoProveedores() {
                 <label className="block text-gray-700 font-semibold">Teléfono</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={telefono}
                   onChange={(e) => setTelefono(e.target.value)}
                   required
@@ -169,7 +170,7 @@ export function MantenimientoProveedores() {
                 <label className="block text-gray-700 font-semibold">Email</label>
                 <input
                   type="email"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -179,7 +180,7 @@ export function MantenimientoProveedores() {
                 <label className="block text-gray-700 font-semibold">Cédula Jurídica</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={cedulaJuridica}
                   onChange={(e) => setCedulaJuridica(e.target.value)}
                   required
@@ -207,10 +208,11 @@ export function MantenimientoProveedores() {
             </form>
           </div>
           <div className="flex gap-6">
-        <div className="basis-2/4 w-full py-2 h-min pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
+        <div className="lg:basis-2/4 lg:w-full w-6/12 py-2 h-min pt-12 p-6 mx-auto mt-6 pb-12 lg:ml-0 -ml-12 lg:mb-0 mb-12 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Proveedores Registrados</h2>
-          <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <thead className="bg-gray-200 text-gray-600">
+            <div className="overflow-x-scroll">
+          <table className="w-full bg-white shadow-md rounded-lg lg:ml-2 ml-1 lg:mr-2 mr-1">
+          <thead className="bg-gray-100 text-gray-600 uppercase text-sm text-center rounded-xl">
               <tr>
                 <th className="p-3 text-left">Nombre</th>
                 <th className="p-3 text-left">Dirección</th>
@@ -246,17 +248,18 @@ export function MantenimientoProveedores() {
           </table>
           </div>
           </div>
+          </div>
           {/* Modal para editar proveedor */}
           {modalVisible && (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-md w-1/2">
+            <div className="fixed inset-0 lg:flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="bg-white p-6 rounded-lg shadow-md lg:w-1/2 w-5/12 lg:mt-12 mt-6 lg:ml-0 ml-6 lg:mr-0 mr-3">
                 <h2 className="text-2xl font-bold mb-4">Editar Proveedor</h2>
                 <form onSubmit={handleUpdate} className="space-y-4">
                   <div>
                     <label className="block text-gray-700 font-semibold">Nombre del proveedor</label>
                     <input
                       type="text"
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={nombre}
                       onChange={(e) => setNombre(e.target.value)}
                       required
@@ -265,7 +268,7 @@ export function MantenimientoProveedores() {
                   <div>
                     <label className="block text-gray-700 font-semibold">Dirección</label>
                     <textarea
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={direccion}
                       onChange={(e) => setDireccion(e.target.value)}
                       required
@@ -275,7 +278,7 @@ export function MantenimientoProveedores() {
                     <label className="block text-gray-700 font-semibold">Teléfono</label>
                     <input
                       type="text"
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={telefono}
                       onChange={(e) => setTelefono(e.target.value)}
                       required
@@ -285,7 +288,7 @@ export function MantenimientoProveedores() {
                     <label className="block text-gray-700 font-semibold">Email</label>
                     <input
                       type="email"
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -295,7 +298,7 @@ export function MantenimientoProveedores() {
                     <label className="block text-gray-700 font-semibold">Cédula Jurídica</label>
                     <input
                       type="text"
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                      className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                       value={cedulaJuridica}
                       onChange={(e) => setCedulaJuridica(e.target.value)}
                       required

@@ -214,9 +214,9 @@ export function MantenimientoProductos() {
       <div className="basis-1/4 mr-4 h-full pb-96 lg:bg-slate-50">
           <Sidebar logout={logout}/>
         </div>
-        <div className="flex gap-7">
+        <div className="lg:flex lg:gap-7">
           
-          <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 ml-6 bg-white rounded-lg shadow-lg">
+          <div className="lg:basis-2/4 w-3/12 lg:w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 lg:ml-6 -ml-10 lg:mr-0  bg-white rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">{editingProduct ? 'Actualizar Producto' : 'Registrar Producto'}</h1>
                       {/* Botón para abrir el modal de CABYS */}
           <div className="bg-white p-2 mb-6 rounded-lg shadow-md">
@@ -232,7 +232,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">Código CABYS</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={codigoCabys}
                   onChange={(e) => setCodigoCabys(e.target.value)}
                   required
@@ -242,7 +242,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">Código de Producto</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={codigoProducto}
                   onChange={(e) => setCodigoProducto(e.target.value)}
                   required
@@ -252,7 +252,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">Nombre del producto</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   required
@@ -261,7 +261,7 @@ export function MantenimientoProductos() {
               <div>
                 <label className="block text-gray-700 font-semibold">Descripción</label>
                 <textarea
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                   required
@@ -272,7 +272,7 @@ export function MantenimientoProductos() {
                 <input
                   type="number"
                   step="0.01"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={precioCompra}
                   onChange={(e) => setPrecioCompra(e.target.value)}
                   required
@@ -283,7 +283,7 @@ export function MantenimientoProductos() {
                 <input
                   type="number"
                   step="0.01"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={precioConsumidor}
                   onChange={(e) => setPrecioConsumidor(e.target.value)}
                   required
@@ -293,7 +293,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">Cantidad en inventario</label>
                 <input
                   type="number"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
                   required
@@ -302,7 +302,7 @@ export function MantenimientoProductos() {
               <div>
                 <label className="block text-gray-700 font-semibold">Unidad de Medida</label>
                 <select
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={unidadMedida}
                   onChange={(e) => setUnidadMedida(e.target.value)}
                   required
@@ -325,7 +325,7 @@ export function MantenimientoProductos() {
                 <input
                   type="number"
                   step="0.01"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={pesoPorUnidad}
                   onChange={(e) => setPesoPorUnidad(e.target.value)}
                   required
@@ -335,7 +335,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">% Descuento</label>
                 <input
                   type="number"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={porcentajeDescuento}
                   onChange={(e) => setPorcentajeDescuento(e.target.value)}
                   required
@@ -347,7 +347,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">% IVA</label>
                 <input
                   type="number"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={porcentajeIVA}
                   onChange={(e) => setPorcentajeIVA(e.target.value)}
                   required
@@ -359,7 +359,7 @@ export function MantenimientoProductos() {
                 <label className="block text-gray-700 font-semibold">Categoría</label>
                 <input
                   type="text"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
                   required
@@ -381,13 +381,13 @@ export function MantenimientoProductos() {
             </form>
           </div>
 
-          <div className="flex">
-        <div className="basis-2/4 py-2 h-min pt-12 p-5 mx-auto mt-6 ml-10 pb-12 w-9/12 bg-white rounded-lg shadow-lg">
+          <div className="lg:flex">
+          <div className="lg:basis-2/4 lg:gap-4 lg:mr-10 lg:w-7/12 w-3/12 py-2 mb-4 h-min lg:ml-0 -ml-10 pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Productos Registrados</h2>
-          <div className="overflow-scroll scroll-mx-1">
+          <div className="overflow-scroll px-2">
 
-            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-              <thead className="bg-gray-200 text-gray-600 text-base text-justify">
+          <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-100 text-gray-600 uppercase text-sm text-center rounded-xl ">
                 <tr>
                   <th className="p-3 text-left">Código CABYS</th>
                   <th className="p-3 text-left">Código Producto</th>
