@@ -35,7 +35,7 @@ export function Punto_venta() {
       }
     };
 
-    // Función para obtener productos filtrados por empresa_id
+    // Función para obtener productos
     const fetchProductos = async () => {
       try {
         const response = await fetch("http://localhost/managersyncbdf/public/api/productos/all");
@@ -80,34 +80,28 @@ export function Punto_venta() {
       <Header />
 
       <div className="bg-slate-300 w-screen h-max flex">
-        <div className="basis-1/4 mr-11 h-full">
+        <div className="basis-1/4 lg:mr-11 -mr-16 h-full">
           <Sidebar logout={logout} /> 
         </div>
-        <div className="pt-2 ps-3">
-          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto pb-8 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg">
-            <div className="grid grid-cols-6">
+        <div className="pt-2 ps-3 flex lg:flex-row flex-col overflow-x-hidden">
+          <div className="lg:basis-3/4 lg:h-min lg:w-full w-80 lg:py-2 lg:pt-12 lg:p-6 lg:mx-auto lg:pb-8 mt-6 lg:ml-3 lg:mb-4 bg-white rounded-lg shadow-lg">
+            <div className="lg:grid lg:grid-cols-6">
               {/* Botón para reiniciar la venta */}
               <button
                 onClick={handleReiniciarVenta}
-                className="-mt-4 ml-3 px-1 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 w-full">
+                className="lg:-mt-4 mt-3 ml-3 lg:mr-0 mr-4 lg:px-3 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 lg:w-full w-11/12">
                 Nueva Venta
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-4 p-3">
+            <div className="lg:grid lg:grid-cols-2 gap-4 p-3">
               <select
-                className="w-full p-2 border rounded mb-4"
-                onChange={(e) => {
-                  const selected = JSON.parse(e.target.value);
-                  setSelectedCliente(selected); // Guardar el objeto cliente completo
-                }}
-                value={selectedCliente ? JSON.stringify(selectedCliente) : ""}
+                className="w-full p-2 border b-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
+                onChange={(e) => setSelectedCliente(e.target.value)}
+                value={selectedCliente || ""}
               >
                 <option value="">Seleccionar cliente...</option>
                 {clientes.map((cliente) => (
-                  <option 
-                    key={cliente.id} 
-                    value={JSON.stringify(cliente)} // Guardar el objeto completo
-                  >
+                  <option key={cliente.id} value={cliente.id}>
                     {cliente.nombre}
                   </option>
                 ))}
@@ -116,11 +110,13 @@ export function Punto_venta() {
               <div>
                 <div className="flex space-x-2">
                 <button
-                  className="px-4 py-1.5 text-sm font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200"
-                  onClick={() => { window.location.href = '/MantenimientoClientes'; }} >
+                  className="px-4 py-2 text-sm font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200"
+                  onClick={() => { window.location.href = '/MantenimientoClientes'; }}>
                   Crear/Editar Cliente
                 </button>
-                  <button className="px-4 py-1.5 text-sm font-medium rounded-2xl p-2 bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+
+                
+                  <button className="px-4 py-2 text-sm font-medium rounded-2xl p-2 bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                     Crear Exoneración
                   </button>
                 </div>
@@ -158,13 +154,13 @@ export function Punto_venta() {
                   type="number"
                   value={cantidad}
                   onChange={(e) => setCantidad(Number(e.target.value))}
-                  className="w-full p-2 border rounded mb-4"
+                  className="lg:w-full w-10 p-2 border mb-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   placeholder="Cantidad"
                 />
               </div>
               <div className="col-span-2">
                 <select
-                  className="w-full p-2 border rounded mb-4"
+                  className="w-full p-2 border rounded mb-4 lg:ml-0 -ml-1"
                   onChange={(e) => setSelectedProducto(JSON.parse(e.target.value))}
                   value={selectedProducto ? JSON.stringify(selectedProducto) : ""}
                 >
@@ -181,22 +177,22 @@ export function Punto_venta() {
                   type="text"
                   readOnly
                   value={selectedProducto ? `₡${selectedProducto.precio_consumidor}` : ""}
-                  className="w-full p-2 border rounded mb-4"
+                  className="lg:w-full lg:ml-0 -ml-1 w-20 p-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 mb-4"
                   placeholder="Precio"
                 />
               </div>
               <div className="col-span-1">
                 <button
                   onClick={handleAgregarProducto}
-                  className="px-4 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
+                  className="lg:px-4 px-2 py-2 lg:ml-0 ml-7 text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
                   Agregar
                 </button>
               </div>
             </div>
 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead className="bg-gray-100 text-gray-600">
+            <div className="relative overflow-x-auto shadow-md rounded-lg">
+              <table className="min-w-full bg-white shadow-md rounded-lg lg:ml-0 ml-5 lg:mr-0 mr-3 lg:mb-0 mb-7 overflow-hidden">
+                <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                   <tr>
                     <th className="p-3 text-left">Cantidad</th>
                     <th className="p-3 text-left">Código</th>
@@ -206,9 +202,9 @@ export function Punto_venta() {
                     <th className="p-3 text-left">Total</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-gray-700 text-sm">
                   {carrito.map((item, index) => (
-                    <tr key={index} className="border-b border-gray-200">
+                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
                       <td className="p-3">{item.cantidad}</td>
                       <td className="p-3">{item.codigo_cabys}</td> {/* Aquí se usa item.id */}
                       <td className="p-3">{item.descripcion}</td>
@@ -221,9 +217,9 @@ export function Punto_venta() {
               </table>
             </div>
           </div>
-        </div>
+        
 
-        <div className="pt-2 pr-12 ml-7 mr-5">
+        <div className="lg:pt-2 lg:pr-12 lg:ml-4 mr-5">
           <Detalle_facturas 
             subtotal={subtotal}
             totalIVA={totalIVA}
@@ -233,7 +229,7 @@ export function Punto_venta() {
             user={user} // Pasar el usuario logueado a Detalle_facturas
             precioUnitario={precioUnitarioPromedio} 
           />
-        </div>
+        </div></div>
       </div>
       <Footer />
     </>

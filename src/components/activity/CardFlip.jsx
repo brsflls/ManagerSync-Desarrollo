@@ -44,8 +44,8 @@ className="flex lg:flex-row flex-col gap-32 h-screen text-center mt-24">
                     managersync1@gmail.com </p>
                     
             </span>
+            
         </motion.div>
-
         <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

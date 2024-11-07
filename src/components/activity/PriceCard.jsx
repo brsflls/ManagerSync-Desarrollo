@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { fadeln } from "../variants";
-import { ButtonLoadingPage } from "./ButtonLoadPage";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export function PriceCard() {
@@ -68,11 +68,10 @@ const Card = () => {
             Adquiere nuestra licencia para empezar a organizar tus facturas
         </p>
         </div>
-        
-        <motion.button className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/40 hover:text-white"
-        >
+        <Link to="/Registro" className="absolute bottom-8 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-sky-50 hover:text-indigo-800">
             Empieza ahora
-        </motion.button>
+                </Link> 
+
     </motion.div>
 );
 };

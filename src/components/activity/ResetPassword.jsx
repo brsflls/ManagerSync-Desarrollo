@@ -4,7 +4,7 @@ import { Header } from '../Header.jsx';
 export function ResetPassword() {
   const { token } = useParams();
   const location = useLocation();
-  const navigate = useNavigate(); // Crea una instancia de navigate
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -69,12 +69,13 @@ export function ResetPassword() {
   return (
     <>
     <Header />
-    <div className="bg-slate-500 w-screen max-h-full pb-20">
-      <div className="mx-auto max-w-2xl">
-        <h2 className="font-bold lg:text-5xl text-4xl text-center py-20">Restablecer Contraseña</h2>
-        {message && <p className="text-green-500">{message}</p>}
-        {errors.password && <p className="text-red-500">{errors.password}</p>}
-        {errors.server && <p className="text-red-500">{errors.server}</p>}
+    <div className="bg-slate-300 w-screen max-h-full pb-20 flex justify-center items-center h-screen">
+      <div className="mx-auto max-w-2xl items-center"> 
+        <div className='w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg'>
+          <h2 className="text-2xl font-bold text-cente">Restablecer Contraseña</h2>
+          {message && <p className="text-sm text-cyan-600">{message}</p>}
+          {errors.password && <p className="text-sm text-pink-700 text-center">{errors.password}</p>}
+          {errors.server && <p className="text-sm text-pink-700 text-center">{errors.server}</p>}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Nueva Contraseña</label>
@@ -84,8 +85,8 @@ export function ResetPassword() {
               value={password}
               onChange={handlePasswordChange}
               required
-              className="w-full px-4 py-2 text-gray-700 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+              className="w-full px-2 py-2 text-gray-700 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-600"
+              />
           </div>
           <div>
             <label htmlFor="password_confirmation" className="block mb-2 text-sm font-medium text-gray-900">Confirmar Nueva Contraseña</label>
@@ -95,18 +96,18 @@ export function ResetPassword() {
               value={passwordConfirmation}
               onChange={handlePasswordConfirmationChange}
               required
-              className="w-full px-4 py-2 text-gray-700 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 text-gray-700 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-600"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className={`w-full px-4 py-2 text-white ${loading ? 'bg-gray-400' : 'bg-blue-600'} rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300`}
+            className={`w-full px-4 py-2 text-white ${loading ? 'bg-gray-400' : 'bg-sky-900 '} rounded-lg hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200`}
           >
             {loading ? 'Cargando...' : 'Restablecer Contraseña'}
           </button>
         </form>
-      </div>
+      </div></div>
     </div>
   </>
   );

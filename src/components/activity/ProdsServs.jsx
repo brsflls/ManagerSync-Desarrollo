@@ -82,13 +82,13 @@ export function ProdsServs({ onChange }) {
 
       {/* Mostrar mensaje de éxito */}
       {showSuccessMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative mb-4" role="alert">
           <strong className="font-bold">¡Producto agregado correctamente!</strong>
         </div>
       )}
 
       <form onSubmit={handleAgregarProducto}>
-        <div className="grid grid-cols-8 gap-2 mb-4">
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Código</label>
             <input
@@ -96,9 +96,9 @@ export function ProdsServs({ onChange }) {
               name="codigo"
               value={productData.codigo}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
             />
-            {errors.codigo && <p className="text-red-500 text-sm">{errors.codigo}</p>}
+            {errors.codigo && <p className="text-pink-700 text-sm">{errors.codigo}</p>}
           </div>
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Servicio</label>
@@ -106,7 +106,7 @@ export function ProdsServs({ onChange }) {
               name="servicio"
               value={productData.servicio}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
             >
               <option value="Si">Si</option>
               <option value="No">No</option>
@@ -119,9 +119,9 @@ export function ProdsServs({ onChange }) {
               name="descripcion"
               value={productData.descripcion}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
             />
-            {errors.descripcion && <p className="text-red-500 text-sm">{errors.descripcion}</p>}
+            {errors.descripcion && <p className="text-pink-700 text-sm">{errors.descripcion}</p>}
           </div>
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Cant</label>
@@ -130,10 +130,10 @@ export function ProdsServs({ onChange }) {
               name="cantidad"
               value={productData.cantidad}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
               min="1"
             />
-            {errors.cantidad && <p className="text-red-500 text-sm">{errors.cantidad}</p>}
+            {errors.cantidad && <p className="text-pink-700 text-sm">{errors.cantidad}</p>}
           </div>
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">Precio Bruto</label>
@@ -142,10 +142,10 @@ export function ProdsServs({ onChange }) {
               name="precioBruto"
               value={productData.precioBruto}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
               min="0"
             />
-            {errors.precioBruto && <p className="text-red-500 text-sm">{errors.precioBruto}</p>}
+            {errors.precioBruto && <p className="text-pink-700 text-sm">{errors.precioBruto}</p>}
           </div>
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">%Desc</label>
@@ -154,11 +154,11 @@ export function ProdsServs({ onChange }) {
               name="porcentajeDesc"
               value={productData.porcentajeDesc}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
               min="0"
               max="100"
             />
-            {errors.porcentajeDesc && <p className="text-red-500 text-sm">{errors.porcentajeDesc}</p>}
+            {errors.porcentajeDesc && <p className="text-pink-700 text-sm">{errors.porcentajeDesc}</p>}
           </div>
           <div className="col-span-1">
             <label className="block text-gray-700 font-bold mb-1">%IVA</label>
@@ -167,18 +167,17 @@ export function ProdsServs({ onChange }) {
               name="porcentajeIVA"
               value={productData.porcentajeIVA}
               onChange={handleProductChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-1"
+              className="w-full border-2 rounded-lg p-2 focus:outline-none border-gray-300 focus:border-sky-600"
               min="0"
               max="100"
             />
-            {errors.porcentajeIVA && <p className="text-red-500 text-sm">{errors.porcentajeIVA}</p>}
+            {errors.porcentajeIVA && <p className="text-pink-700 text-sm">{errors.porcentajeIVA}</p>}
           </div>
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
-        >
+          className="w-full text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-bold py-2 px-4 mt-4 transition duration-200">
           Agregar
         </button>
       </form>

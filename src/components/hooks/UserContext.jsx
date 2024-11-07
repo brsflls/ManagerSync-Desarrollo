@@ -18,7 +18,7 @@ const UserProvider = ({ children }) => {
   
   // Agregar lógica para los roles
   const isAdmin = user?.role === 'admin';  // Verifica si el usuario es admin
-  const isVendedor = user?.role === 'vendedor'; // Verifica si el usuario es vendedor
+  const isEmpleado = user?.role === 'empleado'; // Verifica si el usuario es vendedor
 
   useEffect(() => {
     if (user) {
@@ -37,7 +37,7 @@ const UserProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken, isAdmin, isVendedor }}>
+    <UserContext.Provider value={{ user, setUser, token, setToken, isAdmin, isEmpleado }}>
       {children}
     </UserContext.Provider>
   );

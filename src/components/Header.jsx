@@ -22,8 +22,8 @@ export const Header = () => {
           onKeyDown={() => setMenuOpen(!menuOpen)}>
             <img
               src={menuIcon}
-                className={`${menuOpen ? "w-20 h-20" : "w-16 h-20"} p-5 mr-1 pt-2 pb-8 relative ease-in-out duration-300 flex rounded-full 
-                  ${!menuOpen && "scale-x-[-1]"}`}
+                className={`${menuOpen ? "w-20 h-20" : "w-21 h-20"} p-5 mr-1 pt-2 pb-8 relative ease-in-out duration-300 flex rounded-full 
+                  ${!menuOpen && "transform scale-x-[-1]"}`}
                 onClick={() => setMenuOpen(!menuOpen)}
                 onKeyDown={() => setMenuOpen(!menuOpen)}
                 alt="Control"
@@ -32,7 +32,7 @@ export const Header = () => {
 
         <ul className={`flex flex-col lg:flex-row md:space-x-8 md:items-center absolute md:static 
         top-16 right-0 w-full md:w-auto bg-white md:bg-transparent z-10 transform 
-        ${menuOpen ? 'translate-x-full' : 'translate-x-0'} transition-transform duration-300 ease-in-out`}>
+        ${menuOpen ? 'lg:translate-0 lg:opacity-100 translate-x-0 opacity-100' : 'lg:translate-x-0 lg:opacity-100 translate-x-full opacity-0'} transition duration-300 ease-in-out`}>
 
         {/* Mostrar solo si el usuario está autenticado */}
         {user ? (

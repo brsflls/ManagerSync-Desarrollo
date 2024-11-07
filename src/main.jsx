@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'; // Importa createRoot desde react-dom/client
 import { UserProvider } from './components/hooks/UserContext';
+
  // Ajusta la ruta según tu estructura
 import { RouteMain } from './components/routes/RouteMain'; // Ajusta la ruta según tu estructura
 

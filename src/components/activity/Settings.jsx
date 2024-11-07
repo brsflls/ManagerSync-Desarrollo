@@ -6,6 +6,7 @@ import { useAccountManagement } from '../hooks/useAccountManagement';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import { Sidebar } from '../Sidebar.jsx';
+
 import "../../index.css";
 
 export function Settings() {
@@ -33,6 +34,7 @@ export function Settings() {
     <>
       <Header />
       
+
       <div className="bg-slate-300 w-screen flex h-max  gap-0">
 
 
@@ -45,7 +47,7 @@ export function Settings() {
             <h2 className="font-semibold lg:indent-6 lg:text-2xl text-3xl lg:text-left text-center lg:ml-2 lg:p-2 lg:-mt-9 p-1">Rol: {user.role}</h2>
 
             <div className="lg:grid lg:grid-cols-2 lg:p-10 lg:ml-0 ml-16 lg:mt-0 mt-4">
-              <div className="relative w-32 h-32 lg:ml-14 overflow-hidden bg-gray-100 rounded-full drop-shadow">
+              <div className="relative w-32 h-32 lg:ml-14 -ml-1 overflow-hidden bg-gray-100 rounded-full drop-shadow">
                 {user?.profile_image ? (
                   <img
                     src={user.profile_image}
@@ -68,20 +70,20 @@ export function Settings() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 lg:gap-2 gap-4 py-4 lg:py-2">
-                <div className="flex lg:justify-end ">
+              <div className="grid grid-cols-2 lg:gap-2 gap-4 py-4 lg:py-2 lg:ml-0 -ml-16">
+                <div className="flex lg:flex-col lg:justify-end ">
                   <button
                     onClick={() => setEditMode(!editMode)}
-                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 
+                    className="w-36 lg:py-2.5 py-0.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 
                     hover:bg-gray-100 hover:text-indigo-700">
                     {editMode ? 'Cancelar' : 'Editar perfil'}
                   </button>
                 </div>
 
-                <div className="flex lg:justify-end">
+                <div className="flex lg:flex-col lg:justify-end">
                   <button
                     onClick={() => setShowConfirmDelete(true)}
-                    className="w-36 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 
+                    className="w-36 lg:py-2.5 py-0.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 
                     hover:bg-gray-100 hover:text-indigo-700">
                     Eliminar cuenta
                   </button>
@@ -101,7 +103,7 @@ export function Settings() {
                       name="nombre"
                       value={formData.nombre}
                       onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      className="w-full p-2 border border-gray-300 rounded focus"
                       required
                     />
                   </div>
@@ -164,8 +166,8 @@ export function Settings() {
                       type="file"
                       accept="image/*"
                       onChange={(e) => setProfileImage(e.target.files[0])}
-                      className="w-full p-2  rounded lg:ml-0 -ml-4
-                        file:lg:mr-4 file:py-2 file:px-4
+                      className="w-full p-2 rounded lg:ml-0 -ml-4
+                        file:lg:mr-4 file:lg:py-2 file:py-1 file:lg:px-4 file:px-2
                         file:rounded-full file:border-0
                         file:text-sm file:font-semibold
                       file:bg-sky-50 file:text-sky-800
@@ -178,7 +180,7 @@ export function Settings() {
                 <div className="flex lg:justify-end justify-center mt-4">
                   <button
                     type="submit"
-                    className="py-2 lg:px-4 px-10 text-white bg-sky-900 rounded-full hover:bg-indigo-900">
+                    className="lg:py-2 lg:px-4 w-15 lg:w-full  px-5 py-3 text-white bg-sky-900 rounded-full hover:bg-indigo-900">
                       Guardar cambios
                   </button>
                 </div>

@@ -205,15 +205,16 @@ const calcularVuelto = (montoPagado) => {
   };
 
   return (
-    <div className="items-center flex flex-col fixed top-12 right-80 left-80  w-auto h-auto">
-      <div className=" p-6 bg-white rounded-lg shadow-lg ">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Registrar Factura</h1>
+    <div className="overflow-x-hidden lg:items-center lg:flex lg:flex-col lg:fixed lg:mb-0 mb-24 lg:top-16 lg:ml-0 ml-5 lg:mr-0 mr-5 lg:mt-0 mt-12 lg:pl-0 pl-6 lg:pr-0 pr-6  lg:right-80 lg:left-72 lg:w-auto lg:h-auto w-11/12 h-full ">
+      <div className=" p-6 bg-white rounded-lg shadow-lg">
+        <h1 className="lg:text-4xl text-2xl font-bold text-gray-800 mb-10 mt-5 text-center">Registrar Factura</h1>
 
+<div className="overflow-y-scroll scroll-mx-1 p-5 h-96">
         {/* Formulario de datos de la factura */}
         <div className="mb-4 flex justify-between">
           <label>Tipo:</label>
           <select
-            className="border p-1 rounded"
+            className="border p-1 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
             value={tipoFactura}
             onChange={(e) => setTipoFactura(e.target.value)}
             required>
@@ -225,7 +226,7 @@ const calcularVuelto = (montoPagado) => {
           <label>Fecha Emisión:</label>
           <input
             type="date"
-            className="border p-1 rounded"
+            className="border p-1 rounded-md shadow-sm w-3/6 focus:outline-none focus:ring-2 focus:ring-sky-700"
             value={fechaEmision}
             onChange={(e) => setFechaEmision(e.target.value)}
             required
@@ -235,30 +236,29 @@ const calcularVuelto = (montoPagado) => {
           <label>Fecha Vencimiento:</label>
           <input
             type="date"
-            className="border p-1 rounded"
+            className="border p-1 rounded-md shadow-sm w-3/6 focus:outline-none focus:ring-2 focus:ring-sky-700"
             value={fechaVencimiento}
             onChange={(e) => setFechaVencimiento(e.target.value)}
             required
           />
         </div>
-        <div className="mb-4 flex justify-between">
+        <div className="mb-6 flex justify-between">
           <label>Estado:</label>
           <select
-            className="border p-1 rounded"
+            className="border p-1 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 "
             value={estado}
             onChange={(e) => setEstado(e.target.value)}
-            required
-          >
+            required>
             <option value="Emitida">Emitida</option>
             <option value="Pagada">Pagada</option>
             <option value="Cancelada">Cancelada</option>
           </select>
         </div>
-        <div className="mb-4 flex justify-between">
-          <label>Total:</label>
+        <div className="mb-4 flex justify-between  px-4 py-4 rounded-md">
+          <label className='font-bold text-lg'>Total:</label>
           <input
             type="text"
-            className="border p-1 rounded w-3/6"
+            className=" p-1 rounded w-32 text-right font-bold text-lg"
             value={`₡${totalVenta.toFixed(2)}`}
             readOnly
           />
@@ -268,7 +268,7 @@ const calcularVuelto = (montoPagado) => {
         <div className="mb-4 flex justify-between">
           <label>Método de Pago:</label>
           <select
-            className="border p-1 rounded"
+            className="border p-1 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
             value={metodoPago}
             onChange={(e) => {
               setMetodoPago(e.target.value);
@@ -280,11 +280,11 @@ const calcularVuelto = (montoPagado) => {
           </select>
         </div>
         {metodoPago === 'efectivo' ? (
-          <div className="mb-4 flex justify-between">
+          <div className="lg:mb-4 flex justify-between lg:flex-row flex-col">
             <label>Cantidad Pagada: </label>
             <input
               type="number"
-              className="border p-1 rounded w-4/12"
+              className="border p-1 lg:mb-0 mb-3 lg:mt-0 mt-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 lg:w-4/12 w-11/12"
               value={cantidadPagada}
               onChange={(e) => {
                 const value = parseFloat(e.target.value);
@@ -293,25 +293,25 @@ const calcularVuelto = (montoPagado) => {
               }}
               required
             />
-            <span className="ml-2">Vuelto: ₡{vuelto.toFixed(2)}</span>
+            <span className="lg:ml-2">Vuelto: ₡{vuelto.toFixed(2)}</span>
           </div>
         ) : (
-          <div>
-            <div className="mb-4 flex justify-between">
+          <div className='flex flex-col'>
+            <div className="mb-4 lg:flex lg:justify-between">
               <label>Número de Tarjeta:</label>
               <input
                 type="text"
-                className="border p-1 rounded"
+                className="border p-1 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 w-3/6 lg:"
                 value={numeroTarjeta}
                 onChange={(e) => setNumeroTarjeta(e.target.value)}
                 required
               />
             </div>
-            <div className="mb-4 flex justify-between">
+            <div className="mb-4 lg:flex justify-between">
               <label>Nombre del Titular:</label>
               <input
                 type="text"
-                className="border p-1 rounded"
+                className="border p-1 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 w-3/6"
                 value={nombreTitular}
                 onChange={(e) => setNombreTitular(e.target.value)}
                 required
@@ -321,63 +321,62 @@ const calcularVuelto = (montoPagado) => {
         )}
 
         {/* Mostrar y editar las descripciones del carrito */}
+        <div className="mt-16 flex flex-col">
         {carrito.map((item, index) => (
-          <div key={item.id} className="flex justify-between items-center mb-2">
+          <div key={item.id} className="lg:flex justify-between items-center lg:mb-4 mb-6 overscroll-y-contain">
             <span className="text-gray-700">{item.descripcion}</span>
             <input
               type="text"
-              className="border p-1 rounded flex-grow ml-2"
+              className="rounded-md shadow-sm w-2/6 focus:outline-none focus:ring-2 focus:ring-sky-700 p-1  px-3 lg:ml-2 lg:mt-0 mt-4 lg:text-right text-left lg:overflow-scroll"
               placeholder="Descripción"
               value={descripciones[index] || item.descripcion || ''}
               onChange={(e) => handleDescriptionChange(index, e.target.value)}
             />
           </div>
-        ))}
-
-        <div className="flex justify-between mt-4">
+        ))}</div>
+  </div>
+        <div className="flex justify-between mt-8">
           <button
             className="text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-bold py-2 px-4 "
             onClick={handleFacturar}>
             Facturar
           </button>
           <button
-            className="text-white bg-red-500 rounded-xl hover:bg-red-900 font-bold py-2 px-4 "
+            className="rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200 font-bold py-2 px-4 "
             onClick={onClose}>
             Cancelar
           </button>
-          
-          
-          
-         
         </div>
       </div>
 
       {/* Modal para guardar o imprimir la factura */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="fixed inset-0 lg:w-full w-5/12 lg:mt-0 mt-8 lg:ml-0 ml-6 mr-6 lg:flex items-center lg:justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg">
-            <h2 className="text-xl mb-4">Factura generada correctamente.</h2>
-
+            <h2 className="lg:text-xl text-2xl font-bold mb-4">Factura generada correctamente.</h2>
+            <div className="lg:block hidden">
             {/* Vista previa del PDF */}
             <PDFViewer style={{ width: '100%', height: '400px' }}>
               <FacturaPDF />
             </PDFViewer>
-
+            </div>
             <PDFDownloadLink document={<FacturaPDF />} fileName={`factura_${facturaId}.pdf`}>
               {({ loading }) => (
-                <button className="mt-4 mr-3 px-2 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
+                <button className="lg:mt-4 lg:mr-3 mr-12 px-2 py-2 font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
                   {loading ? 'Generando PDF...' : 'Guardar PDF'}
                 </button>
               )}
             </PDFDownloadLink>
+          
             <button
-              className="mt-4 mr-3 px-2 py-2 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800"
+              className="lg:mt-4 lg:mr-3 px-2 py-2 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800"
               onClick={() => {
                 setShowModal(false);
                 onClose();
               }}>
               Cerrar
             </button>
+          
           </div>
         </div>
       )}

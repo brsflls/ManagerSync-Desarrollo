@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../Header.jsx';  // Importamos Header
-import { Footer } from '../Footer.jsx';  // Importamos Footer
+import { Header } from '../Header.jsx'; 
+import { Footer } from '../Footer.jsx'; 
 import { Sidebar } from '../Sidebar.jsx';
-import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
-
+import { useAccountManagement } from '../hooks/useAccountManagement'; 
+import { Loading } from '../activity/Loading.jsx';
 export function HistorialInventario() {
   const navigate = useNavigate();
-  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
-  const [productos, setProductos] = useState([]); // Estado para almacenar los productos
-  const [filteredProductos, setFilteredProductos] = useState([]); // Estado para almacenar los productos filtrados
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // Estado para manejar errores
-  const [searchQuery, setSearchQuery] = useState(''); // Estado para manejar la búsqueda
-  const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar/ocultar el modal
-  const [selectedProducto, setSelectedProducto] = useState(null); // Estado para almacenar el producto seleccionado para edición
+  const { logout } = useAccountManagement(); 
+  const [productos, setProductos] = useState([]); 
+  const [filteredProductos, setFilteredProductos] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [searchQuery, setSearchQuery] = useState(''); 
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [selectedProducto, setSelectedProducto] = useState(null); 
 
   // Función para obtener los productos desde la API
   const fetchProductos = async () => {
@@ -108,23 +108,19 @@ export function HistorialInventario() {
     <Header/>
     <div className="bg-slate-300  w-screen flex h-max  gap-0">
       
-      
-      
-        {/* Sidebar */}
+
         <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout} />
         </div>
         
-        {/* Contenido principal */}
-        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 pb-14 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg h-min">
+        <div className="lg:basis-2/4 lg:w-auto w-10/12 py-2 pt-12 mx-auto p-6 pb-14 mt-6 lg:ml-2 -ml-16 mb-4 bg-white rounded-lg shadow-lg h-min">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Historial de Inventario</h1>
 
-          {/* Campo de búsqueda */}
           <div className="mb-4">
             <input
               type="text"
               placeholder="Buscar por nombre o código de producto"
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 mb-5"
+              className="overflow-ellipsis w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 mb-5"
               value={searchQuery}
               onChange={handleSearchChange}
             />
@@ -132,7 +128,7 @@ export function HistorialInventario() {
 
           {/* Mostrar el estado de carga o error */}
           {loading && <p className="text-center">Cargando productos...</p>}
-          {error && <p className="text-center text-pink-800">Error: {error}</p>}
+          {error && <p className="text-center text-pink-700">Error: {error}</p>}
 
           {/* Mostrar mensaje si no hay productos registrados */}
           {!loading && filteredProductos.length === 0 && (
@@ -141,16 +137,16 @@ export function HistorialInventario() {
 
           {/* Tabla de productos */}
           {!loading && filteredProductos.length > 0 && (
-            <div className="overflow-x-auto shadow-md rounded-lg">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+            <div className="overflow-auto shadow-md rounded-lg">
+              <table className="min-w-full bg-white border border-gray-200 h-svh max-h-svh">
+                <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal ">
                   <tr>
                     <th className="py-3 px-6 text-left border-b">Código Producto</th>
                     <th className="py-3 px-6 text-left border-b">Nombre</th>
                     <th className="py-3 px-6 text-left border-b">Descripción</th>
                     <th className="py-3 px-6 text-left border-b">Stock</th>
-                    <th className="py-3 px-6 text-left border-b">Precio de Compra</th>
-                    <th className="py-3 px-6 text-left border-b">Precio de Venta</th>
+                    <th className="py-3 px-6 text-left border-b">Precio Compra</th>
+                    <th className="py-3 px-6 text-left border-b">Precio Venta</th>
                     <th className="py-3 px-6 text-left border-b">Acciones</th>
                   </tr>
                 </thead>
@@ -166,14 +162,12 @@ export function HistorialInventario() {
                       <td className="py-3 px-6 text-left">
                         <button 
                           onClick={() => handleEdit(producto)} 
-                          className="text-blue-500 hover:underline mr-2"
-                        >
+                          className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
                           Editar
                         </button>
                         <button 
                           onClick={() => handleDelete(producto.id)} 
-                          className="text-pink-700 hover:underline"
-                        >
+className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
                           Eliminar
                         </button>
                       </td>
@@ -194,11 +188,11 @@ export function HistorialInventario() {
             <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-4 space-y-4">
               {/* Input para Código de Producto */}
               <div>
-                <label className="block text-gray-700 font-semibold">Código Producto</label>
+                <label className="block text-gray-700 mb-1 font-semibold align-text-top">Código Producto</label>
                 <input
                   type="text"
                   name="codigo_producto"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedProducto.codigo_producto || ''}
                   onChange={handleInputChange}
                 />
@@ -206,11 +200,11 @@ export function HistorialInventario() {
 
               {/* Input para Nombre */}
               <div>
-                <label className="block text-gray-700 font-semibold">Nombre</label>
+                <label className="block text-gray-700 -mt-4 mb-1 font-semibold align-text-top">Nombre</label>
                 <input
                   type="text"
                   name="nombre"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedProducto.nombre || ''}
                   onChange={handleInputChange}
                 />
@@ -218,10 +212,10 @@ export function HistorialInventario() {
 
               {/* Input para Descripción */}
               <div>
-                <label className="block text-gray-700 font-semibold">Descripción</label>
+                <label className="block text-gray-700 mb-1 font-semibold">Descripción</label>
                 <textarea
                   name="descripcion"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedProducto.descripcion || ''}
                   onChange={handleInputChange}
                 />
@@ -229,11 +223,11 @@ export function HistorialInventario() {
 
               {/* Input para Stock */}
               <div>
-                <label className="block text-gray-700 font-semibold">Stock</label>
+                <label className="block text-gray-700 font-semibold mb-1">Stock</label>
                 <input
                   type="number"
                   name="stock"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedProducto.stock || ''}
                   onChange={handleInputChange}
                 />
@@ -241,11 +235,11 @@ export function HistorialInventario() {
 
               {/* Input para Precio de Compra */}
               <div>
-                <label className="block text-gray-700 font-semibold">Precio de Compra</label>
+                <label className="block text-gray-700 font-semibold mb-1">Precio de Compra</label>
                 <input
                   type="number"
                   name="precio_compra"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedProducto.precio_compra || ''}
                   onChange={handleInputChange}
                 />
@@ -253,11 +247,11 @@ export function HistorialInventario() {
 
               {/* Input para Precio de Venta */}
               <div>
-                <label className="block text-gray-700 font-semibold">Precio de Venta</label>
+                <label className="block text-gray-700 font-semibold mb-1">Precio de Venta</label>
                 <input
                   type="number"
                   name="precio_venta"
-                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600"
                   value={selectedProducto.precio_consumidor || ''}
                   onChange={handleInputChange}
                 />
@@ -266,15 +260,13 @@ export function HistorialInventario() {
               <div className="col-span-2 flex justify-between mt-4">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200"
-                >
+                  className=" text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-semibold px-4 py-2 shadow transition duration-200">
                   Actualizar
                 </button>
                 <button
                   type="button"
                   onClick={() => setModalVisible(false)}
-                  className="bg-gray-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-gray-600 transition duration-200"
-                >
+                  className="bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 font-semibold px-4 py-2 rounded-md shadow transition duration-200">
                   Cancelar
                 </button>
               </div>

@@ -7,7 +7,7 @@ export function Registro_factura() {
   
     return (
         <>
-             <Header/>
+            <Header/>
              <div className=" bg-blue-100  w-screen h-max  " >
             <div className="mx-auto py-10 ">
                 

@@ -105,7 +105,7 @@ export function Emisor({ onChange }) {
 
       {/* Mostrar mensaje de éxito */}
       {showSuccessMessage && (
-        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative lg:mb-4 mb-10" role="alert">
           <strong className="font-bold">¡Datos del emisor agregados correctamente!</strong>
         </div>
       )}
@@ -120,19 +120,19 @@ export function Emisor({ onChange }) {
               name="identificacion"
               value={formEmisorData.identificacion}
               onChange={handleEmisorChange}
-              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.identificacion ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.identificacion ? 'border-red-500' : 'border-gray-300'} focus:border-sky-600`}
             />
             {errors.identificacion && <p className="text-pink-700 text-sm">{errors.identificacion}</p>}
           </div>
 
           {/* Tipo de Identificación */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2">Tipo Identificación:</label>
+            <label className="block text-gray-700 font-bold mb-2 lg:mt-0 -mt-6">Tipo Identificación:</label>
             <select
               name="tipoIdentificacion"
               value={formEmisorData.tipoIdentificacion}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             >
               <option value="Cédula Física">Cédula Física</option>
               <option value="Cédula Jurídica">Cédula Jurídica</option>
@@ -149,7 +149,7 @@ export function Emisor({ onChange }) {
               name="telefono"
               value={formEmisorData.telefono}
               onChange={handleEmisorChange}
-              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.telefono ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.telefono ? 'border-red-500' : 'border-gray-300'} focus:border-sky-600`}
             />
             {errors.telefono && <p className="text-pink-700 text-sm">{errors.telefono}</p>}
           </div>
@@ -162,7 +162,7 @@ export function Emisor({ onChange }) {
               name="nombre"
               value={formEmisorData.nombre}
               onChange={handleEmisorChange}
-              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.nombre ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.nombre ? 'border-red-500' : 'border-gray-300'} focus:border-sky-600`}
             />
             {errors.nombre && <p className="text-pink-700 text-sm">{errors.nombre}</p>}
           </div>
@@ -175,7 +175,7 @@ export function Emisor({ onChange }) {
               name="correoElectronico"
               value={formEmisorData.correoElectronico}
               onChange={handleEmisorChange}
-              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.correoElectronico ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.correoElectronico ? 'border-red-500' : 'border-gray-300'} focus:border-sky-600`}
             />
             {errors.correoElectronico && <p className="text-pink-700 text-sm">{errors.correoElectronico}</p>}
           </div>
@@ -188,7 +188,7 @@ export function Emisor({ onChange }) {
               name="direccionExacta"
               value={formEmisorData.direccionExacta}
               onChange={handleEmisorChange}
-              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.direccionExacta ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+              className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.direccionExacta ? 'border-red-500' : 'border-gray-300'} focus:border-sky-600`}
             />
             {errors.direccionExacta && <p className="text-pink-700 text-sm">{errors.direccionExacta}</p>}
           </div>
@@ -200,7 +200,7 @@ export function Emisor({ onChange }) {
               name="provincia"
               value={formEmisorData.provincia}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             >
               <option value="No aplica">No aplica</option>
               {provincias.map((provincia) => (
@@ -216,7 +216,7 @@ export function Emisor({ onChange }) {
               name="canton"
               value={formEmisorData.canton}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             >
               <option value="No aplica">No aplica</option>
               {cantones.map((canton) => (
@@ -232,7 +232,7 @@ export function Emisor({ onChange }) {
               name="distrito"
               value={formEmisorData.distrito}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             >
               <option value="No aplica">No aplica</option>
               {distritos.map((distrito) => (
@@ -249,16 +249,14 @@ export function Emisor({ onChange }) {
               name="barrio"
               value={formEmisorData.barrio}
               onChange={handleEmisorChange}
-              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+              className="w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-sky-600"
             />
           </div>
         </div>
 
-        {/* Botón para agregar */}
         <button
           onClick={handleAgregar}
-          className="w-full text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-bold py-2 px-4  transition duration-200"
-        >
+          className="w-full text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-sky-600 font-bold py-2 px-4 mt-6 transition duration-200">
           Agregar
         </button>
       </form>

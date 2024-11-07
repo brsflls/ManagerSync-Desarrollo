@@ -6,15 +6,8 @@ function Modal({ isVisible, onClose, children }) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 -mt-1 bg-gray-800 bg-opacity-50 flex w-screen h-screen">
-      <div className="flex flex-col right-96 left-96 ml-36 mr-36 top-4 fixed ">
-        <button
-          className="cursor-pointer rounded-lg shadow-lg bg-white text-gray-700 font-extrabold pb-7 p-3 text-left"
-          onClick={onClose}>
-          X
-        </button>
+    <div className="fixed inset-0 -mt-1 bg-gray-800 bg-opacity-50 flex w-screen lg:h-screen">
         {children}
-      </div>
     </div>
   );
 }
@@ -34,12 +27,12 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
 
   return (
     <div className="bg-slate-300">
-      <div className="w-full py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center place-items-center">
+      <div className={`w-full py-2 pt-12 p-6 mx-auto mt-8 lg:ml-5 mb-4 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center place-items-center${isModalOpen ? "lg:flex  hidden" : "lg:flex block"}`}>
         <h1 className="text-2xl font-bold text-gray-800 mb-8 text-center">Detalle Factura</h1>
         <div className="bg-white p-6 rounded-lg shadow-lg">
 
           <div className="flex justify-between mb-4">
-            <span className="text-lg font-medium text-gray-600">Cliente Seleccionado:</span>
+            <span className="text-base font-medium mr-24 text-gray-600">Cliente:</span>
             <span className="text-lg text-gray-800">{selectedCliente ? selectedCliente.nombre : 'Ninguno'}</span>
           </div>
           <div className="space-y-4">
@@ -72,7 +65,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
         </div>
               {/* Botón para abrir el modal */}
       <button
-        className="mt-6 mb-1 py-2 px-4 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-bold place-self-center"
+        className="mt-6 mb-1 py-2 px-4 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-bold place-self-center" 
         onClick={handleOpenModal}>
         Facturar
       </button>
@@ -81,7 +74,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
 
 
       {/* Modal que contiene el componente Factura */}
-      <Modal isVisible={isModalOpen} onClose={handleCloseModal}>
+      <Modal isVisible={isModalOpen} onClose={handleCloseModal}id="children">
         <Factura
           onClose={handleCloseModal}
           subtotal={subtotal}
