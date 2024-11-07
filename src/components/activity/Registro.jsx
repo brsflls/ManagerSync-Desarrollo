@@ -1,28 +1,59 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "../../index.css";
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import { MantenimientoEmpresas } from './MantenimientoEmpresas.jsx';
+
+
 
 export function Register() {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     cedula: '',
-    cedula_empresa: '',
+    
     role: 'admin',
-    empresa: 'juridica', // Cambia esto según lo que necesites
+   
     password: '',
     password_confirmation: '',
-    image: null
+    image: null,
+    empresa_id: '' // Nuevo estado para el id de la empresa
   });
 
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
   const [cedulaEmpresaStatus, setCedulaEmpresaStatus] = useState(null);
   const [isValidatingCedula, setIsValidatingCedula] = useState(false);
-  const navigate = useNavigate();
+ 
+  const [empresas, setEmpresas] = useState([]); // Estado para las empresas
+    
+const navigate = useNavigate();
 
+  
+
+
+
+  useEffect(() => {
+    // Función para obtener las empresas
+    const fetchEmpresas = async () => {
+      try {
+        const response = await fetch('http://managersyncbdf.test/api/empresas'); // Asegúrate de que esta URL sea correcta
+        if (!response.ok) {
+          throw new Error('Error al cargar las empresas');
+        }
+        const data = await response.json();
+        setEmpresas(data); // Asumimos que la respuesta es un array de empresas
+      } catch (error) {
+        console.error('Error al obtener empresas:', error);
+      }
+    };
+
+    fetchEmpresas(); // Llamamos a la función al montar el componente
+  }, []);
+
+
+  
   const handleChange = (event) => {
     const { id, value, type, files } = event.target;
     setFormData({
@@ -31,44 +62,7 @@ export function Register() {
     });
   };
 
-  const verificarCedulaEmpresa = async () => {
-    const cedulaEmpresa = formData.cedula_empresa;
-    const esFisica = formData.empresa === 'fisica';
-    const esJuridica = formData.empresa === 'juridica';
-
-    // Validamos la longitud de la cédula dependiendo del tipo de empresa
-    if ((esFisica && cedulaEmpresa.length !== 9) || (esJuridica && cedulaEmpresa.length !== 10)) {
-      setCedulaEmpresaStatus(null);
-      console.log('Cédula inválida según el tipo de empresa');
-      return;
-    }
-
-    console.log('Verificando cédula de empresa:', cedulaEmpresa);
-    setIsValidatingCedula(true);
-
-    try {
-      const response = await fetch(`https://api.hacienda.go.cr/fe/ae?identificacion=${cedulaEmpresa}`);
-      const data = await response.json();
-
-      console.log('Respuesta de la API:', data); // Ver respuesta de la API
-
-      // Accediendo al estado en la propiedad situacion
-      const estado = data.situacion.estado.toLowerCase(); // Convertimos a minúsculas para evitar problemas de comparación
-
-      if (estado === 'no inscrito') {
-        setCedulaEmpresaStatus('no inscrito');
-      } else if (estado === 'inscrito') {
-        setCedulaEmpresaStatus('inscrito');
-      } else {
-        setCedulaEmpresaStatus(null);
-      }
-    } catch (error) {
-      console.error('Error al verificar la cédula de empresa:', error);
-      setCedulaEmpresaStatus(null);
-    } finally {
-      setIsValidatingCedula(false);
-    }
-  };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -103,6 +97,8 @@ export function Register() {
       console.error('Error:', error.message);
     }
   };
+
+
 
   return (
     <>
@@ -163,51 +159,53 @@ export function Register() {
               />
             </div>
 
-            <div className="mb-2">
-              <label htmlFor="empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Identificador de empresa
+
+          <label
+                htmlFor="empresa"
+                className="block mt-4 text-sm font-medium text-red-900"
+              >
+                Debe registrar una empresa para registrar usuario
+              </label>
+            <button
+              type="button"
+              onClick={() => navigate("/MantenimientoEmpresas")}
+              className="mt-4 w-full text-sm px-5 mb-4 py-2.5 text-center font-medium text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200"
+            >
+              Ir a modulo de Empresas
+            </button>
+
+<div className="mb-2">
+              <label htmlFor="empresa_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Seleccionar Empresa
               </label>
               <select
-                id="empresa"
+                id="empresa_id"
                 className="shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5"
-                value={formData.empresa}
+                value={formData.empresa_id}
                 onChange={handleChange}
                 required
               >
-                <option value="fisica">Física</option>
-                <option value="extranjera">Extranjera</option>
-                <option value="juridica">Jurídica</option>
+                <option value="">Seleccione una empresa</option>
+                {empresas.map(empresa => (
+                  <option key={empresa.id} value={empresa.id}>
+                    {empresa.nombre} {/* Cambia 'nombre' por el campo que quieras mostrar */}
+                  </option>
+                ))}
               </select>
+
+
+
+
+
+    
             </div>
 
-            <div className="mb-2">
-              <label htmlFor="cedula_empresa" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Cédula de empresa
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="cedula_empresa"
-                  className={`shadow-sm mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5
-                    ${cedulaEmpresaStatus === 'inscrito' ? 'border-cyan-600' : cedulaEmpresaStatus === 'no inscrito' ? 'border-pink-700' : ''
-                  }`}
-                  placeholder="Cédula de empresa"
-                  value={formData.cedula_empresa}
-                  onChange={handleChange}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={verificarCedulaEmpresa}
-                  className="absolute right-0 top-0 mt-2 font-medium mr-2 bg-sky-50 text-sky-800 hover:bg-sky-100 text-xs py-1 px-2 rounded"
-                  disabled={isValidatingCedula}
-                >
-                  {isValidatingCedula ? 'Validando...' : 'Validar'}
-                </button>
-                {cedulaEmpresaStatus === 'inscrito' && <span className="absolute inset-y-0 right-10 flex items-center pr-3 text-cyan-600">✔</span>}
-                {cedulaEmpresaStatus === 'no inscrito' && <p className="text-pink-700 mt-1">La cédula no se encuentra inscrita en el sistema de Hacienda.</p>}
-              </div>
-            </div>
+
+
+
+
+
+            
 
             <div className="mb-2">
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

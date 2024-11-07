@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
-import { useAccountManagement } from '../hooks/useAccountManagement'; // Importa el hook
+import { useAccountManagement } from '../hooks/useAccountManagement';
 import { Sidebar } from '../Sidebar.jsx';
+import { useUser } from '../hooks/UserContext';
 
 export function MantenimientoClientes() {
+  const { user } = useUser();
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -13,13 +15,15 @@ export function MantenimientoClientes() {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCliente, setEditingCliente] = useState(null);
-  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
+  const { logout } = useAccountManagement();
 
   const fetchClientes = () => {
     fetch('http://localhost/managersyncbdf/public/api/clientes/all')
       .then(response => response.json())
       .then(data => {
-        setClientes(data);
+        // Filtra los clientes según el empresa_id del usuario logueado
+        const clientesFiltrados = data.filter(cliente => cliente.empresa_id === user?.empresa_id);
+        setClientes(clientesFiltrados);
         setLoading(false);
       })
       .catch(error => {
@@ -30,12 +34,12 @@ export function MantenimientoClientes() {
 
   useEffect(() => {
     fetchClientes();
-  }, []);
+  }, [user?.empresa_id]); // Refrescar cuando el empresa_id cambie
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const cliente = { nombre, direccion, telefono, email, cedula };
+    const cliente = { nombre, direccion, telefono, email, cedula, empresa_id: user?.empresa_id || '', };
 
     fetch('http://localhost/managersyncbdf/public/api/clientes', {
       method: 'POST',
@@ -114,14 +118,14 @@ export function MantenimientoClientes() {
       <Header/>
       <div className="bg-slate-300  w-screen flex h-max  gap-0">
 
-      <div className="basis-1/4 mr-4 h-full">
+        <div className="basis-1/4 mr-4 h-full">
           <Sidebar logout={logout}/>
         </div>
 
         <div className="flex gap-6">
             {/* Contenido principal */}
-        <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-20 bg-white rounded-lg shadow-lg" >
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Registrar clientes</h1>
+          <div className="basis-2/4 w-96 py-2 h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-20 bg-white rounded-lg shadow-lg" >
+            <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Registrar clientes</h1>
 
             <form onSubmit={editingCliente ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
@@ -196,49 +200,49 @@ export function MantenimientoClientes() {
               </div>
             </form>
           </div>
+
           <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 bg-white rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>
-          <table className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6  mb-4 bg-white rounded-lg shadow-lg">
-            <thead className="bg-gray-200 text-gray-600">
-              <tr>
-                <th className="p-3 text-left">Nombre</th>
-                <th className="p-3 text-left">Dirección</th>
-                <th className="p-3 text-left">Teléfono</th>
-                <th className="p-3 text-left">Email</th>
-                <th className="p-3 text-left">Cédula</th>
-                <th className="p-3 text-left">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientes.map((cliente) => (
-                <tr key={cliente.id} className="border-b border-gray-200">
-                  <td className="p-3">{cliente.nombre}</td>
-                  <td className="p-3">{cliente.direccion}</td>
-                  <td className="p-3">{cliente.telefono}</td>
-                  <td className="p-3">{cliente.email}</td>
-                  <td className="p-3">{cliente.cedula}</td>
-                  <td className="p-3">
-
-                    <button
-                      onClick={() => handleEdit(cliente)}
-                      className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200" >
-                      Editar
-                    </button>
-
-                    <button
-                      onClick={() => handleDelete(cliente.id)}
-                      className="text-sm font-medium mt-2 px-4 py-1 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
-                      Eliminar
-                    </button>
-                  </td>
+            <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>
+            <table className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6  mb-4 bg-white rounded-lg shadow-lg">
+              <thead className="bg-gray-200 text-gray-600">
+                <tr>
+                  <th className="p-3 text-left">Nombre</th>
+                  <th className="p-3 text-left">Dirección</th>
+                  <th className="p-3 text-left">Teléfono</th>
+                  <th className="p-3 text-left">Email</th>
+                  <th className="p-3 text-left">Cédula</th>
+                  <th className="p-3 text-left">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {clientes.map((cliente) => (
+                  <tr key={cliente.id} className="border-b border-gray-200">
+                    <td className="p-3">{cliente.nombre}</td>
+                    <td className="p-3">{cliente.direccion}</td>
+                    <td className="p-3">{cliente.telefono}</td>
+                    <td className="p-3">{cliente.email}</td>
+                    <td className="p-3">{cliente.cedula}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => handleEdit(cliente)}
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        Editar
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(cliente.id)}
+                        className="text-sm font-medium mt-2 px-4 py-1 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-      <footer className="text-center w-full ">
+      <footer className="text-center w-full">
         <Footer />
       </footer>
     </>

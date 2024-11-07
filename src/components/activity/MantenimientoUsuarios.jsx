@@ -11,8 +11,8 @@ export function MantenimientoUsuarios() {
     nombre: '',
     email: '',
     cedula: '',
-    cedula_empresa: user?.cedula_empresa || '', // Cargar cédula de la empresa del usuario
-    empresa: user?.empresa || '', // Cargar nombre de la empresa del usuario
+    empresa_id: user?.empresa_id || '', // Cargar cédula de la empresa del usuario
+   
     role: '', // Cambié el valor inicial a una cadena vacía para que el usuario seleccione
     password: '',
     password_confirmation: ''
@@ -24,26 +24,30 @@ export function MantenimientoUsuarios() {
   const { logout } = useAccountManagement();
 
   // Función para obtener usuarios
-  const fetchUsuarios = async () => {
-    try {
-      const response = await fetch('http://managersyncbdf.test/api/usuarios/all', {
-        headers: {
-          'Authorization': `Bearer ${token}` // Usar el token del contexto
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al obtener usuarios');
+  // Función para obtener usuarios
+const fetchUsuarios = async () => {
+  try {
+    const response = await fetch('http://managersyncbdf.test/api/usuarios/all', {
+      headers: {
+        'Authorization': `Bearer ${token}` // Usar el token del contexto
       }
+    });
 
-      const data = await response.json();
-      setUsuarios(data);
-    } catch (error) {
-      console.error('Error fetching usuarios:', error);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error('Error al obtener usuarios');
     }
-  };
+
+    const data = await response.json();
+    // Filtrar usuarios que coincidan con el `empresa_id` del usuario logueado
+    const filteredUsuarios = data.filter(usuario => usuario.empresa_id === user.empresa_id);
+    setUsuarios(filteredUsuarios);
+  } catch (error) {
+    console.error('Error fetching usuarios:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchUsuarios();
@@ -115,8 +119,8 @@ export function MantenimientoUsuarios() {
       nombre: usuario.nombre,
       email: usuario.email,
       cedula: usuario.cedula,
-      cedula_empresa: usuario.cedula_empresa,
-      empresa: usuario.empresa,
+      empresa_id: user?.empresa_id || '', // Resetear id de empresa
+     
       role: usuario.role,
       password: '',
       password_confirmation: ''
@@ -157,8 +161,8 @@ export function MantenimientoUsuarios() {
       nombre: '',
       email: '',
       cedula: '',
-      cedula_empresa: user?.cedula_empresa || '', // Resetear cédula de empresa
-      empresa: user?.empresa || '', // Resetear nombre de empresa
+      empresa_id: user?.empresa_id || '', // Resetear id de empresa
+     
       role: '', // Cambié el valor inicial a una cadena vacía
       password: '',
       password_confirmation: ''
@@ -172,15 +176,15 @@ export function MantenimientoUsuarios() {
 
   return (
     <>
-      <Header />
-      <div className="bg-slate-300 flex w-screen h-max">
-        <div className='basis-1/4'>
-          <Sidebar logout={logout} />
+    <Header/>
+      <div className="bg-slate-300  w-screen flex h-max gap-0">
+      <div className="basis-1/4 mr-4 h-full">
+          <Sidebar logout={logout}/>
         </div>
 
-        <div className="col-span-7 flex py-16">
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-full pt-12 -mt-7 p-6 rounded-xl mx-auto bg-white">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
+        <div className="flex gap-12">
+        <div className="py-2  h-min pt-12 p-6 mx-auto mt-6  mb-4 -ml-12 mr-9 bg-white rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
             <form onSubmit={editingUsuario ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-gray-700 font-semibold">Nombre</label>
@@ -215,27 +219,7 @@ export function MantenimientoUsuarios() {
                   required
                 />
               </div>
-              <div>
-  <label className="block text-gray-700 font-semibold">Cédula Empresa</label>
-  <input
-    type="text"
-    name="cedula_empresa"
-    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-    value={formData.cedula_empresa}
-    readOnly
-  />
-</div>
-
-<div>
-  <label className="block text-gray-700 font-semibold">Empresa</label>
-  <input
-    type="text"
-    name="empresa"
-    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-    value={formData.empresa}
-    readOnly
-  />
-</div>
+             
 
               <div className="mb-2">
                 <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -247,8 +231,7 @@ export function MantenimientoUsuarios() {
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   value={formData.role}
                   onChange={handleChange}
-                  required
-                >
+                  required>
                   <option value="">Seleccione un rol</option> {/* Opción para seleccionar un rol */}
                   <option value="admin">Administrador</option>
                   <option value="contador">Contador</option>
@@ -279,7 +262,7 @@ export function MantenimientoUsuarios() {
                       onChange={handleChange}
                       required
                     />
-                    {errors.password_confirmation && <p className="text-red-500">{errors.password_confirmation}</p>}
+                    {errors.password_confirmation && <p className="text-pink-700">{errors.password_confirmation}</p>}
                   </div>
                 </>
               )}
@@ -290,15 +273,20 @@ export function MantenimientoUsuarios() {
                 {editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}
               </button>
             </form>
+            </div>
+            </div>
 
-            <h2 className="text-xl font-bold mt-8">Usuarios Registrados</h2>
-            <table className="min-w-full mt-4">
-              <thead>
+            <div className="flex gap-16">
+        <div className="flex-shrink-0 gap-4 mr-10 w-full py-2 h-min pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Usuarios Registrados</h2>
+            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+              <thead className='bg-gray-200 text-gray-600'>
                 <tr>
                   <th className="border px-4 py-2">ID</th>
                   <th className="border px-4 py-2">Nombre</th>
                   <th className="border px-4 py-2">Email</th>
                   <th className="border px-4 py-2">Rol</th>
+                  <th className="border px-4 py-2">ID de empresa</th>
                   <th className="border px-4 py-2">Acciones</th>
                 </tr>
               </thead>
@@ -309,15 +297,16 @@ export function MantenimientoUsuarios() {
                     <td className="border px-6 py-2">{usuario.nombre}</td>
                     <td className="border px-6 py-2">{usuario.email}</td>
                     <td className="border px-3 py-2">{usuario.role}</td>
-                    <td className="border px-1 py-2">
+                    <td className="border px-3 py-2">{usuario.empresa_id}</td>
+                    <td className="border pr-1 py-2 pl-4 ml-2">
                       <button
                         onClick={() => handleEdit(usuario)}
-                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 pl-4 mr-3 ml-1 gap-2 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(usuario.id)}
-                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                        className="text-sm text-center font-medium mt-1 px-6 py-1 rounded-xl gap-2 bg-gray-50 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                         Eliminar
                       </button>
                     </td>
@@ -327,6 +316,7 @@ export function MantenimientoUsuarios() {
             </table>
           </div>
         </div>
+      
       </div>
       <Footer />
     </>

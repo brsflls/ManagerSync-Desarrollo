@@ -116,7 +116,7 @@ export function HistorialInventario() {
         </div>
         
         {/* Contenido principal */}
-        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg ">
+        <div className="basis-2/4 py-2 pt-12 mx-auto p-6 pb-14 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg h-min">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Historial de Inventario</h1>
 
           {/* Campo de búsqueda */}
@@ -124,7 +124,7 @@ export function HistorialInventario() {
             <input
               type="text"
               placeholder="Buscar por nombre o código de producto"
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 mb-5"
               value={searchQuery}
               onChange={handleSearchChange}
             />
@@ -136,7 +136,7 @@ export function HistorialInventario() {
 
           {/* Mostrar mensaje si no hay productos registrados */}
           {!loading && filteredProductos.length === 0 && (
-            <p className="text-center text-gray-600 font-semibold">No hay productos registrados</p>
+            <p className="text-center text-gray-600 font-semibold mt-4">No hay productos registrados</p>
           )}
 
           {/* Tabla de productos */}

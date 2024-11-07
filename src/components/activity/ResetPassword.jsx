@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom'; // Importa useNavigate
-
+import { Header } from '../Header.jsx';
 export function ResetPassword() {
   const { token } = useParams();
   const location = useLocation();

@@ -16,6 +16,8 @@ import { ForgotPassword } from '../activity/ForgotPassword.jsx';
 import { MantenimientoProductos } from '../activity/MantenimientoProductos.jsx';
 import { MantenimientoUsuarios } from '../activity/MantenimientoUsuarios.jsx';
 import { MantenimientoClientes } from '../activity/MantenimientoClientes.jsx';
+import { EstadisticasFacturas } from '../activity/EstadisticasFacturas.jsx';
+import { MantenimientoEmpresas } from '../activity/MantenimientoEmpresas.jsx';
 import { MantenimientoProveedores } from '../activity/MantenimientoProveedores.jsx';
 import ProtectedRoute from './ProtectedRoute'; // Ajusta la ruta
 import { Detalle_facturas } from '../activity/Detalle_facturas.jsx';
@@ -91,6 +93,14 @@ export function RouteMain() {
             <MantenimientoUsuarios /></AdminRoute>
 
           </ProtectedRoute>} />
+
+
+
+          <Route path="/EstadisticasFacturas" element={
+          <ProtectedRoute><AdminRoute>
+            <EstadisticasFacturas /></AdminRoute>
+
+          </ProtectedRoute>} />
         {/* Solo los administradores pueden acceder a MantenimientoProductos */}
         <Route path="/MantenimientoProductos" element={
          <ProtectedRoute><AdminRoute>
@@ -105,6 +115,11 @@ export function RouteMain() {
           <ProtectedRoute>
             <MantenimientoClientes />
           </ProtectedRoute>} />
+          <Route path="/MantenimientoEmpresas" element={
+         <PublicRoute>
+            <MantenimientoEmpresas />
+          </PublicRoute>} />
+          
         <Route path="/Settings" element={
           <ProtectedRoute>
             <Settings />

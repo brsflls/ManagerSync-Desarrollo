@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../hooks/UserContext";
-import { useAccountManagement } from '../hooks/useAccountManagement';
+import { useAccountManagement } from '../hooks/useAccountManagement'; 
 
 import { Header } from "../Header.jsx";
 import { Detalle_facturas } from "./Detalle_facturas.jsx";
@@ -9,8 +9,8 @@ import "../../index.css";
 import { Sidebar } from '../Sidebar.jsx';
 
 export function Punto_venta() {
-  const { user } = useUser();
-  const { logout } = useAccountManagement();
+  const { user } = useUser(); // Obtener el usuario logueado
+  const { logout } = useAccountManagement(); // Usa el hook para obtener la función logout
   const [clientes, setClientes] = useState([]);
   const [productos, setProductos] = useState([]);
   const [selectedCliente, setSelectedCliente] = useState(null);
@@ -18,25 +18,30 @@ export function Punto_venta() {
   const [cantidad, setCantidad] = useState(1);
   const [carrito, setCarrito] = useState([]);
 
+  // Calcular el precio unitario promedio
   const totalPreciosUnitarios = carrito.reduce((acc, item) => acc + item.precio_consumidor, 0);
-  const precioUnitarioPromedio = totalPreciosUnitarios / (carrito.length || 1);
+  const precioUnitarioPromedio = totalPreciosUnitarios / (carrito.length || 1); // Asegúrate de evitar división por cero
 
   useEffect(() => {
+    // Función para obtener clientes filtrados por empresa_id
     const fetchClientes = async () => {
       try {
         const response = await fetch("http://localhost/managersyncbdf/public/api/clientes/all");
         const data = await response.json();
-        setClientes(data);
+        const clientesFiltrados = data.filter(cliente => cliente.empresa_id === user.empresa_id);
+        setClientes(clientesFiltrados);
       } catch (error) {
         console.error("Error al obtener clientes:", error);
       }
     };
 
+    // Función para obtener productos filtrados por empresa_id
     const fetchProductos = async () => {
       try {
         const response = await fetch("http://localhost/managersyncbdf/public/api/productos/all");
         const data = await response.json();
-        setProductos(data);
+        const productosFiltrados = data.filter(producto => producto.empresa_id === user.empresa_id);
+        setProductos(productosFiltrados);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
@@ -44,7 +49,7 @@ export function Punto_venta() {
 
     fetchClientes();
     fetchProductos();
-  }, []);
+  }, [user.empresa_id]); // Reemplaza el efecto cuando el empresa_id del usuario cambie
 
   const handleAgregarProducto = () => {
     if (selectedProducto) {
@@ -60,10 +65,10 @@ export function Punto_venta() {
   };
 
   const handleReiniciarVenta = () => {
-    setSelectedCliente(null);
-    setSelectedProducto(null);
-    setCantidad(1);
-    setCarrito([]);
+    setSelectedCliente(null); // Reiniciar cliente seleccionado
+    setSelectedProducto(null); // Reiniciar producto seleccionado
+    setCantidad(1); // Reiniciar cantidad
+    setCarrito([]); // Vaciar carrito
   };
 
   const subtotal = carrito.reduce((acc, item) => acc + item.total, 0);
@@ -74,13 +79,14 @@ export function Punto_venta() {
     <>
       <Header />
 
-      <div className="bg-slate-300 w-screen h-max grid grid-cols-8 gap-3">
-        <div>
-          <Sidebar logout={logout} />
+      <div className="bg-slate-300 w-screen h-max flex">
+        <div className="basis-1/4 mr-11 h-full">
+          <Sidebar logout={logout} /> 
         </div>
         <div className="pt-2 ps-3">
-          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg">
+          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto pb-8 mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg">
             <div className="grid grid-cols-6">
+              {/* Botón para reiniciar la venta */}
               <button
                 onClick={handleReiniciarVenta}
                 className="-mt-4 ml-3 px-1 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 w-full">
@@ -109,13 +115,12 @@ export function Punto_venta() {
 
               <div>
                 <div className="flex space-x-2">
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    onClick={() => { window.location.href = '/MantenimientoClientes'; }}
-                  >
-                    Crear/Editar Cliente
-                  </button>
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-red-600">
+                <button
+                  className="px-4 py-1.5 text-sm font-medium rounded-2xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200"
+                  onClick={() => { window.location.href = '/MantenimientoClientes'; }} >
+                  Crear/Editar Cliente
+                </button>
+                  <button className="px-4 py-1.5 text-sm font-medium rounded-2xl p-2 bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
                     Crear Exoneración
                   </button>
                 </div>
@@ -205,7 +210,7 @@ export function Punto_venta() {
                   {carrito.map((item, index) => (
                     <tr key={index} className="border-b border-gray-200">
                       <td className="p-3">{item.cantidad}</td>
-                      <td className="p-3">{item.codigo_cabys}</td>
+                      <td className="p-3">{item.codigo_cabys}</td> {/* Aquí se usa item.id */}
                       <td className="p-3">{item.descripcion}</td>
                       <td className="p-3">{(item.total * 0.13).toFixed(2)}</td>
                       <td className="p-3">{`₡${item.precio_consumidor}`}</td>
@@ -218,14 +223,14 @@ export function Punto_venta() {
           </div>
         </div>
 
-        <div className="pt-2 pr-12 basis-1/4 ml-7 mr-5 h-full col-span-2">
+        <div className="pt-2 pr-12 ml-7 mr-5">
           <Detalle_facturas 
             subtotal={subtotal}
             totalIVA={totalIVA}
             totalVenta={totalVenta}
             carrito={carrito}
-            selectedCliente={selectedCliente} // Pasamos el objeto cliente completo
-            user={user} 
+            selectedCliente={selectedCliente}
+            user={user} // Pasar el usuario logueado a Detalle_facturas
             precioUnitario={precioUnitarioPromedio} 
           />
         </div>

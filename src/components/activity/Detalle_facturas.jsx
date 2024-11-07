@@ -6,12 +6,11 @@ function Modal({ isVisible, onClose, children }) {
   if (!isVisible) return null;
 
   return (
-    <div className=" fixed inset-0 bg-gray-800 bg-opacity-50 flex m-5 justify-center items-center w-96">
-      <div className="bg-white p-6 rounded-lg shadow-lg relative">
+    <div className="fixed inset-0 -mt-1 bg-gray-800 bg-opacity-50 flex w-screen h-screen">
+      <div className="flex flex-col right-96 left-96 ml-36 mr-36 top-4 fixed ">
         <button
-          className="absolute top-2 right-2 text-gray-700 font-bold"
-          onClick={onClose}
-        >
+          className="cursor-pointer rounded-lg shadow-lg bg-white text-gray-700 font-extrabold pb-7 p-3 text-left"
+          onClick={onClose}>
           X
         </button>
         {children}
@@ -34,7 +33,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className="bg-slate-300 flex flex-col justify-center items-center place-items-center">
+    <div className="bg-slate-300">
       <div className="w-full py-2 pt-12 p-6 mx-auto mt-6 ml-5 mb-4 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center place-items-center">
         <h1 className="text-2xl font-bold text-gray-800 mb-8 text-center">Detalle Factura</h1>
         <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -84,6 +83,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
       {/* Modal que contiene el componente Factura */}
       <Modal isVisible={isModalOpen} onClose={handleCloseModal}>
         <Factura
+          onClose={handleCloseModal}
           subtotal={subtotal}
           totalIVA={totalIVA}
           totalVenta={totalVenta}
@@ -91,7 +91,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
           selectedCliente={selectedCliente} // Pasar el objeto cliente completo
           setFacturaId={setFacturaId}
           precioUnitario={precioUnitario} // Pasar el precio unitario
-          onClose={handleCloseModal} // Pasar la función para cerrar el modal
+           // Pasar la función para cerrar el modal
         />
       </Modal>
     </div>

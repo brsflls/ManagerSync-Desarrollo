@@ -105,7 +105,7 @@ export function Emisor({ onChange }) {
 
       {/* Mostrar mensaje de éxito */}
       {showSuccessMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div className="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative mb-4" role="alert">
           <strong className="font-bold">¡Datos del emisor agregados correctamente!</strong>
         </div>
       )}
@@ -122,7 +122,7 @@ export function Emisor({ onChange }) {
               onChange={handleEmisorChange}
               className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.identificacion ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
-            {errors.identificacion && <p className="text-red-500 text-sm">{errors.identificacion}</p>}
+            {errors.identificacion && <p className="text-pink-700 text-sm">{errors.identificacion}</p>}
           </div>
 
           {/* Tipo de Identificación */}
@@ -151,7 +151,7 @@ export function Emisor({ onChange }) {
               onChange={handleEmisorChange}
               className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.telefono ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
-            {errors.telefono && <p className="text-red-500 text-sm">{errors.telefono}</p>}
+            {errors.telefono && <p className="text-pink-700 text-sm">{errors.telefono}</p>}
           </div>
 
           {/* Nombre */}
@@ -164,7 +164,7 @@ export function Emisor({ onChange }) {
               onChange={handleEmisorChange}
               className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.nombre ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
-            {errors.nombre && <p className="text-red-500 text-sm">{errors.nombre}</p>}
+            {errors.nombre && <p className="text-pink-700 text-sm">{errors.nombre}</p>}
           </div>
 
           {/* Correo Electrónico */}
@@ -177,7 +177,7 @@ export function Emisor({ onChange }) {
               onChange={handleEmisorChange}
               className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.correoElectronico ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
-            {errors.correoElectronico && <p className="text-red-500 text-sm">{errors.correoElectronico}</p>}
+            {errors.correoElectronico && <p className="text-pink-700 text-sm">{errors.correoElectronico}</p>}
           </div>
 
           {/* Dirección Exacta */}
@@ -190,7 +190,7 @@ export function Emisor({ onChange }) {
               onChange={handleEmisorChange}
               className={`w-full border-2 rounded-lg p-2 focus:outline-none ${errors.direccionExacta ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
             />
-            {errors.direccionExacta && <p className="text-red-500 text-sm">{errors.direccionExacta}</p>}
+            {errors.direccionExacta && <p className="text-pink-700 text-sm">{errors.direccionExacta}</p>}
           </div>
 
           {/* Provincia */}
@@ -257,7 +257,7 @@ export function Emisor({ onChange }) {
         {/* Botón para agregar */}
         <button
           onClick={handleAgregar}
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200 mt-4"
+          className="w-full text-white bg-sky-900 rounded-xl hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-bold py-2 px-4  transition duration-200"
         >
           Agregar
         </button>

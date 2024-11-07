@@ -5,6 +5,7 @@ import { PDFViewer, PDFDownloadLink, Document, Page, Text, pdf } from '@react-pd
 
 export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedCliente, onClose }) {
   const { user } = useUser();
+  
   const [tipoFactura, setTipoFactura] = useState('venta');
   const [fechaEmision, setFechaEmision] = useState(new Date().toISOString().split('T')[0]);
   const [fechaVencimiento, setFechaVencimiento] = useState(new Date().toISOString().split('T')[0]);
@@ -16,6 +17,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
   const [pdfBlob, setPdfBlob] = useState(null);
 
   // Nueva lógica de pago
+  
   const [metodoPago, setMetodoPago] = useState('efectivo');
   const [cantidadPagada, setCantidadPagada] = useState(0);
   const [vuelto, setVuelto] = useState(0);
@@ -32,8 +34,17 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
   // Componente para generar el PDF
   const FacturaPDF = () => (
     <Document>
-      <Page>
-        <Text style={{ marginBottom: 5 }}>Factura #{facturaId}</Text>
+      <Page style={{ padding: 20 }}> {/* Márgenes de 20 puntos en todos los lados */}
+
+      <Text style={{ marginBottom: 5 }}>Empresa: {user?.empresa_nombre || 'RESTAURANTE DOÑA DAISY'}</Text>
+
+      <Text style={{ marginBottom: 5 }}>Sucursal</Text>
+        <Text style={{ marginBottom: 5 }}>Dirección: {user?.empresa_direccion || 'COSTADO OESTE DEL PARQUE RECADERO BRICEÑO CONTIGUO A COOPENAE NICOYA GUANACASTE-NICOYA'}</Text>
+        <Text style={{ marginBottom: 5 }}>Teléfono: {user?.empresa_telefono || '(506)85588444'}</Text>
+        <Text style={{ marginBottom: 5 }}>Cedula: 502970136</Text>
+        <Text style={{ marginBottom: 5 }}> Usuario: José Fabio Ramirez</Text>
+        <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
+        <Text style={{ marginBottom: 5 }}>Factura Electronica#{facturaId}</Text>
         <Text style={{ marginBottom: 5 }}>Código Único: {codigoUnico}</Text>
         <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente.nombre || 'Cliente no especificado'}</Text>
         <Text style={{ marginBottom: 5 }}>Correo: {selectedCliente.email || selectedCliente.correo}</Text>
@@ -41,6 +52,10 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         <Text style={{ marginBottom: 5 }}>Fecha de vencimiento: {fechaVencimiento}</Text>
         <Text style={{ marginBottom: 5 }}>Estado: {estado}</Text>
         <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
+  
+        {/* Datos de la empresa */}
+        
+  
         <Text style={{ marginBottom: 5 }}>Detalles de la factura:</Text>
         {carrito.map((item, index) => (
           <Text key={index} style={{ marginBottom: 5 }}>
@@ -53,15 +68,28 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
         <Text style={{ marginBottom: 5 }}>Subtotal: ₡{subtotal.toFixed(2)}</Text>
         <Text style={{ marginBottom: 5 }}>IVA: ₡{totalIVA.toFixed(2)}</Text>
-        <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}</Text>
+        <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}{'\n'}{'\n'}{'\n'}</Text>
+
+        <Text style={{ marginBottom: 5 }}>Cambio: {vuelto}{'\n'}{'\n'}{'\n'}</Text>
+
+
+        <Text style={{ marginBottom: 5 }}>Autorizada mediante resolucion No.DGT-R-48-2016 DEL 07/10/2016{'\n'}</Text>
+
+        <Text style={{ marginBottom: 5 }}>Orden 00000-000-0000</Text>
+        <Text style={{ marginBottom: 5 }}>{fechaEmision}{'\n'}{'\n'}{'\n'}</Text>
+
+        <Text style={{ marginBottom: 5 }}>Autorizada mediante resolucion No.DGT-R-0033-2019 DEL 07/10/2019 </Text>
+        <Text style={{ marginBottom: 5 }}>Version del documento 4.3 </Text>
       </Page>
     </Document>
   );
+  
 
-  const calcularVuelto = (montoPagado) => {
-    const cambio = montoPagado - totalVenta;
-    setVuelto(cambio >= 0 ? cambio : 0);
-  };
+const calcularVuelto = (montoPagado) => {
+  const cambio = montoPagado - totalVenta;
+  setVuelto(cambio >= 0 ? cambio : 0);
+};
+
 
   const handleFacturar = async () => {
     if (!selectedCliente || !user || (metodoPago === 'efectivo' && cantidadPagada < totalVenta)) {
@@ -70,6 +98,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
 
     const facturaData = {
+      empresa_id: user?.empresa_id || '',
       cliente_id: selectedCliente.id,
       usuario_id: user.id,
       fecha_emision: fechaEmision,
@@ -102,7 +131,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
       console.error("Error en la solicitud:", error);
     }
   };
-
+ 
   const handleGuardarDetalle = async (facturaIdParam) => {
     const detalles = carrito.map((item) => {
       const cantidad = item.cantidad || 0;
@@ -175,11 +204,9 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
     }
   };
 
- 
   return (
-    <div className="bg-blue-100 justify-center items-center flex flex-col">
-      <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow
--lg">
+    <div className="items-center flex flex-col fixed top-12 right-80 left-80  w-auto h-auto">
+      <div className=" p-6 bg-white rounded-lg shadow-lg ">
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Registrar Factura</h1>
 
         {/* Formulario de datos de la factura */}
@@ -189,8 +216,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
             className="border p-1 rounded"
             value={tipoFactura}
             onChange={(e) => setTipoFactura(e.target.value)}
-            required
-          >
+            required>
             <option value="venta">Venta</option>
             <option value="compra">Compra</option>
           </select>
@@ -232,7 +258,7 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
           <label>Total:</label>
           <input
             type="text"
-            className="border p-1 rounded w-full"
+            className="border p-1 rounded w-3/6"
             value={`₡${totalVenta.toFixed(2)}`}
             readOnly
           />
@@ -255,10 +281,10 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
         </div>
         {metodoPago === 'efectivo' ? (
           <div className="mb-4 flex justify-between">
-            <label>Cantidad Pagada:</label>
+            <label>Cantidad Pagada: </label>
             <input
               type="number"
-              className="border p-1 rounded"
+              className="border p-1 rounded w-4/12"
               value={cantidadPagada}
               onChange={(e) => {
                 const value = parseFloat(e.target.value);
@@ -310,11 +336,19 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
 
         <div className="flex justify-between mt-4">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleFacturar}
-          >
+            className="text-white bg-sky-900 rounded-xl hover:bg-indigo-900 font-bold py-2 px-4 "
+            onClick={handleFacturar}>
             Facturar
           </button>
+          <button
+            className="text-white bg-red-500 rounded-xl hover:bg-red-900 font-bold py-2 px-4 "
+            onClick={onClose}>
+            Cancelar
+          </button>
+          
+          
+          
+         
         </div>
       </div>
 
@@ -331,18 +365,17 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
 
             <PDFDownloadLink document={<FacturaPDF />} fileName={`factura_${facturaId}.pdf`}>
               {({ loading }) => (
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
+                <button className="mt-4 mr-3 px-2 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900">
                   {loading ? 'Generando PDF...' : 'Guardar PDF'}
                 </button>
               )}
             </PDFDownloadLink>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+              className="mt-4 mr-3 px-2 py-2 rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800"
               onClick={() => {
                 setShowModal(false);
                 onClose();
-              }}
-            >
+              }}>
               Cerrar
             </button>
           </div>

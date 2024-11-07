@@ -5,8 +5,9 @@ import { BackgroundAnimation } from './Background.jsx';
 import { useAccountManagement } from '../hooks/useAccountManagement';
 import { Sidebar } from '../Sidebar.jsx';
 import { CabysModal } from './CabysModal.jsx';
-
+import { useUser } from '../hooks/UserContext';
 export function MantenimientoProductos() {
+  const {  user } = useUser();
   const [codigoProducto, setCodigoProducto] = useState('');
   const [codigoCabys, setCodigoCabys] = useState('');
   const [nombre, setNombre] = useState('');
@@ -31,19 +32,22 @@ export function MantenimientoProductos() {
 
   const { logout } = useAccountManagement();
 
-  const fetchProductos = () => {
-    fetch('http://localhost/managersyncbdf/public/api/productos/all')
-      .then(response => response.json())
-      .then(data => {
-        setProductos(data);
-        console.log('Productos:', data);
-        setLoadingProductos(false);
-      })
-      .catch(error => {
-        console.error('Error fetching productos:', error);
-        setLoadingProductos(false);
-      });
-  };
+ const fetchProductos = () => {
+  fetch('http://localhost/managersyncbdf/public/api/productos/all')
+    .then(response => response.json())
+    .then(data => {
+      // Filtra los productos por empresa_id del usuario logueado
+      const productosFiltrados = data.filter(producto => producto.empresa_id === user?.empresa_id);
+      setProductos(productosFiltrados);
+      console.log('Productos de la empresa:', productosFiltrados);
+      setLoadingProductos(false);
+    })
+    .catch(error => {
+      console.error('Error fetching productos:', error);
+      setLoadingProductos(false);
+    });
+};
+
 
   const fetchCabysData = () => {
     fetch('http://localhost/managersyncbdf/public/api/cabys-json')
@@ -93,6 +97,7 @@ export function MantenimientoProductos() {
     const isEditing = editingProduct !== null;
   
     const producto = {
+      empresa_id: user?.empresa_id || '', 
       codigo_producto: codigoProducto,
       codigo_cabys: codigoCabys,
       nombre,
@@ -208,8 +213,8 @@ export function MantenimientoProductos() {
   return (
     <>
       <Header />
-      <div className="bg-slate-300 w-screen h-max grid grid-cols-8">
-        <div>
+      <div className="bg-slate-300  w-screen flex h-max gap-0">
+        <div className='basis-1/4 mr-4 h-full '>
           <Sidebar logout={logout} />
         </div>
         <div className="ml-48 mx-auto ps-5 py-16 max-w-6xl">
@@ -225,7 +230,7 @@ export function MantenimientoProductos() {
           </div>
 
           {/* Formulario de Registro/Actualización de Producto */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md h-min">
             <h1 className="text-2xl font-bold mb-6 text-center">{editingProduct ? 'Actualizar Producto' : 'Registrar Producto'}</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">

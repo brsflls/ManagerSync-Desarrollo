@@ -42,11 +42,11 @@ export function Compras() {
     <>
       <BackgroundAnimation />
       <Header />
-      <div className="w-screen h-max bg-slate-300 mx-auto relative grid grid-cols-8">
+      <div className="w-screen bg-slate-300 mx-auto relative grid grid-cols-8 ">
         <div>
           <Sidebar logout={logout} /> {/* Pasa la función logout al Sidebar */}
         </div>
-        <div className="max-w-4xl mx-auto col-span-7 my-10 bg-white p-8 rounded-lg shadow-lg">
+        <div className="max-w-4xl mx-auto col-span-7 my-10 bg-white p-8 rounded-lg shadow-lg h-min">
           <h2 className="text-3xl font-bold mb-6 text-center">
             Crear documento de Compra Manual
           </h2>
@@ -55,7 +55,7 @@ export function Compras() {
               onClick={() => handleTabClick("inicio")}
               className={`px-4 py-2 ${
                 activeTab === "inicio"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-sm border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
               }`}
             >
@@ -65,7 +65,7 @@ export function Compras() {
               onClick={() => handleTabClick("emisor")}
               className={`px-4 py-2 ${
                 activeTab === "emisor"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-sm border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
               }`}
             >
@@ -75,17 +75,17 @@ export function Compras() {
               onClick={() => handleTabClick("exonera")}
               className={`px-4 py-2 ${
                 activeTab === "exonera"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-sm border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
-              }`}
-            >
+              }`}>
+
               Exonera
             </button>
             <button
               onClick={() => handleTabClick("prodsServs")}
               className={`px-4 py-2 ${
                 activeTab === "prodsServs"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-sm border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
               }`}
             >
@@ -95,7 +95,7 @@ export function Compras() {
               onClick={() => handleTabClick("refers")}
               className={`px-4 py-2 ${
                 activeTab === "refers"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-sm border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
               }`}
             >
@@ -105,7 +105,7 @@ export function Compras() {
               onClick={() => handleTabClick("finalizar")}
               className={`px-4 py-2 ${
                 activeTab === "finalizar"
-                  ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                  ? "border-b-2 bg-slate-50 rounded-sm border-sky-800 text-sky-800 font-bold hover:bg-slate-100"
                   : "text-gray-500"
               }`}
             >
