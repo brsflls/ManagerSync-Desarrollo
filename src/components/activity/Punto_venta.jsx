@@ -54,15 +54,38 @@ export function Punto_venta() {
   const handleAgregarProducto = () => {
     if (selectedProducto) {
       const total = selectedProducto.precio_consumidor * cantidad;
-      setCarrito([...carrito, { 
-        ...selectedProducto, 
-        cantidad, 
-        total 
-      }]);
+  
+      setCarrito(prevCarrito => {
+        // Buscar si el producto ya está en el carrito
+        const productoExistente = prevCarrito.find(item => item.id === selectedProducto.id);
+        
+        if (productoExistente) {
+          // Si el producto ya está en el carrito, incrementa la cantidad y el total
+          return prevCarrito.map(item =>
+            item.id === selectedProducto.id
+              ? { 
+                  ...item, 
+                  cantidad: item.cantidad + cantidad, 
+                  total: item.total + total 
+                }
+              : item
+          );
+        } else {
+          // Si el producto no está en el carrito, agregarlo como nuevo
+          return [...prevCarrito, { 
+            ...selectedProducto, 
+            cantidad, 
+            total 
+          }];
+        }
+      });
+  
+      // Restablecer cantidad y producto seleccionado después de agregar al carrito
       setCantidad(1);
       setSelectedProducto(null);
     }
   };
+  
 
   const handleReiniciarVenta = () => {
     setSelectedCliente(null); // Reiniciar cliente seleccionado
@@ -94,19 +117,18 @@ export function Punto_venta() {
               </button>
             </div>
             <div className="lg:grid lg:grid-cols-2 gap-4 p-3">
-              <select
-                className="w-full p-2 border b-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
-                onChange={(e) => setSelectedCliente(e.target.value)}
-                value={selectedCliente || ""}
-              >
-                <option value="">Seleccionar cliente...</option>
-                {clientes.map((cliente) => (
-                  <option key={cliente.id} value={cliente.id}>
-                    {cliente.nombre}
-                  </option>
-                ))}
-              </select>
-
+            <select
+  className="w-full p-2 border b-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
+  onChange={(e) => setSelectedCliente(clientes.find(cliente => cliente.id === parseInt(e.target.value)))}
+  value={selectedCliente ? selectedCliente.id : ""}
+>
+  <option value="">Seleccionar cliente...</option>
+  {clientes.map((cliente) => (
+    <option key={cliente.id} value={cliente.id}>
+      {cliente.nombre}
+    </option>
+  ))}
+</select>
               <div>
                 <div className="flex space-x-2">
                 <button
@@ -203,17 +225,18 @@ export function Punto_venta() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-700 text-sm">
-                  {carrito.map((item, index) => (
-                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                      <td className="p-3">{item.cantidad}</td>
-                      <td className="p-3">{item.codigo_cabys}</td> {/* Aquí se usa item.id */}
-                      <td className="p-3">{item.descripcion}</td>
-                      <td className="p-3">{(item.total * 0.13).toFixed(2)}</td>
-                      <td className="p-3">{`₡${item.precio_consumidor}`}</td>
-                      <td className="p-3">{`₡${item.total}`}</td>
-                    </tr>
-                  ))}
-                </tbody>
+  {carrito.map((item, index) => (
+    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
+      <td className="p-3">{item.cantidad}</td>
+      <td className="p-3">{item.codigo_cabys}</td>
+      <td className="p-3">{item.descripcion}</td>
+      <td className="p-3">{(item.total * 0.13).toFixed(2)}</td>
+      <td className="p-3">{`₡${item.precio_consumidor}`}</td>
+      <td className="p-3">{`₡${item.total}`}</td>
+    </tr>
+  ))}
+</tbody>
+
               </table>
             </div>
           </div>

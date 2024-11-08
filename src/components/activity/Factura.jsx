@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useUser } from "../hooks/UserContext";
 import { PDFViewer, PDFDownloadLink, Document, Page, Text, pdf } from '@react-pdf/renderer';
@@ -17,12 +17,36 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
   const [pdfBlob, setPdfBlob] = useState(null);
 
   // Nueva lógica de pago
-  
+  const [empresa, setEmpresa] = useState({
+    nombre: '',
+    direccion: '',
+    telefono: ''
+  });
   const [metodoPago, setMetodoPago] = useState('efectivo');
   const [cantidadPagada, setCantidadPagada] = useState(0);
   const [vuelto, setVuelto] = useState(0);
   const [numeroTarjeta, setNumeroTarjeta] = useState('');
   const [nombreTitular, setNombreTitular] = useState('');
+
+  useEffect(() => {
+    if (user?.empresa_id) {
+      fetch(`http://localhost/managersyncbdf/public/api/empresas/${user.empresa_id}`)
+        .then(response => response.json())
+        .then(data => {
+          setEmpresa({
+            nombre: data.nombre || 'Nombre no disponible',
+            otras_senas: data.otras_senas || 'Dirección no disponible',
+            telefono: data.telefono || 'Teléfono no disponible',
+              cedula_empresa: data.cedula_empresa || 'Teléfono no disponible'
+          });
+        })
+        .catch(error => console.error("Error al obtener datos de la empresa:", error));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log('selectedCliente:', selectedCliente);
+  }, [selectedCliente]);
 
   const handleDescriptionChange = (index, value) => {
     setDescripciones(prev => ({
@@ -34,61 +58,61 @@ export function Factura({ subtotal, totalIVA, totalVenta, carrito, selectedClien
   // Componente para generar el PDF
   const FacturaPDF = () => (
     <Document>
-      <Page style={{ padding: 20 }}> {/* Márgenes de 20 puntos en todos los lados */}
-
-      <Text style={{ marginBottom: 5 }}>Empresa: {user?.empresa_nombre || 'RESTAURANTE DOÑA DAISY'}</Text>
-
-      <Text style={{ marginBottom: 5 }}>Sucursal</Text>
-        <Text style={{ marginBottom: 5 }}>Dirección: {user?.empresa_direccion || 'COSTADO OESTE DEL PARQUE RECADERO BRICEÑO CONTIGUO A COOPENAE NICOYA GUANACASTE-NICOYA'}</Text>
-        <Text style={{ marginBottom: 5 }}>Teléfono: {user?.empresa_telefono || '(506)85588444'}</Text>
-        <Text style={{ marginBottom: 5 }}>Cedula: 502970136</Text>
-        <Text style={{ marginBottom: 5 }}> Usuario: José Fabio Ramirez</Text>
+      <Page style={{ padding: 20 }}>
+        <Text style={{ marginBottom: 5 }}>Empresa: {empresa.nombre}</Text>
+        <Text style={{ marginBottom: 5 }}>Sucursal</Text>
+        <Text style={{ marginBottom: 5 }}>Dirección: {empresa.otras_senas}</Text>
+        <Text style={{ marginBottom: 5 }}>Teléfono: {empresa.telefono}</Text>
+        <Text style={{ marginBottom: 5 }}>Cédula: {empresa.cedula_empresa}</Text>
+        <Text style={{ marginBottom: 5 }}>Usuario: José Fabio Ramirez</Text>
         <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
-        <Text style={{ marginBottom: 5 }}>Factura Electronica#{facturaId}</Text>
+        <Text style={{ marginBottom: 5 }}>Factura Electrónica #{facturaId}</Text>
         <Text style={{ marginBottom: 5 }}>Código Único: {codigoUnico}</Text>
-        <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente.nombre || 'Cliente no especificado'}</Text>
-        <Text style={{ marginBottom: 5 }}>Correo: {selectedCliente.email || selectedCliente.correo}</Text>
+        <Text style={{ marginBottom: 5 }}>Cliente: {selectedCliente?.nombre || 'Cliente no especificado'}</Text>
+        <Text style={{ marginBottom: 5 }}>Correo: {selectedCliente?.email || selectedCliente?.correo || 'Correo no especificado'}</Text>
         <Text style={{ marginBottom: 5 }}>Fecha de emisión: {fechaEmision}</Text>
         <Text style={{ marginBottom: 5 }}>Fecha de vencimiento: {fechaVencimiento}</Text>
         <Text style={{ marginBottom: 5 }}>Estado: {estado}</Text>
         <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
   
-        {/* Datos de la empresa */}
-        
-  
         <Text style={{ marginBottom: 5 }}>Detalles de la factura:</Text>
         {carrito.map((item, index) => (
           <Text key={index} style={{ marginBottom: 5 }}>
-            Código cabys de producto: {item.codigo_cabys}, 
-            {item.descripcion} - Cantidad: {item.cantidad}, 
-            Precio Unitario: ₡{item.precio_consumidor}, 
-            Total: ₡{(item.cantidad * item.precio_consumidor).toFixed(2)}
+            Código cabys de producto: {item.codigo_cabys}, {item.descripcion} - Cantidad: {item.cantidad}, Precio Unitario: ₡{item.precio_consumidor}, Total: ₡{(item.cantidad * item.precio_consumidor).toFixed(2)}
           </Text>
         ))}
+  
         <Text style={{ marginBottom: 5 }}>-------------------------------------------</Text>
         <Text style={{ marginBottom: 5 }}>Subtotal: ₡{subtotal.toFixed(2)}</Text>
         <Text style={{ marginBottom: 5 }}>IVA: ₡{totalIVA.toFixed(2)}</Text>
-        <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}{'\n'}{'\n'}{'\n'}</Text>
-
-        <Text style={{ marginBottom: 5 }}>Cambio: {vuelto}{'\n'}{'\n'}{'\n'}</Text>
-
-
-        <Text style={{ marginBottom: 5 }}>Autorizada mediante resolucion No.DGT-R-48-2016 DEL 07/10/2016{'\n'}</Text>
-
+        <Text style={{ marginBottom: 5 }}>Total Venta: ₡{totalVenta.toFixed(2)}</Text>
+        <Text style={{ marginBottom: 5 }}>Cambio: {vuelto}</Text>
+  
+        <Text style={{ marginBottom: 5 }}>Autorizada mediante resolución No.DGT-R-48-2016 DEL 07/10/2016</Text>
         <Text style={{ marginBottom: 5 }}>Orden 00000-000-0000</Text>
-        <Text style={{ marginBottom: 5 }}>{fechaEmision}{'\n'}{'\n'}{'\n'}</Text>
-
-        <Text style={{ marginBottom: 5 }}>Autorizada mediante resolucion No.DGT-R-0033-2019 DEL 07/10/2019 </Text>
-        <Text style={{ marginBottom: 5 }}>Version del documento 4.3 </Text>
+        <Text style={{ marginBottom: 5 }}>{fechaEmision}</Text>
+        <Text style={{ marginBottom: 5 }}>Autorizada mediante resolución No.DGT-R-0033-2019 DEL 07/10/2019</Text>
+        <Text style={{ marginBottom: 5 }}>Versión del documento 4.3</Text>
       </Page>
     </Document>
   );
+  
   
 
 const calcularVuelto = (montoPagado) => {
   const cambio = montoPagado - totalVenta;
   setVuelto(cambio >= 0 ? cambio : 0);
 };
+const detallesFactura = carrito.map((item) => ({
+  codigo_cabys: item.codigo_cabys,  // Código CABYS del producto
+  cantidad: item.cantidad,          // Cantidad del producto
+  descripcion: item.descripcion,    // Descripción del producto
+  precio_unitario: item.precio_consumidor,
+  total: item.cantidad * item.precio_consumidor, // Total por item
+  subtotal: subtotal,               // Subtotal (recibido por parámetro)
+  totalIVA: totalIVA,               // Total IVA (recibido por parámetro)
+  totalVenta: totalVenta,           // Total de la venta (recibido por parámetro)
+}));
 
 
   const handleFacturar = async () => {
@@ -106,6 +130,9 @@ const calcularVuelto = (montoPagado) => {
       total: totalVenta,
       tipo: tipoFactura,
       estado: estado,
+      detalles: detallesFactura, // Incluye los detalles directamente aquí
+
+      
     };
 
     try {
@@ -389,6 +416,9 @@ Factura.propTypes = {
   totalIVA: PropTypes.number.isRequired,
   totalVenta: PropTypes.number.isRequired,
   carrito: PropTypes.array.isRequired,
-  selectedCliente: PropTypes.object.isRequired,
+  selectedCliente: PropTypes.shape({
+    nombre: PropTypes.string,
+    correo: PropTypes.string,
+  }), 
   onClose: PropTypes.func.isRequired,
 };

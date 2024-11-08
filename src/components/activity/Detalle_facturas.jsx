@@ -81,7 +81,7 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
           totalIVA={totalIVA}
           totalVenta={totalVenta}
           carrito={carrito}
-          selectedCliente={selectedCliente} // Pasar el objeto cliente completo
+          selectedCliente={selectedCliente || { nombre: 'Ninguno', correo: '' }} // Valor por defecto
           setFacturaId={setFacturaId}
           precioUnitario={precioUnitario} // Pasar el precio unitario
            // Pasar la función para cerrar el modal
@@ -92,10 +92,13 @@ export function Detalle_facturas({ subtotal, totalIVA, totalVenta, carrito, sele
 }
 
 Detalle_facturas.propTypes = {
-  subtotal: PropTypes.number.isRequired,
-  totalIVA: PropTypes.number.isRequired,
-  totalVenta: PropTypes.number.isRequired,
-  carrito: PropTypes.array.isRequired,
-  selectedCliente: PropTypes.object.isRequired, // Cambiar a objeto
+  subtotal: PropTypes.number,
+  totalIVA: PropTypes.number,
+  totalVenta: PropTypes.number,
+  carrito: PropTypes.array,
+  selectedCliente: PropTypes.shape({
+    nombre: PropTypes.string,
+    correo: PropTypes.string,
+  }), 
   precioUnitario: PropTypes.number,
 };
