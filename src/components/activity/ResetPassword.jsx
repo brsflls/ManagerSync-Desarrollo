@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom'; // Importa useNavigate
 import { Header } from '../Header.jsx';
+import { Footer } from '../Footer.jsx';
 export function ResetPassword() {
   const { token } = useParams();
   const location = useLocation();
@@ -109,6 +110,7 @@ export function ResetPassword() {
         </form>
       </div></div>
     </div>
+    <Footer></Footer>
   </>
   );
 }

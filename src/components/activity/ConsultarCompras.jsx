@@ -260,7 +260,7 @@ export function ConsultarCompras() {
         </div>
 
         
-        <div className="lg:basis-2/4 flex-grow py-2 pt-12 p-6 mx-auto mt-6 lg:ml-0 -ml-10 mr-16 mb-4 h-min bg-white rounded-lg shadow-lg w-9/12" >
+        <div className="lg:basis-2/4 lg:max-h-[50rem] flex-grow py-2 pt-12 p-6 mx-auto mt-6 lg:ml-0 ml-10 mr-16 mb-4 h-min bg-white rounded-lg shadow-lg w-9/12" >
           <h1 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-6">Consultar Historial de Compras</h1>
 
           

@@ -201,6 +201,7 @@ export const Finalizar = ({
       
 </div>
       {/* Totales del Documento */}
+      
       <h4 className="text-lg font-bold mb-4 mt-6">Totales del Documento</h4>
 
       <div className="grid grid-cols-2 gap-4">
@@ -211,8 +212,8 @@ export const Finalizar = ({
             name="subTotal"
             value={totales.subTotal}
             onChange={handleTotalesChange}
-            className="w-full border-2 border-gray-300 rounded-lg p-2"
-          />
+            className="w-full mt-1 p-3 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
+            />
         </div>
 
         <div>
@@ -222,8 +223,8 @@ export const Finalizar = ({
             name="impuestos"
             value={totales.impuestos}
             onChange={handleTotalesChange}
-            className="w-full border-2 border-gray-300 rounded-lg p-2"
-          />
+            className="w-full mt-1 p-3 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
+            />
         </div>
 
         <div>
@@ -233,8 +234,8 @@ export const Finalizar = ({
             name="descuentos"
             value={totales.descuentos}
             onChange={handleTotalesChange}
-            className="w-full border-2 border-gray-300 rounded-lg p-2"
-          />
+            className="w-full mt-1 p-3 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
+            />
         </div>
 
         <div>
@@ -244,8 +245,8 @@ export const Finalizar = ({
             name="total"
             value={totales.total}
             readOnly
-            className="w-full border-2 border-gray-300 rounded-lg p-2 bg-gray-100"
-          />
+            className="w-full mt-1 p-3 mb-4 border cursor-not-allowed bg-gray-100 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+            />
         </div>
       </div>
 
@@ -260,7 +261,7 @@ export const Finalizar = ({
 
   
       {showModal && (
-        <div className="fixed inset-0 lg:flex items-center justify-center z-50 bg-slate-950 bg-opacity-30">
+        <div className="fixed inset-0 lg:flex items-center justify-center z-50 bg-slate-950 bg-opacity-30 backdrop-blur-sm">
           <div className="bg-white rounded-lg shadow-lg p-6 lg:mt-0 mt-6 lg:ml-0 ml-20 lg:max-w-sm w-2/6 mx-auto">
             <h3 className="text-xl font-semibold mb-4 text-center">
               ¡Factura registrada con éxito!

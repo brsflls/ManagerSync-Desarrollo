@@ -6,6 +6,8 @@ import { Sidebar } from '../Sidebar.jsx';
 import { useUser } from '../hooks/UserContext';
 import { Bar } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
+import { Loading } from './Loading.jsx';
+
 
 // Registra las escalas y elementos que necesitas
 Chart.register(CategoryScale, LinearScale, BarElement, Title);
@@ -58,7 +60,7 @@ export function EstadisticasFacturas() {
     }
   }, [facturas, facturaSeleccionada]);
 
-  if (loading) return <p>Cargando facturas...</p>;
+  if (loading) return <div className='duration-700'> <Loading/></div>;
 
   // Datos para el gráfico (muestra solo la factura seleccionada si existe)
   const data = {
@@ -67,7 +69,7 @@ export function EstadisticasFacturas() {
       {
         label: 'Total Factura',
         data: facturaSeleccionada ? [facturaSeleccionada.total] : facturas.map(factura => factura.total),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        backgroundColor: 'rgba(203, 213, 225, 0.6)',
       },
     ],
   };
@@ -75,27 +77,29 @@ export function EstadisticasFacturas() {
   return (
     <>
       <Header />
-      <div className="bg-slate-300 w-screen flex h-max gap-0">
-        <div className="basis-1/4 mr-4 h-full">
+      <div className="bg-slate-300  w-screen flex h-max gap-0 overflow-x-hidden">
+        <div className="basis-1/4 lg:mr-4 h-full">
           <Sidebar logout={logout} />
         </div>
 
-        <div className="flex gap-6">
+        <div className="lg:flex lg:gap-6">
           {/* Contenido principal */}
-          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 mb-4 bg-white rounded-lg shadow-lg overflow-hidden">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Estadísticas de Facturas</h1>
-            <p className="text-lg">Total de {facturaSeleccionada ? `la factura ${facturaSeleccionada.id}` : 'facturas'}: ₡{totalFactura.toLocaleString('es-CR')}</p>
+          <div className="py-2 lg:w-[30rem] w-11/12 lg:min-w-max lg:max-h-[50rem] h-min pt-12 p-6 mx-auto mt-6  mb-4 ml-3 lg:ml-0 mr-4 bg-white rounded-lg shadow-lg">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Estadísticas de Facturas</h1>
+            <p className="text-lg my-4">Total de {facturaSeleccionada ? `la factura ${facturaSeleccionada.id}` : 'facturas'}: ₡{totalFactura.toLocaleString('es-CR')}</p>
             <div className="h-64"> {/* Establecer una altura máxima para el gráfico */}
               <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />
             </div>
           </div>
 
-          <div className="basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 mb-4 bg-white rounded-lg shadow-lg overflow-hidden">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Facturas Registradas</h2>
-            <div className="max-h-64 overflow-y-auto"> {/* Establecer altura máxima y permitir el desbordamiento */}
-              <table className="w-full">
-                <thead className="bg-gray-200 text-gray-600">
-                  <tr>
+          <div className="lg:w-[30rem] lg:max-h-[50rem] w-11/12 py-2 mb-2 h-min lg:ml-0 ml-3 pt-12 p-6 mx-auto mt-6 pb-12 bg-white rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-2">Facturas Registradas</h2>
+              
+            <div className="max-h-[20rem] overflow-y-auto"> {/* Establecer altura máxima y permitir el desbordamiento */}
+              
+            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-gray-100 text-gray-600 uppercase text-sm text-center rounded-xl ">
+            <tr>
                     <th className="p-3 text-left">ID</th>
                     <th className="p-3 text-left">Total</th>
                     <th className="p-3 text-left">Acciones</th>
@@ -117,8 +121,15 @@ export function EstadisticasFacturas() {
                   ))}
                 </tbody>
               </table>
+              
             </div>
+              <button
+                onClick={() => setFacturaSeleccionada()} // ver todas las facturas
+                className="text-sm text-center font-medium mt-6 px-4 py-1 w-full rounded-xl bg-gray-100 text-gray-600 hover:bg-slate-200 hover:text-sky-800 transition duration-200">
+                Ver todas las facturas
+              </button>
           </div>
+          
         </div>
       </div>
       <Footer />

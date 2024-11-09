@@ -158,7 +158,7 @@ const detallesFactura = carrito.map((item) => ({
       console.error("Error en la solicitud:", error);
     }
   };
- 
+
   const handleGuardarDetalle = async (facturaIdParam) => {
     const detalles = carrito.map((item) => {
       const cantidad = item.cantidad || 0;
@@ -231,12 +231,14 @@ const detallesFactura = carrito.map((item) => ({
     }
   };
 
+  
   return (
-    <div className="overflow-x-hidden lg:items-center lg:flex lg:flex-col lg:fixed lg:mb-0 mb-24 lg:top-16 lg:ml-0 ml-5 lg:mr-0 mr-5 lg:mt-0 mt-12 lg:pl-0 pl-6 lg:pr-0 pr-6  lg:right-80 lg:left-72 lg:w-auto lg:h-auto w-11/12 h-full ">
+    <div className=" overflow-x-hidden w-11/12 h-full lg:items-center lg:flex lg:flex-col lg:fixed 
+    lg:mb-0 mb-24 lg:top-16 lg:ml-0 ml-5 lg:mr-0 mr-5 lg:mt-0 mt-12 lg:pl-0 pl-6 lg:pr-0 pr-6  lg:right-80 lg:left-72 lg:w-auto lg:h-auto ">
       <div className=" p-6 bg-white rounded-lg shadow-lg">
         <h1 className="lg:text-4xl text-2xl font-bold text-gray-800 mb-10 mt-5 text-center">Registrar Factura</h1>
 
-<div className="overflow-y-scroll scroll-mx-1 p-5 h-96">
+    <div className="overflow-y-scroll scroll-mx-1 p-5 h-96">
         {/* Formulario de datos de la factura */}
         <div className="mb-4 flex justify-between">
           <label>Tipo:</label>

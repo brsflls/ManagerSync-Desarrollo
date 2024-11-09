@@ -13,7 +13,6 @@ export function MantenimientoUsuarios() {
     email: '',
     cedula: '',
     empresa_id: user?.empresa_id || '', // Cargar cédula de la empresa del usuario
-   
     role: '', // Cambié el valor inicial a una cadena vacía para que el usuario seleccione
     password: '',
     password_confirmation: ''
@@ -121,7 +120,6 @@ const fetchUsuarios = async () => {
       email: usuario.email,
       cedula: usuario.cedula,
       empresa_id: user?.empresa_id || '', // Resetear id de empresa
-     
       role: usuario.role,
       password: '',
       password_confirmation: ''
@@ -163,7 +161,7 @@ const fetchUsuarios = async () => {
       email: '',
       cedula: '',
       empresa_id: user?.empresa_id || '', // Resetear id de empresa
-     
+
       role: '', // Cambié el valor inicial a una cadena vacía
       password: '',
       password_confirmation: ''
@@ -184,7 +182,7 @@ const fetchUsuarios = async () => {
         </div>
 
         <div className="col-span-7 flex py-16">
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-full pt-12 -mt-7 p-6 rounded-xl mx-auto bg-white">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-full pt-12 h-min -mt-7 p-6 rounded-xl mx-auto bg-white">
             <h1 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">{editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}</h1>
             <form onSubmit={editingUsuario ? handleUpdate : handleSubmit} className="space-y-4">
               <div>
@@ -221,27 +219,25 @@ const fetchUsuarios = async () => {
                 />
               </div>
               <div>
-  <label className="block text-gray-700 font-semibold">Cédula Empresa</label>
-  <input
-    type="text"
-    name="cedula_empresa"
-    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-    value={formData.cedula_empresa}
-    readOnly
-  />
-</div>
-
-<div>
-  <label className="block text-gray-700 font-semibold">Empresa</label>
-  <input
-    type="text"
-    name="empresa"
-    className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-    value={formData.empresa}
-    readOnly
-  />
-</div>
-
+                <label className="block text-gray-700 font-semibold">Cédula Empresa</label>
+                <input
+                  type="text"
+                  name="cedula_empresa"
+                  className="cursor-not-allowed w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  value={formData.cedula_empresa}
+                  readOnly
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Empresa</label>
+                <input
+                  type="text"
+                  name="empresa"
+                  className="cursor-not-allowed w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  value={formData.empresa}
+                  readOnly
+                />
+              </div>
               <div className="mb-2">
                 <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Rol
@@ -289,15 +285,16 @@ const fetchUsuarios = async () => {
               )}
               <button
                 type="submit"
-                className="w-full mt-4 font-medium text-white bg-sky-900  hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 p-2 rounded-md shadow-sm "
-              >
+                className="w-full mt-4 font-medium text-white bg-sky-900  hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-200 p-2 rounded-md shadow-sm ">
                 {editingUsuario ? 'Actualizar Usuario' : 'Registrar Usuario'}
               </button>
             </form>
-
-            <h2 className="text-xl font-bold mt-8">Usuarios Registrados</h2>
-            <table className="min-w-full mt-4">
-              <thead>
+            </div>
+    
+            <div className="lg:basis-2/4 lg:max-h-[50rem] lg:gap-4 lg:mr-10 lg:w-full w-3/6 py-2 mb-4 h-min lg:ml-0 -ml-10 pt-12 p-6 mx-auto -mt-7 pb-12 bg-white rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Usuarios Registrados</h2>
+            <table className="lg:basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 lg:ml-0 ml-1 lg:mr-0 mr-1 mb-4 bg-white rounded-lg shadow-lg overflow-y-scroll lg:w-full w-3/6">
+            <thead className='bg-gray-100 text-gray-600 uppercase text-sm text-center rounded-xl'>
                 <tr>
                   <th className="border px-4 py-2">ID</th>
                   <th className="border px-4 py-2">Nombre</th>
@@ -330,7 +327,9 @@ const fetchUsuarios = async () => {
                 ))}
               </tbody>
             </table>
+            
           </div>
+          
         </div>
       </div>
       <Footer />

@@ -11,25 +11,25 @@ export function Sidebar({ logout }) {
     const handleClick = () => {
         navigate("/");
     };
-    const { isAdmin, isEmpleado } = useUser();
+    const { isAdmin, isEmpleado, isContador } = useUser();
 
     const Menus = [
         { title: "Ventas", src: "Ventas",  link: "/Punto_venta", roles:["admin", "empleado"] },
-        { title: "Compras", src: "Compras", link: "/ConsultarCompras", roles:["admin", "empleado"]  },
-        { title: "Reportes", src: "Reportes", roles:["admin", "empleado"] , gap: true },
+        { title: "Compras", src: "Compras", link: "/ConsultarCompras", roles:["admin", "empleado", "contador"]},
+        { title: "Reportes", src: "Reportes", roles:["admin", "empleado","contador"] , gap: true },
         { title: "Clientes", src: "Clientes", link: "/MantenimientoClientes", roles:["admin", "empleado"]},
         { title: "Proveedores", src: "Proveedores", link: "/MantenimientoProveedores", roles:["admin"]},
         { title: "Usuarios", src: "usuarios", link: "/mantenimientousuarios", roles:["admin"]},
         { title: "Productos", src: "Productos", link: "/MantenimientoProductos", roles:["admin"]},
         { title: "Inventarios", src: "Inventarios" , link: "/ConsultarProductos", roles:["admin", "empleado"]},
-        { title: "Estadísticas", src: "Estadisticas", roles:["admin", "empleado"], link: "/EstadisticasFacturas" },
+        { title: "Estadísticas", src: "Estadisticas", link: "/EstadisticasFacturas", roles:["admin", "empleado","contador"]},
         { title: "Configuración", src: "Configuracion", link: "/Settings",roles:["admin", "empleado"] ,gap: true},
         { title: "Cerrar sesión", src: "CerrarSesion", roles:["admin", "empleado"] , action: logout},
     ];
 
     return (
         <div className="flex min-h-dvh max-h-fit w-full h-fit ">
-            <div className={`flex-h-grow h-fit ${open ? "lg:w-72  lg:pb-72 w-screen bg-slate-50 pb-[50rem]" : "lg:w-28 w-16 lg:bg-slate-50 lg:pb-[50rem]"}  transition-width lg:bg-slate-50  lg:p-5 lg:pt-10 relative ease-in-out duration-300 lg:duration-150 `}>
+            <div className={`flex-h-grow h-fit ${open ? "lg:w-72  lg:pb-72 w-screen bg-slate-50 pb-[50rem] lg:mr-0 mr-40" : "lg:w-28 w-16 lg:bg-slate-50 lg:pb-[50rem] lg:mr-20 -mr-80"}  transition-width lg:bg-slate-50  lg:p-5 lg:pt-10 relative ease-in-out duration-300 lg:duration-150 `}>
             <img
                     src={controlImage}
                     className={`absolute cursor-pointer -right-2 lg:-right-5 top-9  border-slate-100 border-5 rounded-full 
@@ -54,7 +54,7 @@ export function Sidebar({ logout }) {
                 </div>
                 <ul className={`flex-grow pt-6 lg:mb-16 mb-0 transition ease-in-out duration-500 ${open ? "lg:block block" : "lg:block hidden"}`} id="menuOptions">
                     {Menus.map((Menu, index) => (
-                        (isAdmin && Menu.roles.includes("admin")) || (isEmpleado && Menu.roles.includes("empleado")) ? (
+                        (isAdmin && Menu.roles.includes("admin")) || (isEmpleado && Menu.roles.includes("empleado")) || (isContador && Menu.roles.includes("contador"))? (
                         <li
                             key={index}
                             className={`flex lg:text-sm md:text-base text-xl  rounded-md p-2 cursor-pointer py-2 lg:px-3 px-8 my-1 active:slate-200 hover:bg-slate-200 lg:hover:px-1

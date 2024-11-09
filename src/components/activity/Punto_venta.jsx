@@ -103,25 +103,24 @@ export function Punto_venta() {
       <Header />
 
       <div className="bg-slate-300 w-screen h-max flex">
-        <div className="basis-1/4 lg:mr-11 -mr-16 h-full">
+        <div className="basis-1/4 lg:mr-2 -mr-16 h-full">
           <Sidebar logout={logout} /> 
         </div>
         <div className="pt-2 ps-3 flex lg:flex-row flex-col overflow-x-hidden">
-          <div className="lg:basis-3/4 lg:h-min lg:w-full w-80 lg:py-2 lg:pt-12 lg:p-6 lg:mx-auto lg:pb-8 mt-6 lg:ml-3 lg:mb-4 bg-white rounded-lg shadow-lg">
+          <div className="lg:basis-4/4 lg:h-min lg:max-h-[50rem] lg:w-full w-80 lg:py-2 lg:pt-12 lg:p-6 lg:mx-auto lg:pb-8 mt-6 lg: lg:mb-4 bg-white rounded-lg shadow-lg">
             <div className="lg:grid lg:grid-cols-6">
               {/* Botón para reiniciar la venta */}
               <button
                 onClick={handleReiniciarVenta}
-                className="lg:-mt-4 mt-3 ml-3 lg:mr-0 mr-4 lg:px-3 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 lg:w-full w-11/12">
+                className="lg:-mt-4 mt-3 ml-3 lg:mr-0 mr-4 lg:px-4 lg:py-2 py-2 text-white bg-sky-900 rounded-xl hover:bg-indigo-900 lg:w-32 lg:h-min w-11/12">
                 Nueva Venta
               </button>
             </div>
             <div className="lg:grid lg:grid-cols-2 gap-4 p-3">
             <select
-  className="w-full p-2 border b-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
+  className="w-full p-2 border b-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 my-3"
   onChange={(e) => setSelectedCliente(clientes.find(cliente => cliente.id === parseInt(e.target.value)))}
-  value={selectedCliente ? selectedCliente.id : ""}
->
+  value={selectedCliente ? selectedCliente.id : ""}>
   <option value="">Seleccionar cliente...</option>
   {clientes.map((cliente) => (
     <option key={cliente.id} value={cliente.id}>
@@ -212,7 +211,7 @@ export function Punto_venta() {
               </div>
             </div>
 
-            <div className="relative overflow-x-auto shadow-md rounded-lg">
+            <div className="relative overflow-y-scroll shadow-md rounded-lg">
               <table className="min-w-full bg-white shadow-md rounded-lg lg:ml-0 ml-5 lg:mr-0 mr-3 lg:mb-0 mb-7 overflow-hidden">
                 <thead className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                   <tr>
@@ -242,7 +241,7 @@ export function Punto_venta() {
           </div>
         
 
-        <div className="lg:pt-2 lg:pr-12 lg:ml-4 mr-5">
+        <div className="lg:-mt-2 lg:pr-12 lg:ml-4 mr-5">
           <Detalle_facturas 
             subtotal={subtotal}
             totalIVA={totalIVA}

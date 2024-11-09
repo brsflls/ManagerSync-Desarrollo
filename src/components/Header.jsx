@@ -11,10 +11,10 @@ export const Header = () => {
   const { user } = useUser();
 
   return (
-    <nav className="flex flex-row justify-between h-20 bg-white relative pt-2 pb-2 ">
-      {/* Condicional para redirigir según el estado de autenticación */}
-      <Link to={user ? "/Settings" : "/"} className="h-30 w-30 lg:basis-1/5">
-        <ReactSVG src="src/assets/logo-completo.svg" className="h-30 w-30"/>
+    <nav className="flex flex-row justify-between h-20 bg-white relative pt-2 pb-2">
+      
+      <Link to={user ? "/Settings" : "/"}>
+        <ReactSVG src="src/assets/logo-completo.svg" className="h-30 w-30 lg:ml-2"/>
       </Link>
 
       <div className="lg:hidden cursor-pointer justify-between"
@@ -89,7 +89,7 @@ export const Header = () => {
             </li>
             <li className="lg:p-0 p-4 text-center lg:bg-transparent bg-slate-20 ">
               <Link to="/Registro" 
-                className="lg:font-bold lg:text-base lg:p-2 lg:px-3 lg:rounded-2xl lg:ml-1  
+                className="lg:font-bold lg:text-base lg:p-2 lg:px-3 lg:rounded-2xl lg:ml-1 lg:mr-10
                 text-xl font-bold pb-1 pt-1.5
                 lg:hover:bg-sky-100 lg:text-sky-900 lg:bg-slate-100 lg:hover:text-sky-700
               text-indigo-900">

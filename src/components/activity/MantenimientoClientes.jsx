@@ -202,9 +202,9 @@ export function MantenimientoClientes() {
               </form>
             </div>
           </div>
-          <div className="lg:basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 lg:ml-0 -ml-12 w-3/6 lg:w-full  bg-white rounded-lg shadow-lg">
+          <div className="lg:basis-2/4 lg:max-h-[50rem] py-2 pt-12 p-6 mx-auto mt-6 h-min mb-4 lg:ml-0 -ml-12 w-3/6 lg:w-full  bg-white rounded-lg shadow-lg">
             <h2 className="text-3xl font-bold text-gray-800 mb-6 -mt-4">Clientes Registrados</h2>
-            <div className="overflow-x-scroll">
+            <div className="overflow-y-scroll">
           <table className="lg:basis-2/4 py-2 pt-12 p-6 mx-auto mt-6 lg:ml-0 ml-1 lg:mr-0 mr-1 mb-4 bg-white rounded-lg shadow-lg overflow-x-scroll lg:w-full w-3/6">
           <thead className="bg-gray-100 text-gray-600 uppercase text-sm text-center rounded-xl">
           <tr>
